@@ -20,6 +20,7 @@ async function createCustomerUser (fields){
         RETURNING *
         ;
         `, [username,hashedPassword]);
+          // ^might need to update where we are inserting to ^
         delete newCustomerUser.password;
         return newCustomerUser
     }catch(error){
@@ -29,6 +30,33 @@ async function createCustomerUser (fields){
 
 }
 
+async function getCustomerUser({username, password}){
+    try{
+        
+        const {rows: [fetchCustomerUser]} = await client.query (`
+        SELECT * FROM users
+        WHERE username=$1
+        ;
+        `,[username])
+        // ^might need to update where we are selecting from ^
+
+        if(!fetchCustomerUser){
+            throw new ("username or password do not match")
+        }else{
+            const checkPassword = await bcrypt.compare(password, fetchCustomerUser.password)
+            if (checkPassword === true){
+                delete fetchCustomerUser.password
+                return fetchCustomerUser
+            }
+        }
+    }catch(error){
+        console.log("error fetching user ", error);
+        throw (error)
+    }
+
+}
+
 module.exports = {
-    createCustomerUser
+    createCustomerUser,
+    getCustomerUser
 }
