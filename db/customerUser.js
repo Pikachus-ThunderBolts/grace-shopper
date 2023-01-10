@@ -10,9 +10,7 @@ async function createCustomerUser(fields) {
   const password = fields.password;
 
   //create hash password
-
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
-
   try {
     const {
       rows: [newCustomerUser],
@@ -86,9 +84,28 @@ async function getCustomerUserById(customerUserId) {
   }
 }
 
+async function getCustomerUserByUsername(username) {
+  try {
+    const {
+      rows: [fetchCustomerUserByUsername],
+    } = await client.query(
+      `
+        SELECT * FROM users
+        WHERE username =$1
+        `,
+      [username]
+    );
+     // ^might need to update where we are selecting from ^
+    return fetchCustomerUserByUsername;
+  } catch (error) {
+    console.log("Error in getCustomerUserByUsername");
+    throw error;
+  }
+}
+
 module.exports = {
   createCustomerUser,
   getCustomerUser,
   getCustomerUserById,
-  
+  getCustomerUserByUsername,
 };
