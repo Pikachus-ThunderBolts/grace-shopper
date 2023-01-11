@@ -88,13 +88,13 @@ async function buildTables() {
       "laptopImg" LONGBLOB REFERENCES products(img)
     )
     CREATE TABLE products(
-      id INTEGER PRIMARY KEY, 
+      id SERIAL PRIMARY KEY, 
       brand VARCHAR(255) NOT NULL,
       title VARCHAR(255) NOT NULL,
       description VARCHAR(255) NOT NULL,
       price DECIMAL(6,2) NOT NULL,
       "productQuantity" INTEGER REFERENCES inventory(quantity),
-      category INTEGER NOT NULL,
+      category VARCHAR(255) NOT NULL,
       img LONGBLOB NOT NULL,
     )
     CREATE TABLE inventory(
@@ -220,9 +220,9 @@ async function populateInitialReview(){
   try{
     const reviewsToCreate = [ 
       //Not sure how to reference. Are "" needed?
-      {"userUsername":"", "productId":"", title:"", review: "", img:"" },
-      {"userUsername":"", "productId":"", title:"", review: "", img:"" },
-      {"userUsername":"", "productId":"", title:"", review: "", img:"" },
+      {"userUsername":"mitchel99", "productId":"1", title:"Review title", review: "bad product", img:"https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_2x1.jpg" },
+      {"userUsername":"cindy20", "productId":"2", title:"Example title", review: "good product", img:"" },
+      {"userUsername":"nateId", "productId":"3", title:"title 2", review: "okay product", img:"" },
 
     ]
     const reviews = await Promise.all (reviewsToCreate.map(/*Need a createReviews function imported */))
