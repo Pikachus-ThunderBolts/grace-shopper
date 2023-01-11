@@ -1,5 +1,5 @@
 const client = require("./client");
-// const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt')
 const SALT_COUNT = 10;
 
 async function createCustomerUser(fields) {
@@ -16,14 +16,14 @@ async function createCustomerUser(fields) {
       rows: [newCustomerUser],
     } = await client.query(
       `
-        INSERT INTO users (username, password)
+        INSERT INTO customerUsers (username, password)
         VALUES ($1, $2)
         RETURNING *
         ;
         `,
       [username, hashedPassword]
     );
-    // ^might need to update where we are inserting to ^
+  
     delete newCustomerUser.password;
     return newCustomerUser;
   } catch (error) {
@@ -38,13 +38,12 @@ async function getCustomerUser({ username, password }) {
       rows: [fetchCustomerUser],
     } = await client.query(
       `
-        SELECT * FROM users
+        SELECT * FROM customerUsers
         WHERE username=$1
         ;
         `,
       [username]
     );
-    // ^might need to update where we are selecting from ^
 
     if (!fetchCustomerUser) {
       throw new "username or password do not match"();
@@ -70,13 +69,12 @@ async function getCustomerUserById(customerUserId) {
       rows: [getCustomerUserById],
     } = await client.query(
       `
-        SELECT FROM users
+        SELECT FROM customerUsers
         WHERE id=$1
         ;
         `,
       [customerUserId]
     );
-    // ^might need to update where we are selecting from ^
     delete customerUserId.password;
   } catch (error) {
     console.log("Error getCustomerUserById", error);
@@ -90,12 +88,11 @@ async function getCustomerUserByUsername(username) {
       rows: [fetchCustomerUserByUsername],
     } = await client.query(
       `
-        SELECT * FROM users
+        SELECT * FROM customerUsers
         WHERE username =$1
         `,
       [username]
     );
-     // ^might need to update where we are selecting from ^
     return fetchCustomerUserByUsername;
   } catch (error) {
     console.log("Error in getCustomerUserByUsername");
