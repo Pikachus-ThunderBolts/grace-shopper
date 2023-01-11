@@ -95,7 +95,7 @@ async function getCustomerUserByUsername(username) {
     );
     return fetchCustomerUserByUsername;
   } catch (error) {
-    console.log("Error in getCustomerUserByUsername");
+    console.log("Error in getCustomerUserByUsername", error);
     throw error;
   }
 }
