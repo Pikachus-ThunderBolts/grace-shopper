@@ -2,7 +2,7 @@ const { query } = require("express");
 const {
   client,
   createCustomerUser,
-  // createAdminUser,
+  createAdminUser,
   // createInventory,
   // createCart,
   // createReviews,
@@ -176,30 +176,30 @@ async function populateInitialCustomerUsers() {
   }
 }
 
-// async function populateInitialAdminUsers() {
-//   console.log("Starting to create Admin Users");
-//   try {
-//     const adminUsersToCreate = [
-//       {
-//         username: "admin99",
-//         email: "admin99@gmail.com",
-//         password: "admin99password",
-//       },
-//       {
-//         username: "admin007",
-//         email: "admin007@gmail.com",
-//         password: "admin007password",
-//       },
-//     ];
-//     const adminUsers = await Promise.all(
-//       adminUsersToCreate.map(/*Need a createAdminUser function imported */)
-//     );
-//     console.log("Admin created");
-//   } catch (error) {
-//     console.error("Error creating admin");
-//     throw error;
-//   }
-// }
+async function populateInitialAdminUsers() {
+  console.log("Starting to create Admin Users");
+  try {
+    const adminUsersToCreate = [
+      {
+        username: "admin99",
+        email: "admin99@gmail.com",
+        password: "admin99password",
+      },
+      {
+        username: "admin007",
+        email: "admin007@gmail.com",
+        password: "admin007password",
+      },
+    ];
+    const adminUsers = await Promise.all(
+      adminUsersToCreate.map(createAdminUser)
+    );
+    console.log("Admin created");
+  } catch (error) {
+    console.error("Error creating admin");
+    throw error;
+  }
+}
 
 // async function populateInitialInventory() {
 //   console.log("Starting to create inventory");
@@ -331,7 +331,7 @@ async function rebuildDB() {
     await dropTables();
     await buildTables();
     await populateInitialCustomerUsers();
-    // await populateInitialAdminUsers();
+    await populateInitialAdminUsers();
     // await populateInitialInventory();
     // await populateInitialProducts();
     // await populateInitialCart();
