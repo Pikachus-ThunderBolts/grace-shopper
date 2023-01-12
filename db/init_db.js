@@ -275,7 +275,6 @@ async function populateInitialCart() {
   console.log("Starting to create cart");
   try {
     const cartToCreate = [
-      //Not sure how to reference. Are "" needed?
       { itemQuantity: 5, itemTitle: "random title", itemPrice: "10.99" },
       { itemQuantity: 3, itemTitle: "macbook-13 in", itemPrice: "14.30" },
       { itemQuantity: 2, itemTitle: "other random title", itemPrice: "9.20" },
@@ -294,7 +293,6 @@ async function populateInitialReview() {
   console.log("Starting to create reviews");
   try {
     const reviewsToCreate = [
-      //Not sure how to reference. Are "" needed?
       {
         userUsername: "mitchel99",
         productId: "1",
