@@ -3,7 +3,7 @@ const {
   client,
   createCustomerUser,
   createAdminUser,
-  // createInventory,
+  createInventory,
   // createCart,
   // createReviews,
 } = require("./");
@@ -12,16 +12,16 @@ async function dropTables() {
   console.log("dropping tables...");
   try {
     await client.query(`
-    DROP TABLE IF EXISTS laptops;
-    DROP TABLE IF EXISTS phones;
-    DROP TABLE IF EXISTS tvs;
-    DROP TABLE IF EXISTS cart;
-    DROP TABLE IF EXISTS orders;
-    DROP TABLE IF EXISTS reviews;
-    DROP TABLE IF EXISTS products;
-    DROP TABLE IF EXISTS inventory;
-    DROP TABLE IF EXISTS adminUsers;
-    DROP TABLE IF EXISTS customerUsers
+    DROP TABLE IF EXISTS laptops CASCADE;
+    DROP TABLE IF EXISTS phones CASCADE;
+    DROP TABLE IF EXISTS tvs CASCADE;
+    DROP TABLE IF EXISTS cart CASCADE;
+    DROP TABLE IF EXISTS orders CASCADE;
+    DROP TABLE IF EXISTS reviews CASCADE;
+    DROP TABLE IF EXISTS inventory CASCADE;
+    DROP TABLE IF EXISTS products CASCADE;
+    DROP TABLE IF EXISTS adminUsers CASCADE;
+    DROP TABLE IF EXISTS customerUsers CASCADE
     `);
   } catch (error) {
     console.log("error dropping tables", error);
@@ -46,21 +46,23 @@ async function buildTables() {
         password VARCHAR(255) NOT NULL
         );
       
-      CREATE TABLE inventory(
-        id INTEGER PRIMARY KEY,
-        title VARCHAR(255) NOT NULL,
-        quantity INTEGER UNIQUE NOT NULL
-      );
-      CREATE TABLE products(
-         id SERIAL PRIMARY KEY, 
-         brand VARCHAR(255) NOT NULL,
-         title VARCHAR(255) UNIQUE NOT NULL,
-         description VARCHAR(255) UNIQUE NOT NULL,
-         "productQuantity" INTEGER REFERENCES inventory(quantity),
-         price DECIMAL(6,2) UNIQUE NOT NULL,
-         category VARCHAR(255) UNIQUE NOT NULL,
-         img TEXT UNIQUE NOT NULL
+        CREATE TABLE products(
+          id SERIAL PRIMARY KEY, 
+          brand VARCHAR(255) NOT NULL,
+          title VARCHAR(255) UNIQUE NOT NULL,
+          description VARCHAR(255) UNIQUE NOT NULL,
+          price DECIMAL(6,2) UNIQUE NOT NULL,
+          quantity INTEGER UNIQUE NOT NULL,
+          category VARCHAR(255) UNIQUE NOT NULL,
+          img TEXT UNIQUE NOT NULL
        );
+        
+       CREATE TABLE inventory(
+        id SERIAL PRIMARY KEY,
+        "inventoryTitle" VARCHAR(255) REFERENCES products(title),
+        "inventoryQuantity" INTEGER REFERENCES products(quantity)
+        
+        );
 
        CREATE TABLE reviews(
         id SERIAL PRIMARY KEY,
@@ -95,7 +97,7 @@ async function buildTables() {
             "tvTitle" VARCHAR(255) REFERENCES products (title),
             "tvPrice" DECIMAL (6,2) REFERENCES products (price),
             "tvDescription" VARCHAR(255) REFERENCES products (description),
-            "tvInventory" INTEGER REFERENCES inventory (quantity),
+            "tvInventory" INTEGER REFERENCES  products(quantity),
             "tvImg" TEXT REFERENCES products(img)
           );
 
@@ -105,7 +107,7 @@ async function buildTables() {
             "phoneTitle" VARCHAR(255) REFERENCES products(title),
             "phonePrice" DECIMAL(6,2) REFERENCES products(price),
             "phoneDescription" VARCHAR(255) REFERENCES products(description),
-            "phoneIventory" INTEGER REFERENCES inventory(quantity),
+            "phoneIventory" INTEGER REFERENCES products(quantity),
             "phoneImg"TEXT REFERENCES products(img)
           
           );
@@ -116,7 +118,7 @@ async function buildTables() {
             "latopTitle" VARCHAR(255) REFERENCES products(title),
             "latopPrice" DECIMAL(6,2) REFERENCES products(price),
             "laptopDescription" VARCHAR(255) REFERENCES products(description),
-            "laptopInventory" INTEGER REFERENCES inventory(quantity),
+            "laptopInventory" INTEGER REFERENCES products(quantity),
             "laptopImg" TEXT REFERENCES products(img)
 
               );      
@@ -201,22 +203,20 @@ async function populateInitialAdminUsers() {
   }
 }
 
-// async function populateInitialInventory() {
-//   console.log("Starting to create inventory");
-//   try {
-//     const inventoryToCreate = [
-//       { title: "Typewriter", quantity: 10 },
-//       { title: "Rotary phone", quantity: 5 },
-//     ];
-//     const inventory = await Promise.all(
-//       inventoryToCreate.map(/*Need a createInventory function imported */)
-//     );
-//     console.log("Finished creating inventory");
-//   } catch (error) {
-//     console.error("Error creating inventory");
-//     throw error;
-//   }
-// }
+async function populateInitialInventory() {
+  console.log("Starting to create inventory");
+  try {
+    const inventoryToCreate = [
+      { title: "Typewriter", quantity: 10 },
+      { title: "Rotary phone", quantity: 5 },
+    ];
+    const inventory = await Promise.all(inventoryToCreate.map(createInventory));
+    console.log("Finished creating inventory");
+  } catch (error) {
+    console.error("Error creating inventory");
+    throw error;
+  }
+}
 
 // async function populateInitialProducts() {
 //   console.log("Starting to create Products");
@@ -332,7 +332,7 @@ async function rebuildDB() {
     await buildTables();
     await populateInitialCustomerUsers();
     await populateInitialAdminUsers();
-    // await populateInitialInventory();
+    await populateInitialInventory();
     // await populateInitialProducts();
     // await populateInitialCart();
     // await populateInitialReview();
