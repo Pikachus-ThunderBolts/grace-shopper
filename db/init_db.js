@@ -3,7 +3,8 @@ const {
   client,
   createCustomerUser,
   createAdminUser,
-  createInventory,
+  createNewProduct,
+  // createInventory,
   // createCart,
   // createReviews,
 } = require("./");
@@ -18,7 +19,6 @@ async function dropTables() {
     DROP TABLE IF EXISTS cart CASCADE;
     DROP TABLE IF EXISTS orders CASCADE;
     DROP TABLE IF EXISTS reviews CASCADE;
-    DROP TABLE IF EXISTS inventory CASCADE;
     DROP TABLE IF EXISTS products CASCADE;
     DROP TABLE IF EXISTS adminUsers CASCADE;
     DROP TABLE IF EXISTS customerUsers CASCADE
@@ -52,75 +52,51 @@ async function buildTables() {
           title VARCHAR(255) UNIQUE NOT NULL,
           description VARCHAR(255) UNIQUE NOT NULL,
           price DECIMAL(6,2) UNIQUE NOT NULL,
-          quantity INTEGER UNIQUE NOT NULL,
-          category VARCHAR(255) UNIQUE NOT NULL,
+          quantity INTEGER NOT NULL,
+          category VARCHAR(255) NOT NULL,
           img TEXT UNIQUE NOT NULL
        );
         
-       CREATE TABLE inventory(
-        id SERIAL PRIMARY KEY,
-        "inventoryTitle" VARCHAR(255) REFERENCES products(title),
-        "inventoryQuantity" INTEGER REFERENCES products(quantity)
-        
-        );
-
        CREATE TABLE reviews(
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         review TEXT NOT NULL,
-        "userUsername" TEXT REFERENCES customerUsers (username),
-        "productId" INTEGER REFERENCES products (id)
+        "customerUserId" INTEGER REFERENCES customerUsers (id),
+        "productId" INTEGER REFERENCES products (id),
+        UNIQUE ("customerUserId", "productId")
         );
      
         CREATE TABLE orders(
           id SERIAL PRIMARY KEY,
           guestName VARCHAR(255),
-          "customerUserId" INTEGER REFERENCES customerUsers (Id),
-          "productTitle" TEXT REFERENCES products (title),
+          "customerUserId" INTEGER REFERENCES customerUsers (id),
+          "productId" INTEGER REFERENCES products (id),
           quantity INTEGER NOT NULL,
-          "productCategory" VARCHAR(255) REFERENCES products (category),
-          "productPrice" INTEGER REFERENCES products (price),
-          "productDescription" TEXT REFERENCES products (description),
           total DECIMAL (6,2) NOT NULL,
-          "itemImg" TEXT REFERENCES products (img)
+          UNIQUE ("customerUserId", "productId")
           );
 
           CREATE TABLE cart(
-            id INTEGER PRIMARY KEY,
-            "itemTitle" VARCHAR(255) REFERENCES products (title),
-            "itemPrice" DECIMAL(6,2) REFERENCES products (price)
+            id SERIAL PRIMARY KEY,
+            "itemId" INTEGER REFERENCES products (id)
           );
 
           CREATE TABLE tvs(
             id SERIAL PRIMARY KEY,
             brand VARCHAR(255) NOT NULL,
-            "tvTitle" VARCHAR(255) REFERENCES products (title),
-            "tvPrice" DECIMAL (6,2) REFERENCES products (price),
-            "tvDescription" VARCHAR(255) REFERENCES products (description),
-            "tvInventory" INTEGER REFERENCES  products(quantity),
-            "tvImg" TEXT REFERENCES products(img)
+            "tvId" INTEGER REFERENCES products (id)
           );
 
           CREATE TABLE phones(
             id SERIAL PRIMARY KEY,
             brand VARCHAR(255) NOT NULL,
-            "phoneTitle" VARCHAR(255) REFERENCES products(title),
-            "phonePrice" DECIMAL(6,2) REFERENCES products(price),
-            "phoneDescription" VARCHAR(255) REFERENCES products(description),
-            "phoneIventory" INTEGER REFERENCES products(quantity),
-            "phoneImg"TEXT REFERENCES products(img)
-          
+            "phoneId" INTEGER REFERENCES products(id)
           );
 
           CREATE TABLE laptops(
             id SERIAL PRIMARY KEY,
             brand VARCHAR(255) NOT NULL,
-            "latopTitle" VARCHAR(255) REFERENCES products(title),
-            "latopPrice" DECIMAL(6,2) REFERENCES products(price),
-            "laptopDescription" VARCHAR(255) REFERENCES products(description),
-            "laptopInventory" INTEGER REFERENCES products(quantity),
-            "laptopImg" TEXT REFERENCES products(img)
-
+            "latopId" INTEGER REFERENCES products(id)
               );      
           `);
   } catch (error) {
@@ -129,6 +105,8 @@ async function buildTables() {
   }
   console.log("Finished building tables");
 }
+
+// "productCategory" VARCHAR(255) REFERENCES products (category),
 
 async function populateInitialCustomerUsers() {
   console.log("Starting to create Users...");
@@ -203,74 +181,72 @@ async function populateInitialAdminUsers() {
   }
 }
 
-async function populateInitialInventory() {
-  console.log("Starting to create inventory");
-  try {
-    const inventoryToCreate = [
-      { title: "Typewriter", quantity: 10 },
-      { title: "Rotary phone", quantity: 5 },
-    ];
-    const inventory = await Promise.all(inventoryToCreate.map(createInventory));
-    console.log("Finished creating inventory");
-  } catch (error) {
-    console.error("Error creating inventory");
-    throw error;
-  }
-}
-
-// async function populateInitialProducts() {
-//   console.log("Starting to create Products");
+// async function populateInitialInventory() {
+//   console.log("Starting to create inventory");
 //   try {
-//     const productToCreate = [
-//       {
-//         title: "Macbook Pro 13.3 Laptop",
-//         description: "Apple M2 Chip  8GB Memory - 265GB SSD - Space Gray",
-//         brand: "Apple",
-//         price: "1150.00",
-//         productQuantity: "100",
-//         category: "laptop",
-//         img: "https://www.zdnet.com/a/img/resize/113ebe4af17aa88bea94dc29c67d51eeb5d3a34e/2019/08/05/b2e40423-7c4c-48b5-9c7a-ea7ee92f96fe/13-inch-mbpro-header.jpg?auto=webp&fit=crop&height=675&width=1200  ",
-//       },
-
-//       {
-//         title: "Microsoft Surface Laptop 4",
-//         description: "Touch-Screen - Intel Core i5 - 512GB SSD - Sandstone",
-//         brand: "Microsoft",
-//         price: 800.0,
-//         productQuantity: "300",
-//         category: "laptop",
-//         img: "https://i5.walmartimages.com/asr/ef1be66b-33ae-42c5-87da-723c26a44d48.0238c47c6780c6af7e57ba61a7cbc070.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF",
-//       },
-
-//       {
-//         title: "Samsung Galaxy Book2 Pro 360 Laptop",
-//         description:
-//           "Touch-Screen - Intel 12th Gen Evo Core i7 - 1TB SSD - Silver",
-//         brand: "Samsung",
-//         price: 1100.0,
-//         productQuantity: 250,
-//         category: "laptop",
-//         img: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6501/6501593_sd.jpg",
-//       },
-
-//       {
-//         title: "LG 70 Class NanoCell LED 4k TV",
-//         description: "Smart webOS TV",
-//         brand: "LG",
-//         price: 650,
-//         productQuantity: 300,
-//         category: "TV",
-//         img: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6501/6501916_sd.jpg;maxHeight=200;maxWidth=300",
-//       },
+//     const inventoryToCreate = [
+//       { title: "Typewriter", quantity: 10 },
+//       { title: "Rotary phone", quantity: 5 },
 //     ];
-//     const product = await Promise.all(
-//       productToCreate.map(/*Need a productCart function imported */)
-//     );
-//     console.log("Finished creating product");
+//     const inventory = await Promise.all(inventoryToCreate.map(createInventory));
+//     console.log("Finished creating inventory");
 //   } catch (error) {
-//     console.error("Error creating product");
+//     console.error("Error creating inventory");
+//     throw error;
 //   }
 // }
+
+async function populateInitialProducts() {
+  console.log("Starting to create Products");
+  try {
+    const productToCreate = [
+      {
+        brand: "Apple",
+        title: "Macbook Pro 13.3 Laptop",
+        description: "Apple M2 Chip  8GB Memory - 265GB SSD - Space Gray",
+        price: "1150.00",
+        quantity: "100",
+        category: "laptop",
+        img: "https://www.zdnet.com/a/img/resize/113ebe4af17aa88bea94dc29c67d51eeb5d3a34e/2019/08/05/b2e40423-7c4c-48b5-9c7a-ea7ee92f96fe/13-inch-mbpro-header.jpg?auto=webp&fit=crop&height=675&width=1200  ",
+      },
+
+      {
+        brand: "Microsoft",
+        title: "Microsoft Surface Laptop 4",
+        description: "Touch-Screen - Intel Core i5 - 512GB SSD - Sandstone",
+        price: 800.0,
+        quantity: "300",
+        category: "laptop",
+        img: "https://i5.walmartimages.com/asr/ef1be66b-33ae-42c5-87da-723c26a44d48.0238c47c6780c6af7e57ba61a7cbc070.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF",
+      },
+
+      {
+        brand: "Samsung",
+        title: "Samsung Galaxy Book2 Pro 360 Laptop",
+        description:
+          "Touch-Screen - Intel 12th Gen Evo Core i7 - 1TB SSD - Silver",
+        price: 1100.0,
+        quantity: 250,
+        category: "laptop",
+        img: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6501/6501593_sd.jpg",
+      },
+
+      {
+        brand: "LG",
+        title: "LG 70 Class NanoCell LED 4k TV",
+        description: "Smart webOS TV",
+        price: 650,
+        quantity: 300,
+        category: "TV",
+        img: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6501/6501916_sd.jpg;maxHeight=200;maxWidth=300",
+      },
+    ];
+    const product = await Promise.all(productToCreate.map(createNewProduct));
+    console.log("Finished creating product");
+  } catch (error) {
+    console.error("Error creating product");
+  }
+}
 
 // async function populateInitialCart() {
 //   console.log("Starting to create cart");
@@ -332,8 +308,8 @@ async function rebuildDB() {
     await buildTables();
     await populateInitialCustomerUsers();
     await populateInitialAdminUsers();
-    await populateInitialInventory();
-    // await populateInitialProducts();
+    // await populateInitialInventory();
+    await populateInitialProducts();
     // await populateInitialCart();
     // await populateInitialReview();
   } catch (error) {
