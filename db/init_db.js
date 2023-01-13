@@ -4,6 +4,7 @@ const {
   createCustomerUser,
   createAdminUser,
   createNewProduct,
+  createGuestUser,
   // createInventory,
   // createCart,
   // createReviews,
@@ -20,6 +21,7 @@ async function dropTables() {
     DROP TABLE IF EXISTS orders CASCADE;
     DROP TABLE IF EXISTS reviews CASCADE;
     DROP TABLE IF EXISTS products CASCADE;
+    DROP TABLE IF EXISTS guestUsers CASCADE;
     DROP TABLE IF EXISTS adminUsers CASCADE;
     DROP TABLE IF EXISTS customerUsers CASCADE
     `);
@@ -45,6 +47,11 @@ async function buildTables() {
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL
         );
+
+      CREATE TABLE guestUsers(
+        id SERIAL PRIMARY KEY,
+        email VARCHAR(255) UNIQUE NOT NULL
+      );
       
         CREATE TABLE products(
           id SERIAL PRIMARY KEY, 
@@ -63,7 +70,8 @@ async function buildTables() {
         review TEXT NOT NULL,
         "customerUserId" INTEGER REFERENCES customerUsers (id),
         "productId" INTEGER REFERENCES products (id),
-        UNIQUE ("customerUserId", "productId")
+        "guestId" INTEGER REFERENCES guestUsers(id),
+        UNIQUE ("customerUserId", "productId","guestId")
         );
      
         CREATE TABLE orders(
@@ -71,9 +79,10 @@ async function buildTables() {
           guestName VARCHAR(255),
           "customerUserId" INTEGER REFERENCES customerUsers (id),
           "productId" INTEGER REFERENCES products (id),
+          "guestId" INTEGER REFERENCES guestUsers (id),
           quantity INTEGER NOT NULL,
           total DECIMAL (6,2) NOT NULL,
-          UNIQUE ("customerUserId", "productId")
+          UNIQUE ("customerUserId", "productId", "guestId")
           );
 
           CREATE TABLE cart(
@@ -146,9 +155,7 @@ async function populateInitialCustomerUsers() {
     const customerUsers = await Promise.all(
       customerUsersToCreate.map(createCustomerUser)
     );
-
-    console.log("Customer Users created:");
-    console.log(customerUsers, "This is customer users");
+    console.log(customerUsers);
     console.log("Finished creating customer users!");
   } catch (error) {
     console.log("Error creating customer users");
@@ -174,9 +181,29 @@ async function populateInitialAdminUsers() {
     const adminUsers = await Promise.all(
       adminUsersToCreate.map(createAdminUser)
     );
+    console.log(adminUsers);
     console.log("Admin created");
   } catch (error) {
     console.error("Error creating admin");
+    throw error;
+  }
+}
+
+async function populateInitialGuestUsers() {
+  console.log("Starting to create guest Users");
+  try {
+    const guestUsersToCreate = [
+      { email: "guestemail@hotmail.com" },
+      { email: "guestemail2@hotmail.com" },
+      { email: "guestemail3@hotmail.com" },
+    ];
+    const guestUsers = await Promise.all(
+      guestUsersToCreate.map(createGuestUser)
+    );
+    console.log(guestUsers);
+    console.log("Finished creating guest Users");
+  } catch (error) {
+    console.log("Error creating guest", error);
     throw error;
   }
 }
@@ -215,7 +242,7 @@ async function populateInitialProducts() {
         title: "Microsoft Surface Laptop 4",
         description: "Touch-Screen - Intel Core i5 - 512GB SSD - Sandstone",
         price: 800.0,
-        quantity: "300",
+        quantity: 300,
         category: "laptop",
         img: "https://i5.walmartimages.com/asr/ef1be66b-33ae-42c5-87da-723c26a44d48.0238c47c6780c6af7e57ba61a7cbc070.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF",
       },
@@ -242,6 +269,7 @@ async function populateInitialProducts() {
       },
     ];
     const product = await Promise.all(productToCreate.map(createNewProduct));
+    console.log(product);
     console.log("Finished creating product");
   } catch (error) {
     console.error("Error creating product");
@@ -308,6 +336,7 @@ async function rebuildDB() {
     await buildTables();
     await populateInitialCustomerUsers();
     await populateInitialAdminUsers();
+    await populateInitialGuestUsers();
     // await populateInitialInventory();
     await populateInitialProducts();
     // await populateInitialCart();
