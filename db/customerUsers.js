@@ -1,5 +1,5 @@
 const client = require("./client");
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt");
 const SALT_COUNT = 10;
 
 async function createCustomerUser(fields) {
@@ -8,6 +8,7 @@ async function createCustomerUser(fields) {
   }
   const username = fields.username;
   const password = fields.password;
+  const email = fields.email;
 
   //create hash password
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
@@ -16,15 +17,16 @@ async function createCustomerUser(fields) {
       rows: [newCustomerUser],
     } = await client.query(
       `
-        INSERT INTO customerUsers (username, password)
-        VALUES ($1, $2)
+        INSERT INTO customerUsers (username, email, password)
+        VALUES ($1, $2, $3)
         RETURNING *
         ;
         `,
-      [username, hashedPassword]
+      [username, email, hashedPassword]
     );
-  
+
     delete newCustomerUser.password;
+    console.log(newCustomerUser);
     return newCustomerUser;
   } catch (error) {
     console.log("error creating newCustomer user, customerUser.js", error);
