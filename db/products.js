@@ -102,7 +102,7 @@ async function updateProduct({id, brand, title, description, price, quantity, ca
   }
 }
 
-console.log('Look at this console.log')
+console.log('This console.log is not in a function')
 
 async function destroyProduct(id) {
   try {
