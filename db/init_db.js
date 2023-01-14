@@ -7,7 +7,7 @@ const {
   createGuestUser,
   // createInventory,
   // createCart,
-  // createReviews,
+  createNewReview,
 } = require("./");
 
 async function dropTables() {
@@ -291,41 +291,42 @@ async function populateInitialProducts() {
 //   }
 // }
 
-// async function populateInitialReview() {
-//   console.log("Starting to create reviews");
-//   try {
-//     const reviewsToCreate = [
-//       {
-//         userUsername: "mitchel99",
-//         productId: "1",
-//         title: "Review title",
-//         review: "bad product",
-//         img: "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_2x1.jpg",
-//       },
-//       {
-//         userUsername: "cindy20",
-//         productId: "2",
-//         title: "Example title",
-//         review: "good product",
-//         img: "",
-//       },
-//       {
-//         userUsername: "nateId",
-//         productId: "3",
-//         title: "title 2",
-//         review: "okay product",
-//         img: "",
-//       },
-//     ];
-//     const reviews = await Promise.all(
-//       reviewsToCreate.map(/*Need a createReviews function imported */)
-//     );
-//     console.log("Finished creating reviews");
-//   } catch (error) {
-//     console.error("Error creating review");
-//     throw error;
-//   }
-// }
+async function populateInitialReview() {
+  console.log("Starting to create reviews");
+  try {
+    const reviewsToCreate = [
+      {
+        customerUserId: "1",
+        productId: "1",
+        title: "Review title",
+        review: "bad product",
+        img: "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_2x1.jpg",
+      },
+      {
+        customerUserId: "2",
+        productId: "2",
+        title: "Example title",
+        review: "good product",
+        img: "",
+      },
+      {
+        customerUserId: "4",
+        productId: "3",
+        title: "title 2",
+        review: "okay product",
+        img: "",
+      },
+    ];
+    const reviews = await Promise.all(
+      reviewsToCreate.map(createNewReview)
+    );
+    console.log(reviews)
+    console.log("Finished creating reviews");
+  } catch (error) {
+    console.error("Error creating review");
+    throw error;
+  }
+}
 
 async function rebuildDB() {
   try {
@@ -337,7 +338,7 @@ async function rebuildDB() {
     // await populateInitialInventory();
     await populateInitialProducts();
     // await populateInitialCart();
-    // await populateInitialReview();
+    await populateInitialReview();
   } catch (error) {
     console.log("Error rebuilding DB");
     throw error;
