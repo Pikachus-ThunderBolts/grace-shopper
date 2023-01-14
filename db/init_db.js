@@ -9,11 +9,6 @@ const {
   // createCart,
   createNewReview,
 } = require("./");
-const {
-  getLaptopById,
-  addProductToLaptops,
-  createNewLaptop,
-} = require("./laptops");
 
 async function dropTables() {
   console.log("dropping tables...");
@@ -93,9 +88,17 @@ async function buildTables() {
           CREATE TABLE cart(
             id SERIAL PRIMARY KEY,
             "itemId" INTEGER REFERENCES products (id)
-          );
+          );    
+          `);
+  } catch (error) {
+    console.log("Error creating tables", error);
+    throw error;
+  }
+  console.log("Finished building tables");
+}
 
-          CREATE TABLE tvs(
+/* UNUSED TABLES
+  CREATE TABLE tvs(
             id SERIAL PRIMARY KEY,
             "tvId" INTEGER REFERENCES products (id)
           );
@@ -107,15 +110,9 @@ async function buildTables() {
 
           CREATE TABLE laptops(
             id SERIAL PRIMARY KEY,
-            "latopId" INTEGER REFERENCES products(id)
-              );      
-          `);
-  } catch (error) {
-    console.log("Error creating tables", error);
-    throw error;
-  }
-  console.log("Finished building tables");
-}
+            "laptopId" INTEGER REFERENCES products(id)
+              );  
+              */
 
 // "productCategory" VARCHAR(255) REFERENCES products (category),
 
