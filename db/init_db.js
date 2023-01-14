@@ -88,25 +88,7 @@ async function buildTables() {
           CREATE TABLE cart(
             id SERIAL PRIMARY KEY,
             "itemId" INTEGER REFERENCES products (id)
-          );
-
-          CREATE TABLE tvs(
-            id SERIAL PRIMARY KEY,
-            brand VARCHAR(255) NOT NULL,
-            "tvId" INTEGER REFERENCES products (id)
-          );
-
-          CREATE TABLE phones(
-            id SERIAL PRIMARY KEY,
-            brand VARCHAR(255) NOT NULL,
-            "phoneId" INTEGER REFERENCES products(id)
-          );
-
-          CREATE TABLE laptops(
-            id SERIAL PRIMARY KEY,
-            brand VARCHAR(255) NOT NULL,
-            "latopId" INTEGER REFERENCES products(id)
-              );      
+          );    
           `);
   } catch (error) {
     console.log("Error creating tables", error);
@@ -114,6 +96,23 @@ async function buildTables() {
   }
   console.log("Finished building tables");
 }
+
+/* UNUSED TABLES
+  CREATE TABLE tvs(
+            id SERIAL PRIMARY KEY,
+            "tvId" INTEGER REFERENCES products (id)
+          );
+
+          CREATE TABLE phones(
+            id SERIAL PRIMARY KEY,
+            "phoneId" INTEGER REFERENCES products(id)
+          );
+
+          CREATE TABLE laptops(
+            id SERIAL PRIMARY KEY,
+            "laptopId" INTEGER REFERENCES products(id)
+              );  
+              */
 
 // "productCategory" VARCHAR(255) REFERENCES products (category),
 
@@ -320,10 +319,8 @@ async function populateInitialReview() {
         img: "",
       },
     ];
-    const reviews = await Promise.all(
-      reviewsToCreate.map(createNewReview)
-    );
-    console.log(reviews)
+    const reviews = await Promise.all(reviewsToCreate.map(createNewReview));
+    console.log(reviews);
     console.log("Finished creating reviews");
   } catch (error) {
     console.error("Error creating review");
