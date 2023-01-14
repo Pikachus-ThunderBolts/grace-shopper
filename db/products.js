@@ -85,11 +85,11 @@ async function updateProduct({id, brand, title, description, price, quantity, ca
     SET
     brand = COALESCE($2, brand),
     title = COALESCE($3, title),
-    description = COALESCE($4, brand),
-    price = COALESCE($5, brand),
-    quantity = COALESCE($6, brand),
-    category = COALESCE($7, brand),
-    img = COALESCE($8, brand)
+    description = COALESCE($4, description),
+    price = COALESCE($5, price),
+    quantity = COALESCE($6, quantity),
+    category = COALESCE($7, category),
+    img = COALESCE($8, img)
     WHERE id=$1
     RETURNING *;
     `,
