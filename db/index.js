@@ -7,4 +7,5 @@ module.exports = {
   ...require("./guestUser"),
   // ...require("./inventory"),
   ...require("./products"),
+  ...require("./reviews")
 };
