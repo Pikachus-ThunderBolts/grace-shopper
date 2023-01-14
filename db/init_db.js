@@ -9,6 +9,11 @@ const {
   // createCart,
   createNewReview,
 } = require("./");
+const {
+  getLaptopById,
+  addProductToLaptops,
+  createNewLaptop,
+} = require("./laptops");
 
 async function dropTables() {
   console.log("dropping tables...");
@@ -317,10 +322,8 @@ async function populateInitialReview() {
         img: "",
       },
     ];
-    const reviews = await Promise.all(
-      reviewsToCreate.map(createNewReview)
-    );
-    console.log(reviews)
+    const reviews = await Promise.all(reviewsToCreate.map(createNewReview));
+    console.log(reviews);
     console.log("Finished creating reviews");
   } catch (error) {
     console.error("Error creating review");
