@@ -54,4 +54,44 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+router.post("/register", async (req, res, next) => {
+  const { username, password } = req.body;
+  try {
+    const userRegister = await getCustomerUserByUsername(username);
+
+    if (userRegister) {
+      res.send({
+        error: `User ${username} is already taken.`,
+        name: "UserDuplicated",
+        message: `User ${username} is already taken.`,
+      });
+    }
+    if (password.length < 6) {
+      res.send({
+        error: "Password Too Short!",
+        name: "PasswordLengthError",
+        message: "Password Too Short!",
+      });
+    }
+    const { id } = await createCustomerUser({ username, password });
+
+    const token = jwt.sign(
+      {
+        id: id,
+        username,
+      },
+      JWT_SECRET,
+      { expiresIn: "1w" }
+    );
+
+    res.json({
+      message: "success",
+      token,
+      user: { id: id, username },
+    });
+  } catch ({ name, message }) {
+    next({ name, message });
+  }
+});
+
 module.exports = router;
