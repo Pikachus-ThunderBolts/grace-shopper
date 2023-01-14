@@ -92,19 +92,16 @@ async function buildTables() {
 
           CREATE TABLE tvs(
             id SERIAL PRIMARY KEY,
-            brand VARCHAR(255) NOT NULL,
             "tvId" INTEGER REFERENCES products (id)
           );
 
           CREATE TABLE phones(
             id SERIAL PRIMARY KEY,
-            brand VARCHAR(255) NOT NULL,
             "phoneId" INTEGER REFERENCES products(id)
           );
 
           CREATE TABLE laptops(
             id SERIAL PRIMARY KEY,
-            brand VARCHAR(255) NOT NULL,
             "latopId" INTEGER REFERENCES products(id)
               );      
           `);
