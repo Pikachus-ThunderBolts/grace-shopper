@@ -8,6 +8,7 @@ const {
   // createInventory,
   // createCart,
   createNewReview,
+  getReviewByTitle,
 } = require("./");
 
 async function dropTables() {
@@ -339,6 +340,7 @@ async function rebuildDB() {
     await populateInitialProducts();
     // await populateInitialCart();
     await populateInitialReview();
+    await getReviewByTitle();
   } catch (error) {
     console.log("Error rebuilding DB");
     throw error;
