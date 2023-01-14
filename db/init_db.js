@@ -76,7 +76,6 @@ async function buildTables() {
      
         CREATE TABLE orders(
           id SERIAL PRIMARY KEY,
-          guestName VARCHAR(255),
           "customerUserId" INTEGER REFERENCES customerUsers (id),
           "productId" INTEGER REFERENCES products (id),
           "guestId" INTEGER REFERENCES guestUsers (id),
@@ -96,6 +95,8 @@ async function buildTables() {
   }
   console.log("Finished building tables");
 }
+
+// guestName VARCHAR(255),
 
 /* UNUSED TABLES
   CREATE TABLE tvs(
@@ -275,23 +276,23 @@ async function populateInitialProducts() {
   }
 }
 
-// async function populateInitialCart() {
-//   console.log("Starting to create cart");
-//   try {
-//     const cartToCreate = [
-//       { itemQuantity: 5, itemTitle: "random title", itemPrice: "10.99" },
-//       { itemQuantity: 3, itemTitle: "macbook-13 in", itemPrice: "14.30" },
-//       { itemQuantity: 2, itemTitle: "other random title", itemPrice: "9.20" },
-//     ];
-//     const cart = await Promise.all(
-//       cartToCreate.map(/*Need a createCart function imported */)
-//     );
-//     console.log("Finished creating cart");
-//   } catch (error) {
-//     console.error("Error creating cart");
-//     throw error;
-//   }
-// }
+async function populateInitialCart() {
+  console.log("Starting to create cart");
+  try {
+    const cartToCreate = [
+      { itemQuantity: 5, itemTitle: "random title", itemPrice: "10.99" },
+      { itemQuantity: 3, itemTitle: "macbook-13 in", itemPrice: "14.30" },
+      { itemQuantity: 2, itemTitle: "other random title", itemPrice: "9.20" },
+    ];
+    const cart = await Promise.all(
+      cartToCreate.map(/*Need a createCart function imported */)
+    );
+    console.log("Finished creating cart");
+  } catch (error) {
+    console.error("Error creating cart");
+    throw error;
+  }
+}
 
 async function populateInitialReview() {
   console.log("Starting to create reviews");
@@ -337,7 +338,7 @@ async function rebuildDB() {
     await populateInitialGuestUsers();
     // await populateInitialInventory();
     await populateInitialProducts();
-    // await populateInitialCart();
+    await populateInitialCart();
     await populateInitialReview();
   } catch (error) {
     console.log("Error rebuilding DB");
