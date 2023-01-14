@@ -35,8 +35,8 @@ apiRouter.get('/health', (req, res, next) => {
 // apiRouter.use("/orders", ordersRouter);
 
 // ROUTER: /api/products
-// const productsRouter = require("./products");
-// apiRouter.use("/products", productsRouter);
+const productsRouter = require("./products");
+apiRouter.use("/products", productsRouter);
 
 // ROUTER: /api/reviews
 // const reviewsRouter = require("./reviews");
