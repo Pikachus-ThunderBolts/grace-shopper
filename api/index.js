@@ -13,5 +13,33 @@ apiRouter.get('/health', (req, res, next) => {
 });
 
 // place your routers here
-// Hi this is Nathan's test commit
+
+// ROUTER: /api/customerUsers
+// const customerUsersRouter = require("./customerUsers");
+// router.use("/customerUsers", customerUsersRouter);
+
+// ROUTER: /api/adminUsers
+// const adminUsersRouter = require("./adminUsers");
+// apiRouter.use("/adminUsers", adminUsersRouter);
+
+// ROUTER: /api/guestUser
+// const guestUserRouter = require("./guestUser");
+// apiRouter.use("/guestUser", guestUserRouter);
+
+// ROUTER: /api/cart
+// const cartRouter = require("./cart");
+// apiRouter.use("/cart", cartRouter);
+
+// ROUTER: /api/orders
+// const ordersRouter = require("./orders");
+// apiRouter.use("/orders", ordersRouter);
+
+// ROUTER: /api/products
+// const productsRouter = require("./products");
+// apiRouter.use("/products", productsRouter);
+
+// ROUTER: /api/reviews
+// const reviewsRouter = require("./reviews");
+// apiRouter.use("/reviews", reviewsRouter);
+
 module.exports = apiRouter;
