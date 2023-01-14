@@ -39,6 +39,7 @@ async function getAllProductsById(id) {
       `,
       [id]
     );
+    return product
   } catch (error) {
     console.error("There was an error getting the product by Id", error);
     throw error;
