@@ -48,7 +48,27 @@ async function getAllAdminUsers() {
   }
 }
 
+async function getAdminUserById(adminUserId) {
+  try {
+    const {
+      rows: [getAdminUserById],
+    } = await client.query(
+      `
+      SELECT FROM adminUsers
+      WHERE id=$1
+      ;
+      `,
+      [adminUserId]
+    );
+    delete adminUserId.password;
+  } catch (error) {
+    console.log("Error getting admin user by id", error);
+    throw error;
+  }
+}
+
 module.exports = {
   createAdminUser,
   getAllAdminUsers,
+  getAdminUserById,
 };
