@@ -34,6 +34,21 @@ async function createAdminUser(fields) {
   }
 }
 
+async function getAllAdminUsers() {
+  try {
+    const { rows } = await client.query(`
+    SELECT *
+    FROM adminUsers
+    `);
+    console.log(rows, "These are rows");
+    return rows;
+  } catch (error) {
+    console.error("Error getting admin user", error);
+    throw error;
+  }
+}
+
 module.exports = {
   createAdminUser,
+  getAllAdminUsers,
 };

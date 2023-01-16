@@ -4,7 +4,7 @@ const {
   createCustomerUser,
   createAdminUser,
   createNewProduct,
-  createGuestUser,
+  createGuestUsers,
   // createInventory,
   // createCart,
   createNewReview,
@@ -198,7 +198,7 @@ async function populateInitialGuestUsers() {
       { email: "guestemail3@hotmail.com" },
     ];
     const guestUsers = await Promise.all(
-      guestUsersToCreate.map(createGuestUser)
+      guestUsersToCreate.map(createGuestUsers)
     );
     console.log(guestUsers);
     console.log("Finished creating guest Users");

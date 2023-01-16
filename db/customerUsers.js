@@ -34,33 +34,47 @@ async function createCustomerUser(fields) {
   }
 }
 
-async function getCustomerUser({ username, password }) {
-  try {
-    const {
-      rows: [fetchCustomerUser],
-    } = await client.query(
-      `
-        SELECT * FROM customerUsers
-        WHERE username=$1
-        ;
-        `,
-      [username]
-    );
+// async function getCustomerUser({ username, password }) {
+//   try {
+//     const {
+//       rows: [fetchCustomerUser],
+//     } = await client.query(
+//       `
+//         SELECT * FROM customerUsers
+//         WHERE username=$1
+//         ;
+//         `,
+//       [username]
+//     );
 
-    if (!fetchCustomerUser) {
-      throw new "username or password do not match"();
-    } else {
-      const checkPassword = await bcrypt.compare(
-        password,
-        fetchCustomerUser.password
-      );
-      if (checkPassword === true) {
-        delete fetchCustomerUser.password;
-        return fetchCustomerUser;
-      }
-    }
+//     if (!fetchCustomerUser) {
+//       throw new "username or password do not match"();
+//     } else {
+//       const checkPassword = await bcrypt.compare(
+//         password,
+//         fetchCustomerUser.password
+//       );
+//       if (checkPassword === true) {
+//         delete fetchCustomerUser.password;
+//         return fetchCustomerUser;
+//       }
+//     }
+//   } catch (error) {
+//     console.log("error fetching user ", error);
+//     throw error;
+//   }
+// }
+
+async function getAllCustomerUsers() {
+  try {
+    const { rows } = await client.query(`
+    SELECT *
+    FROM customerUsers
+    `);
+    console.log(rows, "These are rows");
+    return rows;
   } catch (error) {
-    console.log("error fetching user ", error);
+    console.error("There was an error gettin all customer users", error);
     throw error;
   }
 }
@@ -104,7 +118,8 @@ async function getCustomerUserByUsername(username) {
 
 module.exports = {
   createCustomerUser,
-  getCustomerUser,
+  // getCustomerUser,
+  getAllCustomerUsers,
   getCustomerUserById,
   getCustomerUserByUsername,
 };
