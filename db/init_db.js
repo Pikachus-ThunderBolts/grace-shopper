@@ -5,6 +5,7 @@ const {
   createAdminUser,
   createNewProduct,
   createGuestUser,
+  createOrder,
   // createInventory,
   // createCart,
   createNewReview,
@@ -276,23 +277,59 @@ async function populateInitialProducts() {
   }
 }
 
-async function populateInitialCart() {
-  console.log("Starting to create cart");
+// async function populateInitialCart() {
+//   console.log("Starting to create cart");
+//   try {
+//     const cartToCreate = [
+//       { itemQuantity: 5, itemTitle: "random title", itemPrice: "10.99" },
+//       { itemQuantity: 3, itemTitle: "macbook-13 in", itemPrice: "14.30" },
+//       { itemQuantity: 2, itemTitle: "other random title", itemPrice: "9.20" },
+//     ];
+//     const cart = await Promise.all(
+//       cartToCreate.map(/*Need a createCart function imported */)
+//     );
+//     console.log("Finished creating cart");
+//   } catch (error) {
+//     console.error("Error creating cart");
+//     throw error;
+//   }
+// }
+
+async function populateInitialOrders() {
+  console.log('Starting to create dummy orders');
   try {
-    const cartToCreate = [
-      { itemQuantity: 5, itemTitle: "random title", itemPrice: "10.99" },
-      { itemQuantity: 3, itemTitle: "macbook-13 in", itemPrice: "14.30" },
-      { itemQuantity: 2, itemTitle: "other random title", itemPrice: "9.20" },
+    const ordersToCreate = [
+      {
+        customerUserId: "1", 
+        productId: "1", 
+        guestId: null,
+        quantity: 12,
+        total: 12.10
+      }, 
+      {
+        customerUserId: "2", 
+        productId: "2", 
+        guestId: null,
+        quantity: 2,
+        total: 2.17
+      },
+      {
+        customerUserId: "3", 
+        productId: "3", 
+        guestId: null,
+        quantity: 9,
+        total: 9.11
+      }
     ];
-    const cart = await Promise.all(
-      cartToCreate.map(/*Need a createCart function imported */)
-    );
-    console.log("Finished creating cart");
+
+    const order = await Promise.all(ordersToCreate.map(createOrder));
+    console.log(order);
+    console.log('finished creating order')
   } catch (error) {
-    console.error("Error creating cart");
+    console.error("Error creating order")
     throw error;
   }
-}
+};
 
 async function populateInitialReview() {
   console.log("Starting to create reviews");
@@ -338,7 +375,8 @@ async function rebuildDB() {
     await populateInitialGuestUsers();
     // await populateInitialInventory();
     await populateInitialProducts();
-    await populateInitialCart();
+    await populateInitialOrders();
+    // await populateInitialCart();
     await populateInitialReview();
   } catch (error) {
     console.log("Error rebuilding DB");
