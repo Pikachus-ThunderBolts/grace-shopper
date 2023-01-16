@@ -1,15 +1,13 @@
 const apiRouter = require("express").Router();
 
-const { getAllAdminUsers } = require("../db/adminUsers");
+const { getAllGuestUsers } = require("../db/guestUsers");
 
-//Router.get
 apiRouter.get("/", async (req, res) => {
   try {
-    const adminUsers = await getAllAdminUsers();
-    res.send(adminUsers);
+    const guestUsers = await getAllGuestUsers();
+    res.send(guestUsers);
   } catch (error) {
     next(error);
   }
 });
-
 module.exports = apiRouter;
