@@ -8,6 +8,7 @@ const {
   // createInventory,
   // createCart,
   createNewReview,
+  getProductsByBrand,
 } = require("./");
 
 async function dropTables() {
