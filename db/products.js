@@ -191,4 +191,5 @@ module.exports = {
   destroyProduct,
   getProductsByBrand,
   getProductsByTitle,
+  getProductsByCategory,
 };

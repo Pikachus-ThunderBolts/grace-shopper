@@ -7,9 +7,9 @@ const {
     getProductsByPrice,
     updateProduct,
     destroyProduct,
-    // getProductsByCategory,
-    // getProductsByTitle,
-    // getProductsByBrand,
+    getProductsByCategory,
+    getProductsByTitle,
+    getProductsByBrand,
 } = require("../db/products");
 
 // GET /api/products
