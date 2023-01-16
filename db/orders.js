@@ -25,6 +25,10 @@ async function createOrder({
 	}
 };
 
+async function getAllOrdersById(id) {
+	
+}
+
 
 module.exports = {
 	createOrder,
