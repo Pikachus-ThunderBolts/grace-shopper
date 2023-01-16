@@ -1,5 +1,6 @@
 const apiRouter = require('express').Router();
 
+const { unstable_renderSubtreeIntoContainer } = require('react-dom');
 const {
     createNewProduct,
     getAllProductsById,
@@ -31,7 +32,8 @@ apiRouter.get("/", async (req, res, next) => {
 //         const {brand, title, description, price, quantity, category, img} = req.body;
 //         const creatorId = req.user.id;
 //         const productData = {creatorId, brand, title, description, price, quantity, category, img};
-//         const existingProduct = await getProductsByTitle({title});
+
+//         const existingProduct = await getProductsByTitle(title);
         
 
 //         if(existingProduct) {
@@ -40,36 +42,39 @@ apiRouter.get("/", async (req, res, next) => {
 //                 message: `A product with title ${title} already exists`
 //             })
 //         } else {
-//             const newProduct = await createNewProduct({productData});
+//             const newProduct = await createNewProduct(productData);
 //             if(newProduct) {
 //                 res.json(newProduct)
 //                 res.send(newProduct)
 //             }
 //         }
-//     } catch (error) {
-//         next(error);
+//     } catch ({name, message}) {
+//         next({name, message});
 //     }
 // })
 
 
-// apiRouter.post('/', async(req, res, next) => {
+// PATCH /api/products/:productId
+//gets product by id to be able to update product
+// apiRouter.patch("/:productId", async (req, res, next) => {
+//     if(!req.user)
+//     res.status(401).send({
+//         name: `InvalidCredentialError`,
+//         message: `You must be logged in to perform this action`,
+//     });
 //     try {
 //         const {brand, title, description, price, quantity, category, img} = req.body;
-//         const existingProduct = await getProductsBytitle(title);
-//         if(existingProduct) {
-//             next({
-//                 name: `ProductExistsError`,
-//                 message: `A product with title ${title} already exists`
-//             })
-//         } else {
-//             const createdProduct = await createdProduct({brand, title, description, price, quantity, category, img});
-//             if(createdProduct) {
-//                 res.send(createdProduct)
-//             }
-//         }
-//     } catch (error) {
-//         next(error);
+//         const adminId = req.user.id;
+//         const productData = {adminId, brand, title, description, price, quantity, category, img};
+//         const newProduct = await createNewProduct(productData);
+//         res.json(newProduct);
+//         res.send(newProduct);
+//     } catch ({name, message}) {
+//         next({name, message});
 //     }
-// })
+// });
+
+//DELETE /api/products/:productId
+
 
 module.exports = apiRouter;
