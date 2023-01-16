@@ -80,15 +80,47 @@ async function getProductsByPrice(price) {
 async function getProductsByBrand(brand) {
   try {
     const {
-      rows: [reviews],
+      rows: [product],
     } = await client.query(`
       SELECT *
       FROM products
       WHERE brand = $1;
       `);
-    return reviews;
+    return product;
   } catch (error) {
     console.error("There was an error getting the product by brand", error);
+    throw error;
+  }
+}
+
+async function getProductsByTitle(title) {
+  try {
+    const {
+      rows: [product],
+    } = await client.query(`
+      SELECT *
+      FROM products
+      WHERE title = $1;
+      `);
+    return product;
+  } catch (error) {
+    console.error("There was an error getting the product by title", error);
+    throw error;
+  }
+}
+
+async function getProductsByCategory(category) {
+  try {
+    const {
+      rows: [product],
+    } = await client.query(`
+      SELECT *
+      FROM products
+      WHERE category = $1;
+      `);
+    return product;
+  } catch (error) {
+    console.error("There was an error getting the product by category", error);
     throw error;
   }
 }
@@ -158,4 +190,5 @@ module.exports = {
   updateProduct,
   destroyProduct,
   getProductsByBrand,
+  getProductsByTitle,
 };
