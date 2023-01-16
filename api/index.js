@@ -1,12 +1,12 @@
-const apiRouter = require('express').Router();
+const apiRouter = require("express").Router();
 
-apiRouter.get('/', (req, res, next) => {
+apiRouter.get("/", (req, res, next) => {
   res.send({
-    message: 'API is under construction!',
+    message: "API is under construction!",
   });
 });
 
-apiRouter.get('/health', (req, res, next) => {
+apiRouter.get("/health", (req, res, next) => {
   res.send({
     healthy: true,
   });
@@ -15,16 +15,16 @@ apiRouter.get('/health', (req, res, next) => {
 // place your routers here
 
 // ROUTER: /api/customerUsers
-// const customerUsersRouter = require("./customerUsers");
-// router.use("/customerUsers", customerUsersRouter);
+const customerUsersRouter = require("./customerUsers");
+apiRouter.use("/customerUsers", customerUsersRouter);
 
 // ROUTER: /api/adminUsers
-// const adminUsersRouter = require("./adminUsers");
-// apiRouter.use("/adminUsers", adminUsersRouter);
+const adminUsersRouter = require("./adminUsers");
+apiRouter.use("/adminUsers", adminUsersRouter);
 
 // ROUTER: /api/guestUser
-// const guestUserRouter = require("./guestUser");
-// apiRouter.use("/guestUser", guestUserRouter);
+const guestUsersRouter = require("./guestUsers");
+apiRouter.use("/guestUsers", guestUsersRouter);
 
 // ROUTER: /api/cart
 // const cartRouter = require("./cart");
