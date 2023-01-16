@@ -26,10 +26,24 @@ async function createOrder({
 };
 
 async function getAllOrdersById(id) {
-	
-}
+	try {
+		const {
+			rows: [order],
+		} = await client.query(`
+			SELECT *
+			FROM orders
+			WHERE id=$1;
+		`, [id]
+		);
+		return order;
+	} catch (error) {
+		console.error("Error getting order by id", error)
+		throw error;
+	}
+};
 
 
 module.exports = {
 	createOrder,
+	getAllOrdersById,
 };
