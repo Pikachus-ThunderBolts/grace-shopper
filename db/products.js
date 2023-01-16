@@ -52,6 +52,8 @@ async function getAllProducts() {
     SELECT *
     FROM products;
     `);
+    console.log(rows, "here are the rows");
+    console.log("look here");
     return rows;
   } catch (error) {
     console.error("There was an error getting all the products", error)
