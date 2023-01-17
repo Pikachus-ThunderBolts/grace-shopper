@@ -19,6 +19,21 @@ async function createGuestUser({ email }) {
     throw error;
   }
 }
+
+async function getAllGuestUsers() {
+  try {
+    const { rows } = await client.query(`
+    SELECT *
+    FROM guestUsers
+    `);
+    console.log(rows, "More rows");
+    return rows;
+  } catch (error) {
+    console.error("Error getting all guest users ", error);
+    throw error;
+  }
+}
 module.exports = {
   createGuestUser,
+  getAllGuestUsers,
 };

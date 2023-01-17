@@ -39,7 +39,7 @@ async function getAllProductsById(id) {
       `,
       [id]
     );
-    return product
+    return product;
   } catch (error) {
     console.error("There was an error getting the product by Id", error);
     throw error;
@@ -48,15 +48,15 @@ async function getAllProductsById(id) {
 
 async function getAllProducts() {
   try {
-    const {rows} = await client.query(`
+    const { rows } = await client.query(`
     SELECT *
     FROM products;
     `);
-    console.log(rows, "here are the rows")
-    console.log("look here")
+    console.log(rows, "here are the rows");
+    console.log("look here");
     return rows;
   } catch (error) {
-    console.error("There was an error getting all the products", error)
+    console.error("There was an error getting all the products", error);
     throw error;
   }
 }
@@ -78,11 +78,69 @@ async function getProductsByPrice(price) {
   }
 }
 
-async function updateProduct({id, brand, title, description, price, quantity, category, img}) {
+async function getProductsByBrand(brand) {
   try {
     const {
       rows: [product],
     } = await client.query(`
+      SELECT *
+      FROM products
+      WHERE brand = $1;
+      `);
+    return product;
+  } catch (error) {
+    console.error("There was an error getting the product by brand", error);
+    throw error;
+  }
+}
+
+async function getProductsByTitle(title) {
+  try {
+    const {
+      rows: [product],
+    } = await client.query(`
+      SELECT *
+      FROM products
+      WHERE title = $1;
+      `);
+    return product;
+  } catch (error) {
+    console.error("There was an error getting the product by title", error);
+    throw error;
+  }
+}
+
+async function getProductsByCategory(category) {
+  try {
+    const {
+      rows: [product],
+    } = await client.query(`
+      SELECT *
+      FROM products
+      WHERE category = $1;
+      `);
+    return product;
+  } catch (error) {
+    console.error("There was an error getting the product by category", error);
+    throw error;
+  }
+}
+
+async function updateProduct({
+  id,
+  brand,
+  title,
+  description,
+  price,
+  quantity,
+  category,
+  img,
+}) {
+  try {
+    const {
+      rows: [product],
+    } = await client.query(
+      `
     UPDATE products
     SET
     brand = COALESCE($2, brand),
@@ -95,30 +153,33 @@ async function updateProduct({id, brand, title, description, price, quantity, ca
     WHERE id=$1
     RETURNING *;
     `,
-    [id, brand, title, description, price, quantity, category, img]
+      [id, brand, title, description, price, quantity, category, img]
     );
-    return product
+    return product;
   } catch (error) {
-    console.error("There was an error updating the product", error)
+    console.error("There was an error updating the product", error);
     throw error;
   }
 }
 
-console.log('This console.log is not in a function')
+console.log("This console.log is not in a function");
 
 async function destroyProduct(id) {
   try {
-    const{
-      rows: [product]
-    } = await client.query(`
+    const {
+      rows: [product],
+    } = await client.query(
+      `
       DELETE FROM products
       WHERE products.id=$1
       RETURNING *
-    `, [id])
-    return product
+    `,
+      [id]
+    );
+    return product;
   } catch (error) {
-    console.error("There was an error deleting the product", error)
-    throw error
+    console.error("There was an error deleting the product", error);
+    throw error;
   }
 }
 
@@ -129,4 +190,7 @@ module.exports = {
   getProductsByPrice,
   updateProduct,
   destroyProduct,
+  getProductsByBrand,
+  getProductsByTitle,
+  getProductsByCategory,
 };
