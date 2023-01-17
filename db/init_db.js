@@ -6,8 +6,7 @@ const {
   createNewProduct,
   createGuestUser,
   createOrder,
-  // createInventory,
-  // createCart,
+  createCart,
   createNewReview,
 } = require("./");
 
@@ -87,7 +86,7 @@ async function buildTables() {
 
           CREATE TABLE cart(
             id SERIAL PRIMARY KEY,
-            "itemId" INTEGER REFERENCES products (id)
+            "productId" INTEGER REFERENCES products (id)
           );    
           `);
   } catch (error) {
@@ -277,23 +276,24 @@ async function populateInitialProducts() {
   }
 }
 
-// async function populateInitialCart() {
-//   console.log("Starting to create cart");
-//   try {
-//     const cartToCreate = [
-//       { itemQuantity: 5, itemTitle: "random title", itemPrice: "10.99" },
-//       { itemQuantity: 3, itemTitle: "macbook-13 in", itemPrice: "14.30" },
-//       { itemQuantity: 2, itemTitle: "other random title", itemPrice: "9.20" },
-//     ];
-//     const cart = await Promise.all(
-//       cartToCreate.map(/*Need a createCart function imported */)
-//     );
-//     console.log("Finished creating cart");
-//   } catch (error) {
-//     console.error("Error creating cart");
-//     throw error;
-//   }
-// }
+async function populateInitialCart() {
+  console.log("Starting to create cart");
+  try {
+    const cartToCreate = [
+      { productId: "1"},
+      { productId: "2" },
+      { productId: "3" },
+    ];
+    const cart = await Promise.all(
+      cartToCreate.map(createCart)
+    );
+    console.log(cart);
+    console.log("Finished creating cart");
+  } catch (error) {
+    console.error("Error creating cart");
+    throw error;
+  }
+}
 
 async function populateInitialOrders() {
   console.log('Starting to create dummy orders');
@@ -376,7 +376,7 @@ async function rebuildDB() {
     // await populateInitialInventory();
     await populateInitialProducts();
     await populateInitialOrders();
-    // await populateInitialCart();
+    await populateInitialCart();
     await populateInitialReview();
   } catch (error) {
     console.log("Error rebuilding DB");
