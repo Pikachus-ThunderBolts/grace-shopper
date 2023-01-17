@@ -6,6 +6,7 @@ module.exports = {
   ...require("./adminUsers"),
   ...require("./guestUsers"),
   // ...require("./inventory"),
+  ...require("./orders"),
   ...require("./products"),
   ...require("./reviews"),
 };

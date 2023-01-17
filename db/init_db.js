@@ -5,6 +5,7 @@ const {
   createAdminUser,
   createNewProduct,
   createGuestUsers,
+  createOrder,
   // createInventory,
   // createCart,
   createNewReview,
@@ -77,7 +78,6 @@ async function buildTables() {
      
         CREATE TABLE orders(
           id SERIAL PRIMARY KEY,
-          guestName VARCHAR(255),
           "customerUserId" INTEGER REFERENCES customerUsers (id),
           "productId" INTEGER REFERENCES products (id),
           "guestId" INTEGER REFERENCES guestUsers (id),
@@ -97,6 +97,8 @@ async function buildTables() {
   }
   console.log("Finished building tables");
 }
+
+// guestName VARCHAR(255),
 
 /* UNUSED TABLES
   CREATE TABLE tvs(
@@ -294,6 +296,42 @@ async function populateInitialProducts() {
 //   }
 // }
 
+async function populateInitialOrders() {
+  console.log('Starting to create dummy orders');
+  try {
+    const ordersToCreate = [
+      {
+        customerUserId: "1", 
+        productId: "1", 
+        guestId: null,
+        quantity: 12,
+        total: 12.10
+      }, 
+      {
+        customerUserId: "2", 
+        productId: "2", 
+        guestId: null,
+        quantity: 2,
+        total: 2.17
+      },
+      {
+        customerUserId: "3", 
+        productId: "3", 
+        guestId: null,
+        quantity: 9,
+        total: 9.11
+      }
+    ];
+
+    const order = await Promise.all(ordersToCreate.map(createOrder));
+    console.log(order);
+    console.log('finished creating order')
+  } catch (error) {
+    console.error("Error creating order")
+    throw error;
+  }
+};
+
 async function populateInitialReview() {
   console.log("Starting to create reviews");
   try {
@@ -338,6 +376,7 @@ async function rebuildDB() {
     await populateInitialGuestUsers();
     // await populateInitialInventory();
     await populateInitialProducts();
+    await populateInitialOrders();
     // await populateInitialCart();
     await populateInitialReview();
   } catch (error) {
