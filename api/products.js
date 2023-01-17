@@ -13,6 +13,10 @@ const {
     getProductsByBrand,
 } = require("../db/products");
 
+const {
+    getAdminUserById,
+} = require("../db/adminUsers");
+
 // GET /api/products
 apiRouter.get("/", async (req, res, next) => {
     try {
@@ -25,8 +29,32 @@ apiRouter.get("/", async (req, res, next) => {
 });
 
 // POST /api/products
+apiRouter.post('/', async(req, res, next) => {
+    try {
+        if(req.user) {
+            const adminId = await getAdminUserById(adminUserId);
+            const {brand, title, description, price, quantity, category, img} = req.body;
+            const newProduct = await createNewProduct({adminId, brand, title, description, price, quantity, category, img});
+
+            if(newProduct) {
+                res.send(newProduct);
+            }else {
+                res.status(401);
+                next({
+                    name: `FailedToMakeNewProductError`,
+                    message: `Cannot create new product`
+                })
+            }
+        }
+    } catch (error) {
+        next (error);
+    }
+})    
+
+
 // apiRouter.post('/', async(req, res, next) => {
 //     const token = req.headers.authorization.slice(7);
+//     const adminId = await getAdminUserById(adminUserId)
 //     // const signedIn = jwt.verify(token);
 //     try {
 //         const {brand, title, description, price, quantity, category, img} = req.body;
