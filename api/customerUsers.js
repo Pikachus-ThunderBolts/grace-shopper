@@ -1,7 +1,7 @@
 const apiRouter = require("express").Router();
-// const bcrypt = require("bcrypt");
-// const { JWT_SECRET } = process.env;
-// const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const { JWT_SECRET } = process.env;
+const jwt = require("jsonwebtoken");
 
 const {
   // createCustomerUser,
