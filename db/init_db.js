@@ -4,11 +4,12 @@ const {
   createCustomerUser,
   createAdminUser,
   createNewProduct,
-  createGuestUser,
+  createGuestUsers,
   createOrder,
   // createInventory,
   // createCart,
   createNewReview,
+  getProductsByBrand,
 } = require("./");
 
 async function dropTables() {
@@ -199,7 +200,7 @@ async function populateInitialGuestUsers() {
       { email: "guestemail3@hotmail.com" },
     ];
     const guestUsers = await Promise.all(
-      guestUsersToCreate.map(createGuestUser)
+      guestUsersToCreate.map(createGuestUsers)
     );
     console.log(guestUsers);
     console.log("Finished creating guest Users");
