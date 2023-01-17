@@ -42,6 +42,10 @@ async function getAllOrdersById(id) {
 	}
 };
 
+async function getOrderByPrice(price) {
+	
+}
+
 
 module.exports = {
 	createOrder,
