@@ -69,7 +69,8 @@ async function getProductsByPrice(price) {
     SELECT *
     FROM products
     WHERE price = $1;
-    `)
+    `, [price]
+    )
     return product;
   } catch (error) {
     console.error("There was an error getting the product by price", error);
