@@ -67,8 +67,27 @@ async function getAdminUserById(adminUserId) {
   }
 }
 
+async function getAdminUserByUsername(username) {
+  try {
+    const {
+      rows: [fetchAdminUserByUsername],
+    } = await client.query(
+      `
+      SELECT * FROM adminUsers
+      WHERE username =$1
+      `,
+      [username]
+    );
+    return fetchAdminUserByUsername;
+  } catch (error) {
+    console.log("Error getting admin user by username", error);
+    throw error;
+  }
+}
+
 module.exports = {
   createAdminUser,
   getAllAdminUsers,
   getAdminUserById,
+  getAdminUserByUsername,
 };
