@@ -1,6 +1,6 @@
 const apiRouter = require('express').Router();
 
-const { unstable_renderSubtreeIntoContainer } = require('react-dom');
+// const { unstable_renderSubtreeIntoContainer } = require('react-dom');
 const {
     createNewProduct,
     getAllProductsById,
@@ -16,6 +16,7 @@ const {
 const {
     getAdminUserById,
 } = require("../db/adminUsers");
+const { Router } = require('express');
 
 // GET /api/products
 apiRouter.get("/", async (req, res, next) => {
@@ -29,27 +30,65 @@ apiRouter.get("/", async (req, res, next) => {
 });
 
 // POST /api/products
-apiRouter.post('/', async(req, res, next) => {
+apiRouter.post('/', async(req,res,next) => {
     try {
-        if(req.user) {
-            const adminId = await getAdminUserById(adminUserId);
+        
+            next({
+                error: `NotLoggedInError`,
+                message: `Unauthorized User Error`,
+                name: `You must be logged in`
+            })
+        
             const {brand, title, description, price, quantity, category, img} = req.body;
-            const newProduct = await createNewProduct({adminId, brand, title, description, price, quantity, category, img});
 
-            if(newProduct) {
-                res.send(newProduct);
-            }else {
-                res.status(401);
-                next({
-                    name: `FailedToMakeNewProductError`,
-                    message: `Cannot create new product`
-                })
-            }
-        }
+            const newProduct = await createNewProduct({brand, title, description, price, quantity, category, img})
+            res.send(newProduct)
+        
     } catch (error) {
-        next (error);
+        next(error)
     }
-})    
+})
+
+// apiRouter.post('/', async(req,res,next) => {
+//     try {
+//         if(!req.user) {
+//             next({
+//                 error: `NotLoggedInError`,
+//                 message: `Unauthorized User Error`,
+//                 name: `You must be logged in`
+//             })
+//         } else {
+//             const {brand, title, description, price, quantity, category, img} = req.body;
+
+//             const newProduct = await createNewProduct({brand, title, description, price, quantity, category, img})
+//             res.send(newProduct)
+//         }
+//     } catch (error) {
+//         next(error)
+//     }
+// })
+
+// apiRouter.post('/', async(req, res, next) => {
+//     try {
+//         if(req.user) {
+//             const adminId = await getAdminUserById(adminUserId);
+//             const {brand, title, description, price, quantity, category, img} = req.body;
+//             const newProduct = await createNewProduct({adminId, brand, title, description, price, quantity, category, img});
+
+//             if(newProduct) {
+//                 res.send(newProduct);
+//             }else {
+//                 res.status(401);
+//                 next({
+//                     name: `FailedToMakeNewProductError`,
+//                     message: `Cannot create new product`
+//                 })
+//             }
+//         }
+//     } catch (error) {
+//         next (error);
+//     }
+// })    
 
 
 // apiRouter.post('/', async(req, res, next) => {
@@ -84,6 +123,19 @@ apiRouter.post('/', async(req, res, next) => {
 
 // PATCH /api/products/:productId
 //gets product by id to be able to update product
+apiRouter.patch("/:productId", async(req, res, next) => {
+    try {
+        const productId = await getAllProductsById(req.params.id);
+        const {brand, title, description, price, quantity, category, img} = req.body;
+        const update = await updateProduct({productId, brand, title, description, price, quantity, category, img})
+
+        res.send(update);
+    } catch (error) {
+        next(error)
+    }
+})
+
+
 // apiRouter.patch("/:productId", async (req, res, next) => {
 //     if(!req.user)
 //     res.status(401).send({
@@ -103,6 +155,16 @@ apiRouter.post('/', async(req, res, next) => {
 // });
 
 //DELETE /api/products/:productId
+apiRouter.delete("/:productId", async(req, res, next) => {
+    try {
+        const productId = await getAllProductsById(req.params.id);
+        
+        const deleteProduct = await destroyProduct(productId);
+        res.send(deleteProduct);
+    } catch (error) {
+        next(error);
+    }
+})
 
 
 module.exports = apiRouter;
