@@ -60,4 +60,22 @@ apiRouter.post("/", async (req, res, next) => {
   }
 });
 
+apiRouter.patch("/:reviewId", async (req, res, next) => {
+  try {
+    const { review, title, customerUserId, productId, guestId } = req.body;
+    const update = await updateReview({
+      id: req.params.productId,
+      title: title,
+      review: review,
+      customerUserId: customerUserId,
+      productId: productId,
+      guestId: guestId,
+    });
+
+    res.send(update);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = apiRouter;
