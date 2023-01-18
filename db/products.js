@@ -65,12 +65,14 @@ async function getProductsByPrice(price) {
   try {
     const {
       rows: [product],
-    } = await client.query(`
+    } = await client.query(
+      `
     SELECT *
     FROM products
     WHERE price = $1;
-    `, [price]
-    )
+    `,
+      [price]
+    );
     return product;
   } catch (error) {
     console.error("There was an error getting the product by price", error);
@@ -82,11 +84,14 @@ async function getProductsByBrand(brand) {
   try {
     const {
       rows: [product],
-    } = await client.query(`
+    } = await client.query(
+      `
       SELECT *
       FROM products
       WHERE brand = $1;
-      `);
+      `,
+      [brand]
+    );
     return product;
   } catch (error) {
     console.error("There was an error getting the product by brand", error);
@@ -98,11 +103,14 @@ async function getProductsByTitle(title) {
   try {
     const {
       rows: [product],
-    } = await client.query(`
+    } = await client.query(
+      `
       SELECT *
       FROM products
       WHERE title = $1;
-      `, [title]);
+      `,
+      [title]
+    );
     return product;
   } catch (error) {
     console.error("There was an error getting the product by title", error);
@@ -114,11 +122,14 @@ async function getProductsByCategory(category) {
   try {
     const {
       rows: [product],
-    } = await client.query(`
+    } = await client.query(
+      `
       SELECT *
       FROM products
       WHERE category = $1;
-      `);
+      `,
+      [category]
+    );
     return product;
   } catch (error) {
     console.error("There was an error getting the product by category", error);
