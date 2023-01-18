@@ -84,52 +84,6 @@ apiRouter.post('/register', async (req, res, next) => {
   }
 });
 
-// apiRouter.post("/register", async (req, res, next) => {
-//   const { username, password } = req.body;
-
-//   try {
-//     const _user = await getAdminUserByUsername(username);
-    
-//     if (_user) {
-//       res.send({
-//         error: `User ${username} is already taken.`,
-//         name: "UserDuplicated",
-//         message: `User ${username} is already taken.`,
-//       });
-//       return
-//     }
-
-//     if (password.length < 6) {
-//       res.send({
-//         error: "Password Too Short!",
-//         name: "PasswordLengthError",
-//         message: "Password Too Short!",
-//       });
-//       return
-//     }
-
-//     const  id  = await createAdminUser({ username, email, password });
-//     console.log('id:', id)
-
-//     const token = jwt.sign(
-//       {
-//         id: id, email,
-//         username, 
-//       },
-//       JWT_SECRET,
-//       { expiresIn: "1w" }
-//     );
-//     console.log(token, "this is token")
-
-//     res.send({
-//       message: "success",
-//       token,
-//       user: { id: id, username, email },
-//     });
-//   } catch ({ name, message }) {
-//     next({ name, message });
-//   }
-// });
 
 
 module.exports = apiRouter;
