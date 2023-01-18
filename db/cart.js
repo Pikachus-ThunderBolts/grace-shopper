@@ -19,6 +19,21 @@ async function createCart({productId}) {
   }
 }
 
+async function getAllCarts() {
+  try {
+    const {
+      rows: [cart]
+    } = await client.query(`
+    SELECT *
+    FROM cart
+    `)
+    return cart;
+  } catch (error) {
+    console.error("Error getting all carts")
+  }
+}
+
 module.exports = {
   createCart,
+  getAllCarts
 }
