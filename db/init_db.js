@@ -87,7 +87,9 @@ async function buildTables() {
 
           CREATE TABLE cart(
             id SERIAL PRIMARY KEY,
-            "productId" INTEGER REFERENCES products (id)
+            "productId" INTEGER REFERENCES products (id),
+            "customerUserId" INTEGER REFERENCES customerUsers (id),
+            "guestId" INTEGER REFERENCES guestUsers (id)
           );    
           `);
   } catch (error) {
@@ -281,9 +283,9 @@ async function populateInitialCart() {
   console.log("Starting to create cart");
   try {
     const cartToCreate = [
-      { productId: "1"},
-      { productId: "2" },
-      { productId: "3" },
+      { productId: "1", customerUserId: "1", guestId: null},
+      { productId: "2", customerUserId: "2", guestId: null},
+      { productId: "3", customerUserId: null, guestId: "1"}
     ];
     const cart = await Promise.all(
       cartToCreate.map(createCart)

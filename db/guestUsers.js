@@ -1,6 +1,6 @@
 const client = require("./client");
 
-async function createGuestUser({ email }) {
+async function createGuestUsers({ email }) {
   try {
     const {
       rows: [newGuestUser],
@@ -34,6 +34,6 @@ async function getAllGuestUsers() {
   }
 }
 module.exports = {
-  createGuestUser,
+  createGuestUsers,
   getAllGuestUsers,
 };
