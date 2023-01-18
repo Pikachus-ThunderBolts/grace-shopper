@@ -80,4 +80,5 @@ module.exports = {
 	createOrder,
 	getAllOrdersById,
 	getOrderByTotal,
+	getAllOrders
 };
