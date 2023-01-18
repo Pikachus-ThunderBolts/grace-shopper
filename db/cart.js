@@ -45,27 +45,49 @@ async function getAllCartsById({id}) {
     `, [id])
     return cart;
   } catch (error) {
-    console.error()
+    console.error("Error getting carts by id", error)
+    throw error;
   }
 }
 
-async function getCartByCustomerId({customerUserID}) {
+async function getCartByCustomerId({customerUserId}) {
   try {
     const {
       rows: [cart]
     } = await client.query(`
       SELECT *
       FROM cart 
-      WHERE 
-    `)
+      WHERE customerUserId=$1;
+    `, [customerUserId])
+    return cart;
   } catch (error) {
-    
+    console.error("Error getting cart by customer id", error)
+    throw error;
   }
 }
+
+async function getCartByGuestId({guestId}) {
+  try {
+    const {
+      rows: [cart]
+    } = await client.query(`
+      SELECT *
+      FROM cart 
+      WHERE guestId=$1;
+    `, [guestId])
+    return cart;
+  } catch (error) {
+    console.error("Error getting cart by customer id", error)
+    throw error;
+  }
+}
+
 
 module.exports = {
   createCart,
   getAllCarts, 
   getAllCartsById, 
+  getCartByCustomerId,
+  getCartByGuestId,
 
 }
