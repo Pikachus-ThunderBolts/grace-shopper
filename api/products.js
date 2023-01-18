@@ -29,6 +29,15 @@ apiRouter.get("/", async (req, res, next) => {
     }
 });
 
+/*
+
+username: admin99
+email: admin99@gmail.com
+password: admin99password
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJhZG1pbjk5IiwiaWF0IjoxNjc0MDcxMjIyfQ.AkIDJyJfQ09CdzI9RDtvnnrMOq5OqHbDywSQR6twe6I
+
+*/
+
 // POST /api/products
 apiRouter.post('/', async(req,res,next) => {
     try {
