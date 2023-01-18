@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const { JWT_SECRET } = process.env;
 const jwt = require("jsonwebtoken");
 
-const { getAllAdminUsers } = require("../db/adminUsers");
+const { getAllAdminUsers, getAdminUserById } = require("../db/adminUsers");
 
 //Router.get
 apiRouter.get("/", async (req, res) => {
