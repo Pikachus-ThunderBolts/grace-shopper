@@ -125,10 +125,18 @@ apiRouter.post('/', async(req,res,next) => {
 //gets product by id to be able to update product
 apiRouter.patch("/:productId", async(req, res, next) => {
     try {
-        const productId = await getAllProductsById(req.params.id);
         const {brand, title, description, price, quantity, category, img} = req.body;
-        const update = await updateProduct({productId, brand, title, description, price, quantity, category, img})
 
+        const update = await updateProduct({
+            id: req.params.productId,
+            brand: brand,
+            title: title,
+            description: description,
+            price: price,
+            quantity, category, img
+        })
+
+        console.log(update, "this is update const")
         res.send(update);
     } catch (error) {
         next(error)
@@ -155,16 +163,16 @@ apiRouter.patch("/:productId", async(req, res, next) => {
 // });
 
 //DELETE /api/products/:productId
-apiRouter.delete("/:productId", async(req, res, next) => {
-    try {
-        const productId = await getAllProductsById(req.params.id);
+// apiRouter.delete("/:productId", async(req, res, next) => {
+//     try {
+//         const productId = await getAllProductsById(req.params.id);
         
-        const deleteProduct = await destroyProduct(productId);
-        res.send(deleteProduct);
-    } catch (error) {
-        next(error);
-    }
-})
+//         const deleteProduct = await destroyProduct(productId);
+//         res.send(deleteProduct);
+//     } catch (error) {
+//         next(error);
+//     }
+// })
 
 
 module.exports = apiRouter;
