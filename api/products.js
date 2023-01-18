@@ -37,45 +37,40 @@ password: admin99password
 token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJhZG1pbjk5IiwiaWF0IjoxNjc0MDcxMjIyfQ.AkIDJyJfQ09CdzI9RDtvnnrMOq5OqHbDywSQR6twe6I
 
 */
+apiRouter.post('/', async(req, res, next) => {
+    try {
+      const {brand, title, description, price, quantity, category, img} = req.body;
+
+      const existingProduct = await getProductsByTitle(title);
+        if (existingProduct) {
+          res.send({
+            name: 'ProductExistsError',
+            message: `A product with the title ${title} already exists`
+          })
+        } else {
+            newProduct = await createNewProduct({brand, title, description, price, quantity, category, img});
+            
+            res.send(newProduct)
+        } 
+    } catch (error) {
+      next(error);
+    }
+  })
 
 // POST /api/products
+
 apiRouter.post('/', async(req,res,next) => {
     try {
         
-            next({
-                error: `NotLoggedInError`,
-                message: `Unauthorized User Error`,
-                name: `You must be logged in`
-            })
-        
-            const {brand, title, description, price, quantity, category, img} = req.body;
+        const {brand, title, description, price, quantity, category, img} = req.body;
 
-            const newProduct = await createNewProduct({brand, title, description, price, quantity, category, img})
-            res.send(newProduct)
+        const newProduct = await createNewProduct({brand, title, description, price, quantity, category, img})
+        res.send(newProduct)
         
     } catch (error) {
         next(error)
     }
 })
-
-// apiRouter.post('/', async(req,res,next) => {
-//     try {
-//         if(!req.user) {
-//             next({
-//                 error: `NotLoggedInError`,
-//                 message: `Unauthorized User Error`,
-//                 name: `You must be logged in`
-//             })
-//         } else {
-//             const {brand, title, description, price, quantity, category, img} = req.body;
-
-//             const newProduct = await createNewProduct({brand, title, description, price, quantity, category, img})
-//             res.send(newProduct)
-//         }
-//     } catch (error) {
-//         next(error)
-//     }
-// })
 
 // apiRouter.post('/', async(req, res, next) => {
 //     try {
