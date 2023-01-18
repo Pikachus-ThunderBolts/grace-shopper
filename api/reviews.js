@@ -79,4 +79,16 @@ apiRouter.patch("/:reviewId", async (req, res, next) => {
   }
 });
 
+apiRouter.delete("/:reviewId", async (req, res, next) => {
+  try {
+    const reviewId = req.params.reviewId;
+    //const {} = req.body;
+    const deleteReview = await destroyReview(reviewId);
+
+    res.send(deleteReview);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = apiRouter;
