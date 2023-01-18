@@ -20,7 +20,7 @@ apiRouter.get("/", async (req, res, next) => {
   }
 });
 
-apiRouter.post("/", async (req, res, next) => {
+/* apiRouter.post("/", async (req, res, next) => {
   try {
     const { title, review } = req.body;
     const existingReview = await getReviewByTitle(title);
@@ -36,6 +36,25 @@ apiRouter.post("/", async (req, res, next) => {
       }
       console.log("createdReviews", createdReview);
     }
+  } catch (error) {
+    next(error);
+  }
+});
+
+*/
+
+apiRouter.post("/", async (req, res, next) => {
+  try {
+    const { title, review, customerUserId, productId, guestId } = req.body;
+    const newReview = await createNewReview({
+      title,
+      review,
+      customerUserId,
+      productId,
+      guestId,
+    });
+    console.log("newReview", newReview);
+    res.send(newReview);
   } catch (error) {
     next(error);
   }
