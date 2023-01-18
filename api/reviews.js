@@ -64,13 +64,14 @@ apiRouter.patch("/:reviewId", async (req, res, next) => {
   try {
     const { review, title, customerUserId, productId, guestId } = req.body;
     const update = await updateReview({
-      id: req.params.productId,
+      id: req.params.reviewId,
       title: title,
       review: review,
       customerUserId: customerUserId,
       productId: productId,
       guestId: guestId,
     });
+    console.log(update, "update");
 
     res.send(update);
   } catch (error) {
