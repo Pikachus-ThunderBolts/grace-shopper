@@ -25,6 +25,22 @@ async function createOrder({
 	}
 };
 
+
+async function getAllOrders() {
+	try {
+		const {rows: [order]
+		} = await client.query(`
+		SELECT *
+		FROM orders;
+		`
+		);
+		return order;
+	} catch (error) {
+		console.error("Error getting all orders", error);
+		throw error;
+	}
+};
+
 async function getAllOrdersById(id) {
 	try {
 		const {
@@ -42,12 +58,26 @@ async function getAllOrdersById(id) {
 	}
 };
 
-async function getOrderByPrice(price) {
-	
+async function getOrderByTotal(total) {
+	try {
+		const {
+			rows: [order],
+		} = await client.query(`
+		SELECT *
+		FROM orders
+		WHERE total=$1;
+		`, [total]
+		);
+		return order;
+	} catch (error) {
+		console.error("Error getting order by total", error);
+		throw error;
+	}
 }
 
 
 module.exports = {
 	createOrder,
 	getAllOrdersById,
+	getOrderByTotal,
 };
