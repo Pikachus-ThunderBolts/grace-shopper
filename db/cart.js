@@ -29,11 +29,33 @@ async function getAllCarts() {
     `)
     return cart;
   } catch (error) {
-    console.error("Error getting all carts")
+    console.error("Error getting all carts", error);
   }
+};
+
+async function getAllCartsById({id}) {
+  try {
+    const {
+      rows: [cart]
+    } = await client.query(`
+      SELECT *
+      FROM cart
+      WHERE id=$1
+      RETURNING *;
+    `)
+    return cart;
+  } catch (error) {
+    console.error()
+  }
+}
+
+async function getCartByTotal({total}) {
+  try
 }
 
 module.exports = {
   createCart,
-  getAllCarts
+  getAllCarts, 
+  getAllCartsById, 
+
 }
