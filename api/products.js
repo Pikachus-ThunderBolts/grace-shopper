@@ -129,11 +129,13 @@ apiRouter.patch("/:productId", async(req, res, next) => {
 
         const update = await updateProduct({
             id: req.params.productId,
-            brand: brand,
-            title: title,
-            description: description,
-            price: price,
-            quantity, category, img
+            brand,
+            title,
+            description,
+            price,
+            quantity, 
+            category, 
+            img
         })
 
         console.log(update, "this is update const")
@@ -143,36 +145,17 @@ apiRouter.patch("/:productId", async(req, res, next) => {
     }
 })
 
-
-// apiRouter.patch("/:productId", async (req, res, next) => {
-//     if(!req.user)
-//     res.status(401).send({
-//         name: `InvalidCredentialError`,
-//         message: `You must be logged in to perform this action`,
-//     });
-//     try {
-//         const {brand, title, description, price, quantity, category, img} = req.body;
-//         const adminId = req.user.id;
-//         const productData = {adminId, brand, title, description, price, quantity, category, img};
-//         const newProduct = await createNewProduct(productData);
-//         res.json(newProduct);
-//         res.send(newProduct);
-//     } catch ({name, message}) {
-//         next({name, message});
-//     }
-// });
-
 //DELETE /api/products/:productId
-// apiRouter.delete("/:productId", async(req, res, next) => {
-//     try {
-//         const productId = await getAllProductsById(req.params.id);
+apiRouter.delete("/:productId", async(req, res, next) => {
+    try {
+        const productId = req.params.productId
         
-//         const deleteProduct = await destroyProduct(productId);
-//         res.send(deleteProduct);
-//     } catch (error) {
-//         next(error);
-//     }
-// })
-// 
+        const deleteProduct = await destroyProduct(productId);
+        res.send(deleteProduct);
+    } catch (error) {
+        next(error);
+    }
+})
+
 
 module.exports = apiRouter;
