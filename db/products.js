@@ -102,7 +102,7 @@ async function getProductsByTitle(title) {
       SELECT *
       FROM products
       WHERE title = $1;
-      `);
+      `, [title]);
     return product;
   } catch (error) {
     console.error("There was an error getting the product by title", error);
