@@ -39,7 +39,7 @@ const productsRouter = require("./products");
 apiRouter.use("/products", productsRouter);
 
 // ROUTER: /api/reviews
-// const reviewsRouter = require("./reviews");
-// apiRouter.use("/reviews", reviewsRouter);
+const reviewsRouter = require("./reviews");
+apiRouter.use("/reviews", reviewsRouter);
 
 module.exports = apiRouter;
