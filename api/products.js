@@ -1,6 +1,16 @@
 const apiRouter = require('express').Router();
 
-// const { unstable_renderSubtreeIntoContainer } = require('react-dom');
+require('dotenv').config();
+// gets our secret files
+// const { JWT_SECRET } = process.env;
+// console.log(process.env.JWT_SECRET, "here is secret");
+
+// // requiring for hashing and checking passwords
+// const bcrypt = require("bcrypt");
+
+// required to build web tokens
+const { jwt } = require("jsonwebtoken");
+
 const {
     createNewProduct,
     getAllProductsById,
@@ -37,12 +47,47 @@ password: admin99password
 token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJhZG1pbjk5IiwiaWF0IjoxNjc0MDcxMjIyfQ.AkIDJyJfQ09CdzI9RDtvnnrMOq5OqHbDywSQR6twe6I
 
 */
-apiRouter.post('/', async(req, res, next) => {
+
+// POST /api/products
+//This works:
+// apiRouter.post('/', async(req, res, next) => {
+//     try {
+//       const {brand, title, description, price, quantity, category, img} = req.body;
+
+//       const existingProduct = await getProductsByTitle(title);
+//         if (existingProduct) {
+//           res.send({
+//             name: 'ProductExistsError',
+//             message: `A product with the title ${title} already exists`
+//           })
+//         } else {
+//             newProduct = await createNewProduct({brand, title, description, price, quantity, category, img});
+            
+//             res.send(newProduct)
+//         } 
+//     } catch (error) {
+//       next(error);
+//     }
+//   })
+
+
+  apiRouter.post('/', async(req, res, next) => {
     try {
+      
+        
+      const token = req.headers.authorization.slice(7);
+        
+      const signedIn = jwt.verify(token);
+      const existingProduct = await getProductsByTitle(title);
+      
       const {brand, title, description, price, quantity, category, img} = req.body;
 
-      const existingProduct = await getProductsByTitle(title);
-        if (existingProduct) {
+      if(!signedIn) {
+        res.send({
+            name: `AdminuserNotLoggedIn`,
+            message: `Only adminUser can make new products`
+        })
+      } else if (existingProduct) {
           res.send({
             name: 'ProductExistsError',
             message: `A product with the title ${title} already exists`
@@ -56,21 +101,6 @@ apiRouter.post('/', async(req, res, next) => {
       next(error);
     }
   })
-
-// POST /api/products
-
-apiRouter.post('/', async(req,res,next) => {
-    try {
-        
-        const {brand, title, description, price, quantity, category, img} = req.body;
-
-        const newProduct = await createNewProduct({brand, title, description, price, quantity, category, img})
-        res.send(newProduct)
-        
-    } catch (error) {
-        next(error)
-    }
-})
 
 // apiRouter.post('/', async(req, res, next) => {
 //     try {

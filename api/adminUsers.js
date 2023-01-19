@@ -2,7 +2,7 @@ const apiRouter = require("express").Router();
 require('dotenv').config();
 // gets our secret files
 const { JWT_SECRET } = process.env;
-console.log(process.env.JWT_SECRET, "here is secret");
+console.log(process.env.JWT_SECRET, "here is secret")
 
 // requiring for hashing and checking passwords
 const bcrypt = require("bcrypt");
