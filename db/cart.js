@@ -127,5 +127,4 @@ module.exports = {
   getCartByGuestId,
   updateCart,
   destroyCartItem
-
 }
