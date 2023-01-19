@@ -1,13 +1,12 @@
 const apiRouter = require("express").Router();
-const bcrypt = require("bcrypt");
+require("dotenv").config();
 const { JWT_SECRET } = process.env;
 const jwt = require("jsonwebtoken");
 
 const {
-  // createCustomerUser,
   getAllCustomerUsers,
   getCustomerUserByUsername,
-  // getCustomerUserById,
+  createCustomerUser,
 } = require("../db/customerUsers");
 
 //Router.get
@@ -21,87 +20,69 @@ apiRouter.get("/", async (req, res) => {
 });
 
 //Router.post/login
-apiRouter.post("/login", async (req, res, next) => {
-  const { username, password } = req.body;
 
-  if (!username || !password) {
-    next({
-      name: "MissingCredentialsError",
-      message: "Missing username or password",
-    });
-  }
+apiRouter.post("/login", async (req, res, next) => {
+  const { username } = req.body;
   try {
-    const user = getCustomerUserByUsername(username);
-    bcrypt.compare(password, user.password, (error) => {
-      if (error) {
-        next({
-          name: "UserAuthenticationError",
-          message: "username or password was incorrect",
-        });
-      } else {
-        const token = jwt.sign(
-          {
-            id: user.id,
-            username,
-          },
-          JWT_SECRET,
-          { expiresIn: "1w" }
-        );
-        res.json({
-          message: "you're logged in!",
-          token,
-          user: { id: user.id, username },
-        });
-      }
+    const user = await getCustomerUserByUsername(username);
+    const token = jwt.sign(
+      {
+        id: user.id,
+        username: user.username,
+      },
+      JWT_SECRET
+    );
+
+    res.send({
+      token,
+      user: user,
+      message: "you're logged in!",
     });
-  } catch ({ name, message }) {
-    next({ name, message });
+  } catch (error) {
+    next(error);
   }
 });
 
-// route.post.register
-// apiRouter.post("/register", async (req, res, next) => {
-//   const { username, password } = req.body;
-//   try {
-//     const userRegister = await getCustomerUserByUsername(username);
+// route.post.register;
+apiRouter.post("/register", async (req, res, next) => {
+  const { username, email, password } = req.body;
+  try {
+    const _user = await getCustomerUserByUsername(username);
+    if (_user) {
+      res.send({
+        error: `user ${username} is already taken`,
+        name: "UsernameDuplicate",
+        message: `User ${username} is already taken`,
+      });
+      return;
+    } else if (password.length < 6) {
+      res.send({
+        error: "Password Too Short!",
+        name: "PasswordLengthError",
+        message: "Password Too Short!",
+      });
+      return;
+    }
+    const newUser = await createCustomerUser({ username, email, password });
+    const token = jwt.sign(
+      {
+        username,
+      },
+      JWT_SECRET,
+      { expiresIn: "1w" }
+    );
 
-//     if (userRegister) {
-//       res.send({
-//         error: `User ${username} is already taken.`,
-//         name: "UserDuplicated",
-//         message: `User ${username} is already taken.`,
-//       });
-//     }
-//     if (password.length < 6) {
-//       res.send({
-//         error: "Password Too Short!",
-//         name: "PasswordLengthError",
-//         message: "Password Too Short!",
-//       });
-//     }
-//     const { id } = await createCustomerUser({ username, password });
-
-//     const token = jwt.sign(
-//       {
-//         id: id,
-//         username,
-//       },
-//       JWT_SECRET,
-//       { expiresIn: "1w" }
-//     );
-
-//     res.json({
-//       message: "success",
-//       token,
-//       user: { id: id, username },
-//     });
-//   } catch ({ name, message }) {
-//     next({ name, message });
-//   }
-// });
+    res.send({
+      message: "New user created successfully.",
+      token: token,
+      user: newUser,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 // api/customerUsers/:username/cart
-
 //api/customerUsers/me
 //placedOrders
 //reviews
