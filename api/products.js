@@ -2,14 +2,14 @@ const apiRouter = require('express').Router();
 
 require('dotenv').config();
 // gets our secret files
-// const { JWT_SECRET } = process.env;
+const { JWT_SECRET } = process.env;
 // console.log(process.env.JWT_SECRET, "here is secret");
 
 // // requiring for hashing and checking passwords
 // const bcrypt = require("bcrypt");
 
 // required to build web tokens
-const { jwt } = require("jsonwebtoken");
+const  jwt  = require("jsonwebtoken");
 
 const {
     createNewProduct,
@@ -27,6 +27,7 @@ const {
     getAdminUserById,
 } = require("../db/adminUsers");
 const { Router } = require('express');
+const { getReviewByCustomerUserId } = require('../db');
 
 // GET /api/products
 apiRouter.get("/", async (req, res, next) => {
@@ -72,15 +73,15 @@ token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJhZG1pbjk5
 
 
   apiRouter.post('/', async(req, res, next) => {
+    // const {id} = req.body
+    // const admin = await getAdminUserById(id);
+    const token = req.headers.authorization.slice(7);
+        
+    const signedIn = jwt.verify(token, JWT_SECRET);
     try {
       
-        
-      const token = req.headers.authorization.slice(7);
-        
-      const signedIn = jwt.verify(token);
-      const existingProduct = await getProductsByTitle(title);
-      
       const {brand, title, description, price, quantity, category, img} = req.body;
+      const existingProduct = await getProductsByTitle(title);
 
       if(!signedIn) {
         res.send({
