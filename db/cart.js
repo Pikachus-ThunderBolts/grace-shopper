@@ -82,6 +82,42 @@ async function getCartByGuestId({guestId}) {
   }
 }
 
+async function updateCart({id, productId}) {
+  try {
+    const {
+      rows: [cart],
+    } = await client.query(`
+    UPDATE products
+    SET
+    productId = COALESCE($2, productId)
+    WHERE id=$1
+    RETURNING *;
+    `, [id, productId] 
+    );
+    return cart;
+  } catch (error) {
+    console.error("error updating cart", error);
+    throw error;
+  }
+};
+
+async function destroyCartItem({id}) {
+  try {
+    const {
+      rows: [cart]
+    } = await client.query(`
+    DELETE FROM cart
+    WHERE id=$1
+    RETURNING *
+    `, [id] 
+    );
+    return cart;
+  } catch (error) {
+    console.error("error deleting cart", error)
+    throw error;
+  }
+}
+
 
 module.exports = {
   createCart,
@@ -89,5 +125,7 @@ module.exports = {
   getAllCartsById, 
   getCartByCustomerId,
   getCartByGuestId,
+  updateCart,
+  destroyCartItem
 
 }
