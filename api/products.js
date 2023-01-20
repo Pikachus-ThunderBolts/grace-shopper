@@ -33,6 +33,18 @@ apiRouter.get("/", async (req, res, next) => {
     }
 });
 
+// GET /api/products/:productId
+apiRouter.get("/:productId", async (req, res, next) => {
+  try {
+      const {productId} = req.params
+      const singleProduct = await getAllProductsById(productId);
+      res.send(singleProduct);
+
+  } catch (error) {
+      next(error);
+  }
+});
+
 /*
 
 username: admin99
