@@ -82,28 +82,27 @@ apiRouter.post("/register", async (req, res, next) => {
   }
 });
 
-//api/customerUsers/me
-
-// apiRouter.get("/me", async (req, res, next) => {
-//   const prefix = "Bearer";
-//   const auth = req.headers.authorization;
-//   try {
-//     if (!auth) {
-//       res.status(401).send({
-//         error: "You must be logged in to perform this action",
-//         message: "You must be logged in to perform this action",
-//         name: "InvalidCredentialsError",
-//       });
-//     } else if (auth.startsWith(prefix)) {
-//       const token = auth.slice(prefix.length);
-//       const { id } = jwt.verify(token, JWT_SECRET);
-//       req.user = await getUserById(id);
-//       res.send(req.user);
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+//api/customerUsers/me/customerUserId
+apiRouter.get("/me/:customerUserId", async (req, res, next) => {
+  const prefix = "Bearer";
+  const auth = req.headers.authorization;
+  try {
+    if (!auth) {
+      res.status(401).send({
+        error: "You must be logged in to perform this action",
+        message: "You must be logged in to perform this action",
+        name: "InvalidCredentialsError",
+      });
+    } else if (auth.startsWith(prefix)) {
+      const token = auth.slice(prefix.length);
+      const { id } = jwt.verify(token, JWT_SECRET);
+      req.user = await getUserById(id);
+      res.send(req.user);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 // "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pdGNoZWw5NCIsImlhdCI6MTY3NDE0ODAzMSwiZXhwIjoxNjc0NzUyODMxfQ.G4dsILWQgNGAQ7z5uPtb3zUXdZAd5NvqKJse6PC0-X8",
 //     "user": {
