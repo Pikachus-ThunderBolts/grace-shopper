@@ -1,13 +1,10 @@
 const apiRouter = require("express").Router();
 require(`dotenv`).config();
+const jwt = require("jsonwebtoken");
 
 const { JWT_SECRET } = process.env;
 
-const {
-  getAllGuestUsers,
-  getGuestUsersByUsername,
-  createGuestUsers,
-} = require("../db/guestUsers");
+const { getAllGuestUsers, createGuestUsers } = require("../db/guestUsers");
 
 apiRouter.get("/", async (req, res) => {
   try {
@@ -39,16 +36,8 @@ apiRouter.post("/register", async (req, res, next) => {
     }
     */
     const newGuest = await createGuestUsers({ email });
-    const token = jwt.sign(
-      {
-        email,
-      },
-      JWT_SECRET,
-      { expiresIn: "1w" }
-    );
     res.send({
       message: "New user created successfully.",
-      token: token,
       user: newGuest,
     });
   } catch (error) {
