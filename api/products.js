@@ -1,4 +1,6 @@
 const apiRouter = require('express').Router();
+<<<<<<< HEAD
+=======
 
 require('dotenv').config();
 
@@ -6,6 +8,7 @@ const { JWT_SECRET } = process.env;
 
 const  jwt  = require("jsonwebtoken");
 
+>>>>>>> main
 const {
     createNewProduct,
     getAllProductsById,
@@ -48,6 +51,7 @@ apiRouter.get("/:productId", async (req, res, next) => {
 /*
 
 username: admin99
+id: 2
 email: admin99@gmail.com
 password: admin99password
 token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJhZG1pbjk5IiwiaWF0IjoxNjc0MDcxMjIyfQ.AkIDJyJfQ09CdzI9RDtvnnrMOq5OqHbDywSQR6twe6I
@@ -101,6 +105,9 @@ apiRouter.patch("/:productId", async(req, res, next) => {
             category, 
             img
         })
+<<<<<<< HEAD
+        res.send(update);
+=======
 
         if(!req.headers.authorization) {
             res.send({
@@ -114,6 +121,7 @@ apiRouter.patch("/:productId", async(req, res, next) => {
           if(signedIn) {
             res.send(update)
           } 
+>>>>>>> main
     } catch (error) {
         next(error)
     }

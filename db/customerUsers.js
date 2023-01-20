@@ -26,7 +26,6 @@ async function createCustomerUser(fields) {
     );
 
     delete newCustomerUser.password;
-    console.log(newCustomerUser);
     return newCustomerUser;
   } catch (error) {
     console.log("error creating newCustomer user, customerUser.js", error);
@@ -34,44 +33,12 @@ async function createCustomerUser(fields) {
   }
 }
 
-// async function getCustomerUser({ username, password }) {
-//   try {
-//     const {
-//       rows: [fetchCustomerUser],
-//     } = await client.query(
-//       `
-//         SELECT * FROM customerUsers
-//         WHERE username=$1
-//         ;
-//         `,
-//       [username]
-//     );
-
-//     if (!fetchCustomerUser) {
-//       throw new "username or password do not match"();
-//     } else {
-//       const checkPassword = await bcrypt.compare(
-//         password,
-//         fetchCustomerUser.password
-//       );
-//       if (checkPassword === true) {
-//         delete fetchCustomerUser.password;
-//         return fetchCustomerUser;
-//       }
-//     }
-//   } catch (error) {
-//     console.log("error fetching user ", error);
-//     throw error;
-//   }
-// }
-
 async function getAllCustomerUsers() {
   try {
     const { rows } = await client.query(`
     SELECT *
     FROM customerUsers
     `);
-    console.log(rows, "These are rows");
     return rows;
   } catch (error) {
     console.error("There was an error gettin all customer users", error);
@@ -85,13 +52,14 @@ async function getCustomerUserById(customerUserId) {
       rows: [getCustomerUserById],
     } = await client.query(
       `
-        SELECT FROM customerUsers
+        SELECT * FROM customerUsers
         WHERE id=$1
         ;
         `,
       [customerUserId]
     );
     delete customerUserId.password;
+    return getCustomerUserById;
   } catch (error) {
     console.log("Error getCustomerUserById", error);
     throw error;
@@ -118,7 +86,6 @@ async function getCustomerUserByUsername(username) {
 
 module.exports = {
   createCustomerUser,
-  // getCustomerUser,
   getAllCustomerUsers,
   getCustomerUserById,
   getCustomerUserByUsername,
