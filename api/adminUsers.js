@@ -2,10 +2,6 @@ const apiRouter = require("express").Router();
 require("dotenv").config();
 // gets our secret files
 const { JWT_SECRET } = process.env;
-<<<<<<< HEAD
-=======
-console.log(process.env.JWT_SECRET, "here is secret")
->>>>>>> main
 
 // requiring for hashing and checking passwords
 const bcrypt = require("bcrypt");
@@ -30,11 +26,7 @@ apiRouter.get("/", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-//api/adminUsers/login
-=======
 // POST /api/adminUsers/login
->>>>>>> main
 apiRouter.post("/login", async (req, res, next) => {
   const { username } = req.body;
   try {
@@ -57,13 +49,8 @@ apiRouter.post("/login", async (req, res, next) => {
   }
 });
 
-<<<<<<< HEAD
-//api/adminUsers/register
-apiRouter.post("/register", async (req, res, next) => {
-=======
 // POST /api/adminUsers/register
-apiRouter.post('/register', async (req, res, next) => {
->>>>>>> main
+apiRouter.post("/register", async (req, res, next) => {
   const { username, email, password } = req.body;
   try {
     const _user = await getAdminUserByUsername(username);
@@ -101,16 +88,11 @@ apiRouter.post('/register', async (req, res, next) => {
   }
 });
 
-<<<<<<< HEAD
 //api/adminUsers/me/:adminUserId
 apiRouter.get("/me/:adminUserId", async (req, res, next) => {
   const adminId = req.params.adminUserId;
 
   const singleAdminUser = await getAdminUserById(adminId);
-=======
-// GET /api/adminUsers/me
-
->>>>>>> main
 
   const auth = req.headers.authorization;
   try {
