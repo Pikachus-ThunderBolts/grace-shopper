@@ -5,8 +5,10 @@ import Home from "./components/Home";
 import Laptops from "./components/Laptops";
 import TVs from "./components/TVs";
 import CellPhones from "./components/CellPhones";
-import Account from "./Account";
-import Admin from "./Admin";
+import Cart from "./components/Cart";
+import Profile from "./components/Profile";
+import Account from "./components/Account";
+import Admin from "./components/Admin";
 
 const App = () => {
   return (
@@ -39,6 +41,14 @@ const App = () => {
           <Route path="/laptops">
             <Laptops></Laptops>
           </Route>
+          <Route path="/cart">
+            <Cart></Cart>
+          </Route>
+
+          <Route path="/profile">
+            <Profile></Profile>
+          </Route>
+
           <Route path="/tvs">
             <TVs></TVs>
           </Route>
