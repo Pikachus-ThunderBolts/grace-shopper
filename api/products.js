@@ -18,8 +18,6 @@ const {
   getProductsByBrand,
 } = require("../db/products");
 
-const { getAdminUserById } = require("../db/adminUsers");
-
 // GET /api/products
 apiRouter.get("/", async (req, res, next) => {
   try {
@@ -134,7 +132,7 @@ apiRouter.delete("/:productId", async (req, res, next) => {
     if (!req.headers.authorization) {
       res.send({
         name: `AdminuserNotLoggedIn`,
-        message: `Only adminUser can make delite products`,
+        message: `Only adminUser can delete products`,
       });
       return;
     }

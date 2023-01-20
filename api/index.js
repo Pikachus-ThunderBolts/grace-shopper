@@ -31,8 +31,8 @@ apiRouter.use("/guestUsers", guestUsersRouter);
 // apiRouter.use("/cart", cartRouter);
 
 // ROUTER: /api/orders
-// const ordersRouter = require("./orders");
-// apiRouter.use("/orders", ordersRouter);
+const ordersRouter = require("./orders");
+apiRouter.use("/orders", ordersRouter);
 
 // ROUTER: /api/products
 const productsRouter = require("./products");

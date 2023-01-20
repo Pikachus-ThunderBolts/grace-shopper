@@ -28,13 +28,12 @@ async function createOrder({
 
 async function getAllOrders() {
 	try {
-		const {rows: [order]
-		} = await client.query(`
+		const {rows } = await client.query(`
 		SELECT *
 		FROM orders;
 		`
 		);
-		return order;
+		return rows;
 	} catch (error) {
 		console.error("Error getting all orders", error);
 		throw error;
@@ -75,10 +74,68 @@ async function getOrderByTotal(total) {
 	}
 }
 
+async function getOrderByCustomerUserId(customerUserId) {
+	try {
+		const {
+			rows: [order],
+		} = await client.query(`
+		SELECT *
+		FROM orders
+		WHERE "customerUserId" = $1
+		`,
+			[customerUserId]
+		)
+		return order
+	} catch (error) {
+		console.error("There was an error getting the order by the customerUserId")
+		throw error;
+	}
+}
+
+async function getOrderByGuestId(guestId) {
+	try {
+		const {
+			rows: [order],
+		} = await client.query(`
+		SELECT *
+		FROM orders
+		WHERE "guestId" = $1
+		`,
+			[guestId]
+		)
+		return order
+	} catch (error) {
+		console.error("There was an error getting the order by the customerUserId")
+		throw error;
+	}
+}
+
+async function destroyOrder(id) {
+	try {
+	  const {
+		rows: [order],
+	  } = await client.query(
+		`
+		DELETE FROM orders
+		WHERE orders.id=$1
+		RETURNING *
+	  `,
+		[id]
+	  );
+	  return order;
+	} catch (error) {
+	  console.error("There was an error deleting the order", error);
+	  throw error;
+	}
+  }
+
 
 module.exports = {
 	createOrder,
 	getAllOrdersById,
 	getOrderByTotal,
-	getAllOrders
+	getAllOrders,
+	destroyOrder,
+	getOrderByCustomerUserId,
+	getOrderByGuestId,
 };
