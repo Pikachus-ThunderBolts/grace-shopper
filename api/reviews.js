@@ -53,7 +53,6 @@ apiRouter.post("/", async (req, res, next) => {
       productId,
       guestId,
     });
-    console.log("newReview", newReview);
     res.send(newReview);
   } catch (error) {
     next(error);

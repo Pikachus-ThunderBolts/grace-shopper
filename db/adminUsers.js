@@ -26,7 +26,6 @@ async function createAdminUser(fields) {
     );
 
     delete newAdminUser.password;
-    console.log(newAdminUser);
     return newAdminUser;
   } catch (error) {
     console.log("error creating new Admin user, adminUser.js", error);
@@ -40,7 +39,6 @@ async function getAllAdminUsers() {
     SELECT *
     FROM adminUsers
     `);
-    console.log(rows, "These are rows");
     return rows;
   } catch (error) {
     console.error("Error getting admin user", error);

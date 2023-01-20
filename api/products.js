@@ -1,6 +1,4 @@
 const apiRouter = require('express').Router();
-
-// const { unstable_renderSubtreeIntoContainer } = require('react-dom');
 const {
     createNewProduct,
     getAllProductsById,
@@ -147,8 +145,6 @@ apiRouter.patch("/:productId", async(req, res, next) => {
             category, 
             img
         })
-
-        console.log(update, "this is update const")
         res.send(update);
     } catch (error) {
         next(error)

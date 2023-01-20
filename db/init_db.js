@@ -99,27 +99,6 @@ async function buildTables() {
   console.log("Finished building tables");
 }
 
-// guestName VARCHAR(255),
-
-/* UNUSED TABLES
-  CREATE TABLE tvs(
-            id SERIAL PRIMARY KEY,
-            "tvId" INTEGER REFERENCES products (id)
-          );
-
-          CREATE TABLE phones(
-            id SERIAL PRIMARY KEY,
-            "phoneId" INTEGER REFERENCES products(id)
-          );
-
-          CREATE TABLE laptops(
-            id SERIAL PRIMARY KEY,
-            "laptopId" INTEGER REFERENCES products(id)
-              );  
-              */
-
-// "productCategory" VARCHAR(255) REFERENCES products (category),
-
 async function populateInitialCustomerUsers() {
   console.log("Starting to create Users...");
   try {
@@ -158,7 +137,6 @@ async function populateInitialCustomerUsers() {
     const customerUsers = await Promise.all(
       customerUsersToCreate.map(createCustomerUser)
     );
-    console.log(customerUsers);
     console.log("Finished creating customer users!");
   } catch (error) {
     console.log("Error creating customer users");
@@ -184,7 +162,7 @@ async function populateInitialAdminUsers() {
     const adminUsers = await Promise.all(
       adminUsersToCreate.map(createAdminUser)
     );
-    console.log(adminUsers);
+    
     console.log("Admin created");
   } catch (error) {
     console.error("Error creating admin");
@@ -203,28 +181,12 @@ async function populateInitialGuestUsers() {
     const guestUsers = await Promise.all(
       guestUsersToCreate.map(createGuestUsers)
     );
-    console.log(guestUsers);
     console.log("Finished creating guest Users");
   } catch (error) {
     console.log("Error creating guest", error);
     throw error;
   }
 }
-
-// async function populateInitialInventory() {
-//   console.log("Starting to create inventory");
-//   try {
-//     const inventoryToCreate = [
-//       { title: "Typewriter", quantity: 10 },
-//       { title: "Rotary phone", quantity: 5 },
-//     ];
-//     const inventory = await Promise.all(inventoryToCreate.map(createInventory));
-//     console.log("Finished creating inventory");
-//   } catch (error) {
-//     console.error("Error creating inventory");
-//     throw error;
-//   }
-// }
 
 async function populateInitialProducts() {
   console.log("Starting to create Products");
@@ -272,7 +234,6 @@ async function populateInitialProducts() {
       },
     ];
     const product = await Promise.all(productToCreate.map(createNewProduct));
-    console.log(product);
     console.log("Finished creating product");
   } catch (error) {
     console.error("Error creating product");
@@ -290,7 +251,6 @@ async function populateInitialCart() {
     const cart = await Promise.all(
       cartToCreate.map(createCart)
     );
-    console.log(cart);
     console.log("Finished creating cart");
   } catch (error) {
     console.error("Error creating cart");
@@ -326,7 +286,6 @@ async function populateInitialOrders() {
     ];
 
     const order = await Promise.all(ordersToCreate.map(createOrder));
-    console.log(order);
     console.log('finished creating order')
   } catch (error) {
     console.error("Error creating order")
@@ -361,7 +320,6 @@ async function populateInitialReview() {
       },
     ];
     const reviews = await Promise.all(reviewsToCreate.map(createNewReview));
-    console.log(reviews);
     console.log("Finished creating reviews");
   } catch (error) {
     console.error("Error creating review");
@@ -376,7 +334,6 @@ async function rebuildDB() {
     await populateInitialCustomerUsers();
     await populateInitialAdminUsers();
     await populateInitialGuestUsers();
-    // await populateInitialInventory();
     await populateInitialProducts();
     await populateInitialOrders();
     await populateInitialCart();

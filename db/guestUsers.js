@@ -26,7 +26,6 @@ async function getAllGuestUsers() {
     SELECT *
     FROM guestUsers
     `);
-    console.log(rows, "More rows");
     return rows;
   } catch (error) {
     console.error("Error getting all guest users ", error);
