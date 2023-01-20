@@ -109,6 +109,7 @@ apiRouter.patch("/:productId", async(req, res, next) => {
           if(signedIn) {
             newProduct = await createNewProduct({brand, title, description, price, quantity, category, img});
             console.log("update", update)
+            
             res.send(update)
           } 
     } catch (error) {
