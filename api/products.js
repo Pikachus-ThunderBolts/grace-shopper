@@ -1,14 +1,9 @@
 const apiRouter = require('express').Router();
 
 require('dotenv').config();
-// gets our secret files
+
 const { JWT_SECRET } = process.env;
-// console.log(process.env.JWT_SECRET, "here is secret");
 
-// // requiring for hashing and checking passwords
-// const bcrypt = require("bcrypt");
-
-// required to build web tokens
 const  jwt  = require("jsonwebtoken");
 
 const {
@@ -26,8 +21,6 @@ const {
 const {
     getAdminUserById,
 } = require("../db/adminUsers");
-const { Router } = require('express');
-const { getReviewByCustomerUserId } = require('../db');
 
 // GET /api/products
 apiRouter.get("/", async (req, res, next) => {
@@ -100,14 +93,13 @@ apiRouter.patch("/:productId", async(req, res, next) => {
         if(!req.headers.authorization) {
             res.send({
                 name: `AdminuserNotLoggedIn`,
-                message: `Only adminUser can make new products`
+                message: `Only adminUser can make update products`
             })
             return
           }
         const token = req.headers.authorization.slice(7);
         const signedIn = jwt.verify(token, JWT_SECRET);
           if(signedIn) {
-            console.log("update", update)
             res.send(update)
           } 
     } catch (error) {
@@ -115,40 +107,27 @@ apiRouter.patch("/:productId", async(req, res, next) => {
     }
 })
 
-//This patch works:
-// apiRouter.patch("/:productId", async(req, res, next) => {
-//     try {
-//         const {brand, title, description, price, quantity, category, img} = req.body;
-
-//         const update = await updateProduct({
-//             id: req.params.productId,
-//             brand,
-//             title,
-//             description,
-//             price,
-//             quantity, 
-//             category, 
-//             img
-//         })
-
-//         console.log(update, "this is update const")
-//         res.send(update);
-//     } catch (error) {
-//         next(error)
-//     }
-// })
-
 //DELETE /api/products/:productId
 apiRouter.delete("/:productId", async(req, res, next) => {
-    try {
-        const productId = req.params.productId
-        
-        const deleteProduct = await destroyProduct(productId);
-        res.send(deleteProduct);
-    } catch (error) {
-        next(error);
-    }
+  try {
+      const productId = req.params.productId
+      
+      const deleteProduct = await destroyProduct(productId);
+      if(!req.headers.authorization) {
+        res.send({
+          name: `AdminuserNotLoggedIn`,
+          message: `Only adminUser can make delite products`
+      })
+      return
+      }
+      const token = req.headers.authorization.slice(7);
+      const signedIn = jwt.verify(token, JWT_SECRET);
+          if(signedIn) {
+            res.send(deleteProduct);
+          }
+  } catch (error) {
+      next(error);
+  }
 })
-
 
 module.exports = apiRouter;
