@@ -2,7 +2,7 @@ const apiRouter = require("express").Router();
 require('dotenv').config();
 // gets our secret files
 const { JWT_SECRET } = process.env;
-console.log(process.env.JWT_SECRET, "here is secret");
+console.log(process.env.JWT_SECRET, "here is secret")
 
 // requiring for hashing and checking passwords
 const bcrypt = require("bcrypt");
@@ -15,7 +15,7 @@ const jwt = require("jsonwebtoken");
 
 const { getAllAdminUsers, getAdminUserById, getAdminUserByUsername, createAdminUser } = require("../db/adminUsers");
 
-//Router.get
+// GET /api/adminUsers
 apiRouter.get("/", async (req, res) => {
   try {
     const adminUsers = await getAllAdminUsers();
@@ -25,6 +25,7 @@ apiRouter.get("/", async (req, res) => {
   }
 });
 
+// POST /api/adminUsers/login
 apiRouter.post("/login", async (req, res, next) => {
   const { username } = req.body;
   try {
@@ -45,6 +46,7 @@ apiRouter.post("/login", async (req, res, next) => {
   }
 });
 
+// POST /api/adminUsers/register
 apiRouter.post('/register', async (req, res, next) => {
   const { username, email, password } = req.body;
   try {
@@ -83,6 +85,8 @@ apiRouter.post('/register', async (req, res, next) => {
     next(error);
   }
 });
+
+// GET /api/adminUsers/me
 
 
 
