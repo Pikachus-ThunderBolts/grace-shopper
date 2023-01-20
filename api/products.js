@@ -1,4 +1,14 @@
 const apiRouter = require('express').Router();
+<<<<<<< HEAD
+=======
+
+require('dotenv').config();
+
+const { JWT_SECRET } = process.env;
+
+const  jwt  = require("jsonwebtoken");
+
+>>>>>>> main
 const {
     createNewProduct,
     getAllProductsById,
@@ -14,7 +24,6 @@ const {
 const {
     getAdminUserById,
 } = require("../db/adminUsers");
-const { Router } = require('express');
 
 // GET /api/products
 apiRouter.get("/", async (req, res, next) => {
@@ -25,6 +34,18 @@ apiRouter.get("/", async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+});
+
+// GET /api/products/:productId
+apiRouter.get("/:productId", async (req, res, next) => {
+  try {
+      const {productId} = req.params
+      const singleProduct = await getAllProductsById(productId);
+      res.send(singleProduct);
+
+  } catch (error) {
+      next(error);
+  }
 });
 
 /*
@@ -38,96 +59,35 @@ token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJhZG1pbjk5
 */
 
 // POST /api/products
-apiRouter.post('/', async(req,res,next) => {
+  apiRouter.post('/', async(req, res, next) => {
     try {
-        
-            next({
-                error: `NotLoggedInError`,
-                message: `Unauthorized User Error`,
-                name: `You must be logged in`
-            })
-        
-            const {brand, title, description, price, quantity, category, img} = req.body;
+      
+      const {brand, title, description, price, quantity, category, img} = req.body;
+      const existingProduct = await getProductsByTitle(title);
 
-            const newProduct = await createNewProduct({brand, title, description, price, quantity, category, img})
+      if(!req.headers.authorization) {
+        res.send({
+            name: `AdminuserNotLoggedIn`,
+            message: `Only adminUser can make new products`
+        })
+        return
+      }
+    const token = req.headers.authorization.slice(7);
+    const signedIn = jwt.verify(token, JWT_SECRET);
+      if(signedIn && existingProduct) {
+        res.send({
+            name: 'ProductExistsError',
+            message: `A product with the title ${title} already exists`
+          })
+      } else {
+            newProduct = await createNewProduct({brand, title, description, price, quantity, category, img});
+            
             res.send(newProduct)
-        
+        } 
     } catch (error) {
-        next(error)
+      next(error);
     }
-})
-
-// apiRouter.post('/', async(req,res,next) => {
-//     try {
-//         if(!req.user) {
-//             next({
-//                 error: `NotLoggedInError`,
-//                 message: `Unauthorized User Error`,
-//                 name: `You must be logged in`
-//             })
-//         } else {
-//             const {brand, title, description, price, quantity, category, img} = req.body;
-
-//             const newProduct = await createNewProduct({brand, title, description, price, quantity, category, img})
-//             res.send(newProduct)
-//         }
-//     } catch (error) {
-//         next(error)
-//     }
-// })
-
-// apiRouter.post('/', async(req, res, next) => {
-//     try {
-//         if(req.user) {
-//             const adminId = await getAdminUserById(adminUserId);
-//             const {brand, title, description, price, quantity, category, img} = req.body;
-//             const newProduct = await createNewProduct({adminId, brand, title, description, price, quantity, category, img});
-
-//             if(newProduct) {
-//                 res.send(newProduct);
-//             }else {
-//                 res.status(401);
-//                 next({
-//                     name: `FailedToMakeNewProductError`,
-//                     message: `Cannot create new product`
-//                 })
-//             }
-//         }
-//     } catch (error) {
-//         next (error);
-//     }
-// })    
-
-
-// apiRouter.post('/', async(req, res, next) => {
-//     const token = req.headers.authorization.slice(7);
-//     const adminId = await getAdminUserById(adminUserId)
-//     // const signedIn = jwt.verify(token);
-//     try {
-//         const {brand, title, description, price, quantity, category, img} = req.body;
-//         const creatorId = req.user.id;
-//         const productData = {creatorId, brand, title, description, price, quantity, category, img};
-
-//         const existingProduct = await getProductsByTitle(title);
-        
-
-//         if(existingProduct) {
-//             next({
-//                 name: `ProductExistsError`,
-//                 message: `A product with title ${title} already exists`
-//             })
-//         } else {
-//             const newProduct = await createNewProduct(productData);
-//             if(newProduct) {
-//                 res.json(newProduct)
-//                 res.send(newProduct)
-//             }
-//         }
-//     } catch ({name, message}) {
-//         next({name, message});
-//     }
-// })
-
+  })
 
 // PATCH /api/products/:productId
 //gets product by id to be able to update product
@@ -145,7 +105,23 @@ apiRouter.patch("/:productId", async(req, res, next) => {
             category, 
             img
         })
+<<<<<<< HEAD
         res.send(update);
+=======
+
+        if(!req.headers.authorization) {
+            res.send({
+                name: `AdminuserNotLoggedIn`,
+                message: `Only adminUser can make update products`
+            })
+            return
+          }
+        const token = req.headers.authorization.slice(7);
+        const signedIn = jwt.verify(token, JWT_SECRET);
+          if(signedIn) {
+            res.send(update)
+          } 
+>>>>>>> main
     } catch (error) {
         next(error)
     }
@@ -153,15 +129,25 @@ apiRouter.patch("/:productId", async(req, res, next) => {
 
 //DELETE /api/products/:productId
 apiRouter.delete("/:productId", async(req, res, next) => {
-    try {
-        const productId = req.params.productId
-        
-        const deleteProduct = await destroyProduct(productId);
-        res.send(deleteProduct);
-    } catch (error) {
-        next(error);
-    }
+  try {
+      const productId = req.params.productId
+      
+      const deleteProduct = await destroyProduct(productId);
+      if(!req.headers.authorization) {
+        res.send({
+          name: `AdminuserNotLoggedIn`,
+          message: `Only adminUser can make delite products`
+      })
+      return
+      }
+      const token = req.headers.authorization.slice(7);
+      const signedIn = jwt.verify(token, JWT_SECRET);
+          if(signedIn) {
+            res.send(deleteProduct);
+          }
+  } catch (error) {
+      next(error);
+  }
 })
-
 
 module.exports = apiRouter;

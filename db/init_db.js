@@ -58,11 +58,11 @@ async function buildTables() {
           id SERIAL PRIMARY KEY, 
           brand VARCHAR(255) NOT NULL,
           title VARCHAR(255) UNIQUE NOT NULL,
-          description VARCHAR(255) UNIQUE NOT NULL,
-          price DECIMAL(6,2) UNIQUE NOT NULL,
+          description VARCHAR(255) NOT NULL,
+          price DECIMAL(6,2) NOT NULL,
           quantity INTEGER NOT NULL,
           category VARCHAR(255) NOT NULL,
-          img TEXT UNIQUE NOT NULL
+          img TEXT NOT NULL
        );
         
        CREATE TABLE reviews(
@@ -196,8 +196,8 @@ async function populateInitialProducts() {
         brand: "Apple",
         title: "Macbook Pro 13.3 Laptop",
         description: "Apple M2 Chip  8GB Memory - 265GB SSD - Space Gray",
-        price: "1150.00",
-        quantity: "100",
+        price: 1150.00,
+        quantity: 100,
         category: "laptop",
         img: "https://www.zdnet.com/a/img/resize/113ebe4af17aa88bea94dc29c67d51eeb5d3a34e/2019/08/05/b2e40423-7c4c-48b5-9c7a-ea7ee92f96fe/13-inch-mbpro-header.jpg?auto=webp&fit=crop&height=675&width=1200  ",
       },
