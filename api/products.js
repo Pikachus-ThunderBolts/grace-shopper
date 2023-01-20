@@ -50,50 +50,27 @@ token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJhZG1pbjk5
 */
 
 // POST /api/products
-//This works:
-// apiRouter.post('/', async(req, res, next) => {
-//     try {
-//       const {brand, title, description, price, quantity, category, img} = req.body;
-
-//       const existingProduct = await getProductsByTitle(title);
-//         if (existingProduct) {
-//           res.send({
-//             name: 'ProductExistsError',
-//             message: `A product with the title ${title} already exists`
-//           })
-//         } else {
-//             newProduct = await createNewProduct({brand, title, description, price, quantity, category, img});
-            
-//             res.send(newProduct)
-//         } 
-//     } catch (error) {
-//       next(error);
-//     }
-//   })
-
-
   apiRouter.post('/', async(req, res, next) => {
-    // const {id} = req.body
-    // const admin = await getAdminUserById(id);
-    const token = req.headers.authorization.slice(7);
-        
-    const signedIn = jwt.verify(token, JWT_SECRET);
     try {
       
       const {brand, title, description, price, quantity, category, img} = req.body;
       const existingProduct = await getProductsByTitle(title);
 
-      if(!signedIn) {
+      if(!req.headers.authorization) {
         res.send({
             name: `AdminuserNotLoggedIn`,
             message: `Only adminUser can make new products`
         })
-      } else if (existingProduct) {
-          res.send({
+        return
+      }
+    const token = req.headers.authorization.slice(7);
+    const signedIn = jwt.verify(token, JWT_SECRET);
+      if(signedIn && existingProduct) {
+        res.send({
             name: 'ProductExistsError',
             message: `A product with the title ${title} already exists`
           })
-        } else {
+      } else {
             newProduct = await createNewProduct({brand, title, description, price, quantity, category, img});
             
             res.send(newProduct)
@@ -102,59 +79,6 @@ token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJhZG1pbjk5
       next(error);
     }
   })
-
-// apiRouter.post('/', async(req, res, next) => {
-//     try {
-//         if(req.user) {
-//             const adminId = await getAdminUserById(adminUserId);
-//             const {brand, title, description, price, quantity, category, img} = req.body;
-//             const newProduct = await createNewProduct({adminId, brand, title, description, price, quantity, category, img});
-
-//             if(newProduct) {
-//                 res.send(newProduct);
-//             }else {
-//                 res.status(401);
-//                 next({
-//                     name: `FailedToMakeNewProductError`,
-//                     message: `Cannot create new product`
-//                 })
-//             }
-//         }
-//     } catch (error) {
-//         next (error);
-//     }
-// })    
-
-
-// apiRouter.post('/', async(req, res, next) => {
-//     const token = req.headers.authorization.slice(7);
-//     const adminId = await getAdminUserById(adminUserId)
-//     // const signedIn = jwt.verify(token);
-//     try {
-//         const {brand, title, description, price, quantity, category, img} = req.body;
-//         const creatorId = req.user.id;
-//         const productData = {creatorId, brand, title, description, price, quantity, category, img};
-
-//         const existingProduct = await getProductsByTitle(title);
-        
-
-//         if(existingProduct) {
-//             next({
-//                 name: `ProductExistsError`,
-//                 message: `A product with title ${title} already exists`
-//             })
-//         } else {
-//             const newProduct = await createNewProduct(productData);
-//             if(newProduct) {
-//                 res.json(newProduct)
-//                 res.send(newProduct)
-//             }
-//         }
-//     } catch ({name, message}) {
-//         next({name, message});
-//     }
-// })
-
 
 // PATCH /api/products/:productId
 //gets product by id to be able to update product
@@ -173,12 +97,49 @@ apiRouter.patch("/:productId", async(req, res, next) => {
             img
         })
 
-        console.log(update, "this is update const")
-        res.send(update);
+        if(!req.headers.authorization) {
+            res.send({
+                name: `AdminuserNotLoggedIn`,
+                message: `Only adminUser can make new products`
+            })
+            return
+          }
+        const token = req.headers.authorization.slice(7);
+        const signedIn = jwt.verify(token, JWT_SECRET);
+          if(signedIn) {
+            newProduct = await createNewProduct({brand, title, description, price, quantity, category, img});
+                
+            res.send(update)
+          } else {
+                
+            } 
     } catch (error) {
         next(error)
     }
 })
+
+//This patch works:
+// apiRouter.patch("/:productId", async(req, res, next) => {
+//     try {
+//         const {brand, title, description, price, quantity, category, img} = req.body;
+
+//         const update = await updateProduct({
+//             id: req.params.productId,
+//             brand,
+//             title,
+//             description,
+//             price,
+//             quantity, 
+//             category, 
+//             img
+//         })
+
+//         console.log(update, "this is update const")
+//         res.send(update);
+//     } catch (error) {
+//         next(error)
+//     }
+// })
 
 //DELETE /api/products/:productId
 apiRouter.delete("/:productId", async(req, res, next) => {
