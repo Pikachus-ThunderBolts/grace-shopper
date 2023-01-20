@@ -26,6 +26,7 @@ apiRouter.get("/", async (req, res) => {
   }
 });
 
+//api/adminUsers/login
 apiRouter.post("/login", async (req, res, next) => {
   const { username } = req.body;
   try {
@@ -48,6 +49,7 @@ apiRouter.post("/login", async (req, res, next) => {
   }
 });
 
+//api/adminUsers/register
 apiRouter.post("/register", async (req, res, next) => {
   const { username, email, password } = req.body;
   try {
@@ -81,6 +83,33 @@ apiRouter.post("/register", async (req, res, next) => {
       token: token,
       user: newUser,
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//api/adminUsers/me/:adminUserId
+apiRouter.get("/me/:adminUserId", async (req, res, next) => {
+  const adminId = req.params.adminUserId;
+
+  const singleAdminUser = await getAdminUserById(adminId);
+
+  const auth = req.headers.authorization;
+  try {
+    if (!auth) {
+      res.send({
+        error: "You must be logged in to perform this action",
+        message: "You must be logged in to perform this action",
+        name: "InvalidCredentialsError",
+      });
+      return;
+    }
+    const token = auth.slice(7);
+
+    const signedIn = jwt.verify(token, JWT_SECRET);
+    if (signedIn) {
+      res.send(singleAdminUser);
+    }
   } catch (error) {
     next(error);
   }

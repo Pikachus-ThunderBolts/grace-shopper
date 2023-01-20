@@ -83,7 +83,7 @@ apiRouter.post("/register", async (req, res, next) => {
   }
 });
 
-//api/customerUsers/me/customerUserId
+//api/customerUsers/me/:customerUserId
 apiRouter.get("/me/:customerUserId", async (req, res, next) => {
   const customerId = req.params.customerUserId;
 
