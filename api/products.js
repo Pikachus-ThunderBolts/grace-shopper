@@ -107,9 +107,7 @@ apiRouter.patch("/:productId", async(req, res, next) => {
         const token = req.headers.authorization.slice(7);
         const signedIn = jwt.verify(token, JWT_SECRET);
           if(signedIn) {
-            newProduct = await createNewProduct({brand, title, description, price, quantity, category, img});
             console.log("update", update)
-            
             res.send(update)
           } 
     } catch (error) {
