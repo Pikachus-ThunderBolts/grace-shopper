@@ -85,11 +85,10 @@ apiRouter.post("/register", async (req, res, next) => {
 
 //api/customerUsers/me/customerUserId
 apiRouter.get("/me/:customerUserId", async (req, res, next) => {
+  const customerId = req.params.customerUserId;
 
-  
-  const customerId = req.params.customerUserId
   const singleCustomerUser = await getCustomerUserById(customerId);
-  const prefix = "Bearer";
+
   const auth = req.headers.authorization;
   try {
     if (!auth) {
@@ -98,14 +97,14 @@ apiRouter.get("/me/:customerUserId", async (req, res, next) => {
         message: "You must be logged in to perform this action",
         name: "InvalidCredentialsError",
       });
-      return
-    } else if (auth.startsWith(prefix)) {
-      const token = auth.slice(prefix.length);
-      const { id } = jwt.verify(token, JWT_SECRET);
-      req.user = await getUserById(id);
-      res.send(req.user);
+      return;
     }
-    console.log("this is token", token)
+    const token = auth.slice(7);
+
+    const signedIn = jwt.verify(token, JWT_SECRET);
+    if (signedIn) {
+      res.send(singleCustomerUser);
+    }
   } catch (error) {
     next(error);
   }
