@@ -341,6 +341,8 @@ async function rebuildDB() {
   } catch (error) {
     console.log("Error rebuilding DB");
     throw error;
+  }finally{
+    client.end()
   }
 }
 client.connect();
