@@ -54,13 +54,14 @@ async function getAdminUserById(adminUserId) {
       rows: [getAdminUserById],
     } = await client.query(
       `
-      SELECT FROM adminUsers
+      SELECT * FROM adminUsers
       WHERE id=$1
       ;
       `,
       [adminUserId]
     );
     delete adminUserId.password;
+    return getAdminUserById;
   } catch (error) {
     console.log("Error getting admin user by id", error);
     throw error;

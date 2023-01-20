@@ -173,8 +173,6 @@ async function updateProduct({
   }
 }
 
-console.log("This console.log is not in a function");
-
 async function destroyProduct(id) {
   try {
     const {

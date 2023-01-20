@@ -85,13 +85,14 @@ async function getCustomerUserById(customerUserId) {
       rows: [getCustomerUserById],
     } = await client.query(
       `
-        SELECT FROM customerUsers
+        SELECT * FROM customerUsers
         WHERE id=$1
         ;
         `,
       [customerUserId]
     );
     delete customerUserId.password;
+    return getCustomerUserById;
   } catch (error) {
     console.log("Error getCustomerUserById", error);
     throw error;
