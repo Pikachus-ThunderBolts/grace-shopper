@@ -86,14 +86,19 @@ async function getCartByGuestId(guestId) {
   }
 }
 
-async function updateCart({id, productId}) {
+async function updateCart({
+  id, 
+  productId,
+  // customerUserId,
+  // guestId
+}) {
   try {
     const {
       rows: [cart],
     } = await client.query(`
-    UPDATE products
+    UPDATE cart
     SET
-    productId = COALESCE($2, productId)
+    "productId" = COALESCE($2, "productId")
     WHERE id=$1
     RETURNING *;
     `, [id, productId] 
