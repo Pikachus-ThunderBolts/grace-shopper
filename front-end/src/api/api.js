@@ -2,6 +2,19 @@ const URL = `https://tech-buy-one.onrender.com/api`
 
 /* PRODUCTS */
 //fetchAllProducts
+export const fetchProducts = async () => {
+    try {
+        const response = await fetch(`${URL}/products`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((response) => response.json());
+        console.log("This is the response", response)
+        return response;
+    } catch (error) {
+        console.error("There was an error fetching the products", error);
+    }
+}
 //fetchProduct
 //createProduct
 //updateProduct
