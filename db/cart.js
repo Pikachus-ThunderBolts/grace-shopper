@@ -1,7 +1,11 @@
 const client = require("./client");
 
 
-async function createCart({productId, customerUserId, guestId}) {
+async function createCart({
+  productId, 
+  customerUserId, 
+  guestId
+}) {
   try {
     const {
       rows: [cart]
@@ -21,15 +25,14 @@ async function createCart({productId, customerUserId, guestId}) {
 
 async function getAllCarts() {
   try {
-    const {
-      rows: [cart]
-    } = await client.query(`
+    const { rows } = await client.query(`
     SELECT *
     FROM cart
     `)
-    return cart;
+    return rows;
   } catch (error) {
     console.error("Error getting all carts", error);
+    throw error;
   }
 };
 
@@ -50,15 +53,16 @@ async function getAllCartsById({id}) {
   }
 }
 
-async function getCartByCustomerId({customerUserId}) {
+async function getCartByCustomerId(customerUserId) {
   try {
     const {
       rows: [cart]
     } = await client.query(`
       SELECT *
       FROM cart 
-      WHERE customerUserId=$1;
+      WHERE "customerUserId"=$1;
     `, [customerUserId])
+    console.log("this is cart", cart)
     return cart;
   } catch (error) {
     console.error("Error getting cart by customer id", error)
@@ -66,14 +70,14 @@ async function getCartByCustomerId({customerUserId}) {
   }
 }
 
-async function getCartByGuestId({guestId}) {
+async function getCartByGuestId(guestId) {
   try {
     const {
       rows: [cart]
     } = await client.query(`
       SELECT *
       FROM cart 
-      WHERE guestId=$1;
+      WHERE "guestId"=$1;
     `, [guestId])
     return cart;
   } catch (error) {
@@ -82,14 +86,17 @@ async function getCartByGuestId({guestId}) {
   }
 }
 
-async function updateCart({id, productId}) {
+async function updateCartById({
+  id, 
+  productId,
+}) {
   try {
     const {
       rows: [cart],
     } = await client.query(`
-    UPDATE products
+    UPDATE cart
     SET
-    productId = COALESCE($2, productId)
+    "productId" = COALESCE($2, "productId")
     WHERE id=$1
     RETURNING *;
     `, [id, productId] 
@@ -101,22 +108,119 @@ async function updateCart({id, productId}) {
   }
 };
 
-async function destroyCartItem({id}) {
+async function updateCartByCustomerUserId({
+  id, 
+  productId,
+}) {
+  try {
+    const {
+      rows: [cart],
+    } = await client.query(`
+    UPDATE cart
+    SET
+    "productId" = COALESCE($2, "productId")
+    WHERE "customerUserId"=$1
+    RETURNING *;
+    `, [id, productId] 
+    );
+    return cart;
+  } catch (error) {
+    console.error("error updating cart", error);
+    throw error;
+  }
+};
+
+async function updateCartByGuestId({
+  id, 
+  productId,
+}) {
+  try {
+    const {
+      rows: [cart],
+    } = await client.query(`
+    UPDATE cart
+    SET
+    "productId" = COALESCE($2, "productId")
+    WHERE "guestId"=$1
+    RETURNING *;
+    `, [id, productId] 
+    );
+    return cart;
+  } catch (error) {
+    console.error("error updating cart", error);
+    throw error;
+  }
+};
+
+
+async function destroyCartByCartId(id) {
   try {
     const {
       rows: [cart]
     } = await client.query(`
     DELETE FROM cart
-    WHERE id=$1
+    WHERE cart.id=$1
     RETURNING *
     `, [id] 
     );
     return cart;
   } catch (error) {
-    console.error("error deleting cart", error)
+    console.error("error deleting cart by cart id", error)
     throw error;
   }
 }
+
+async function destroyCartItemByCustomerUserId(id) {
+  try {
+    const {
+      rows: [cart]
+    } = await client.query(`
+    DELETE FROM cart
+    WHERE cart."customerUserId"=$1
+    RETURNING *
+    `, [id] 
+    );
+    return cart;
+  } catch (error) {
+    console.error("error deleting cart by customer id", error)
+    throw error;
+  }
+}
+
+async function destroyCartItemByGuestId(id) {
+  try {
+    const {
+      rows: [cart]
+    } = await client.query(`
+    DELETE FROM cart
+    WHERE cart."guestId"=$1
+    RETURNING *
+    `, [id] 
+    );
+    return cart;
+  } catch (error) {
+    console.error("error deleting cart by guest id", error)
+    throw error;
+  }
+}
+
+async function destroyCartItemByProductId(id) {
+  try {
+    const {
+      rows: [cart]
+    } = await client.query(`
+    DELETE FROM cart
+    WHERE cart."productId"=$1
+    RETURNING *
+    `, [id] 
+    );
+    return cart;
+  } catch (error) {
+    console.error("error deleting cart by guest id", error)
+    throw error;
+  }
+}
+
 
 
 module.exports = {
@@ -125,6 +229,11 @@ module.exports = {
   getAllCartsById, 
   getCartByCustomerId,
   getCartByGuestId,
-  updateCart,
-  destroyCartItem
+  updateCartById,
+  destroyCartByCartId,
+  updateCartByCustomerUserId,
+  updateCartByGuestId,
+  destroyCartItemByCustomerUserId,
+  destroyCartItemByGuestId,
+  destroyCartItemByProductId,
 }
