@@ -3,30 +3,31 @@ const Account = () => {
     <>
       <section class="section">
         <h1 class="title">Register / Login</h1>
-        <div class="field">
-          <p class="control has-icons-left has-icons-right">
-            <input class="input" type="email" placeholder="Email"></input>
-            <span class="icon is-small is-left">
-              <i class="fas fa-envelope"></i>
-            </span>
-            <span class="icon is-small is-right">
-              <i class="fas fa-check"></i>
-            </span>
-          </p>
-        </div>
-        <div class="field">
-          <p class="control has-icons-left">
-            <input class="input" type="password" placeholder="Password"></input>
-            <span class="icon is-small is-left">
-              <i class="fas fa-lock"></i>
-            </span>
-          </p>
-        </div>
-        <div class="field">
-          <p class="control">
-            <button class="button is-success">Login</button>
-          </p>
-        </div>
+        <form class="box">
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+              <input
+                class="input"
+                type="email"
+                placeholder="e.g. alex@example.com"
+              ></input>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input
+                class="input"
+                type="password"
+                placeholder="********"
+              ></input>
+            </div>
+          </div>
+
+          <button class="button is-primary">Sign in</button>
+        </form>
       </section>
     </>
   );
