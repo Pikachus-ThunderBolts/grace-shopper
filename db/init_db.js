@@ -277,9 +277,9 @@ async function populateInitialOrders() {
         total: 2.17
       },
       {
-        customerUserId: "3", 
+        customerUserId: null, 
         productId: "3", 
-        guestId: null,
+        guestId: "1",
         quantity: 9,
         total: 9.11
       }
@@ -341,6 +341,8 @@ async function rebuildDB() {
   } catch (error) {
     console.log("Error rebuilding DB");
     throw error;
+  }finally{
+    client.end()
   }
 }
 client.connect();
