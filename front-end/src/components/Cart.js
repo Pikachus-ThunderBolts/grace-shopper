@@ -1,9 +1,8 @@
 const Cart = () => {
   return (
     <>
-      <section class="section">
+      <section class="section checkout">
         <h1 class="title">Cart</h1>
-        <h2 class="subtitle">This is where the Cart will live.</h2>
         <table className="table is-bordered is-hoverable is-fullwidth">
           <tbody>
             <tr>

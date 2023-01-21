@@ -2,9 +2,13 @@ const Confirmation = () => {
   return (
     <>
       <section class="section">
-        <h1 class="title">Confirmation</h1>
+        <h1 class="title">Congrats!</h1>
         <h2 class="subtitle">
-          This will be the confirmation page after an order is placed
+          Your order #001001 is <strong>confirmed</strong>.
+        </h2>
+        <h2 class="subtitle">
+          A copy of this confirmation has been sent to{" "}
+          <strong>example@example.com</strong>
         </h2>
       </section>
     </>

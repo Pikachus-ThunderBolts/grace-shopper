@@ -21,7 +21,7 @@ const ProductDetail = () => {
         <h1 class="title">Reviews</h1>
         <br></br>
         <h2 class="subtitle">Review Title</h2>
-        <p classname="content">Review content</p>
+        <p classname="content">This is where users will leave reviews. </p>
       </section>
     </>
   );
