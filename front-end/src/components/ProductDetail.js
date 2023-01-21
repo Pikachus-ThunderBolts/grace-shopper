@@ -2,8 +2,26 @@ const ProductDetail = () => {
   return (
     <>
       <section class="section">
-        <h1 class="title">Product Detail</h1>
-        <h2 class="subtitle">This will be the product detail page</h2>
+        <div className="tile is-ancestor">
+          <div class="tile is-parent">
+            <article class="tile is-child notification is-info">
+              <p class="title">Product 1</p>
+              <p class="subtitle">Price</p>
+              <figure class="image is-4by3">
+                <img src="https://bulma.io/images/placeholders/640x480.png"></img>
+              </figure>
+              <p class="content">Brand</p>
+              <p class="content">Description</p>
+              <button class="button is-focused">Add to Cart</button>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="section">
+        <h1 class="title">Reviews</h1>
+        <br></br>
+        <h2 class="subtitle">Review Title</h2>
+        <p classname="content">Review content</p>
       </section>
     </>
   );
