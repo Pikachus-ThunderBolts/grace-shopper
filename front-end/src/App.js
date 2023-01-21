@@ -9,6 +9,10 @@ import Cart from "./components/Cart";
 import Profile from "./components/Profile";
 import Account from "./components/Account";
 import Admin from "./components/Admin";
+import AdminProfile from "./components/AdminProfile";
+import Confirmation from "./components/Confirmation";
+import Checkout from "./components/Checkout";
+import ProductDetail from "./components/ProductDetail";
 
 const App = () => {
   return (
@@ -42,11 +46,20 @@ const App = () => {
           <Route path="/products">
             <Products></Products>
           </Route>
+          <Route path="/productdetail">
+            <ProductDetail></ProductDetail>
+          </Route>
           <Route path="/laptops">
             <Laptops></Laptops>
           </Route>
           <Route path="/cart">
             <Cart></Cart>
+          </Route>
+          <Route path="/checkout">
+            <Checkout></Checkout>
+          </Route>
+          <Route path="/confirmation">
+            <Confirmation></Confirmation>
           </Route>
 
           <Route path="/profile">
@@ -64,6 +77,9 @@ const App = () => {
           </Route>
           <Route path="/admin">
             <Admin></Admin>
+          </Route>
+          <Route path="/adminprofile">
+            <AdminProfile></AdminProfile>
           </Route>
         </Switch>
         <footer class="footer">
