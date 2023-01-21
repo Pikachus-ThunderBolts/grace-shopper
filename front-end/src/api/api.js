@@ -1,5 +1,6 @@
 import { response } from "express";
 
+
 const URL = `https://tech-buy-one.onrender.com/api`
 
 /* PRODUCTS */
@@ -75,10 +76,10 @@ export const fetchCarts = async () => {
     console.error("There was an error fetching the cart", error);
   };
 };
+
 //fetchGuestCart
 //fetchCustomerCart
 //patchGuestCart
 //patchCustomerCart
 //deleteGuestCart
 //deleteCustomerCart
-

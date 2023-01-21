@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Link } from "react-router-dom";
+import { fetchProducts } from "./api/api";
 import Products from "./components/Products";
 import Home from "./components/Home";
 import Laptops from "./components/Laptops";
@@ -11,6 +12,17 @@ import Account from "./components/Account";
 import Admin from "./components/Admin";
 
 const App = () => {
+
+  const [products, setProducts] = useState([])
+
+  useEffect(()=>{
+    const getProducts = async () => {
+      const products = await fetchProducts();
+
+      setProducts(products);
+    }
+    getProducts();
+  }, []);
   return (
     <>
       <div className="container">
