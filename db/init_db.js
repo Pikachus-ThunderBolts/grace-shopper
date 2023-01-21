@@ -244,9 +244,9 @@ async function populateInitialCart() {
   console.log("Starting to create cart");
   try {
     const cartToCreate = [
-      { productId: "1", customerUserId: "4", guestId: null},
-      { productId: "2", customerUserId: "5", guestId: null},
-      { productId: "3", customerUserId: null, guestId: "1"}
+      { productId: "3", customerUserId: "4", guestId: null},
+      { productId: "1", customerUserId: "5", guestId: null},
+      { productId: "2", customerUserId: null, guestId: "1"}
     ];
     const cart = await Promise.all(
       cartToCreate.map(createCart)

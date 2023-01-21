@@ -13,9 +13,12 @@ const {
   getCartByCustomerId,
   getCartByGuestId,
   updateCartById,
-  destroyCartItem,
   updateCartByCustomerUserId,
   updateCartByGuestId,
+  destroyCartByCartId,
+  destroyCartItemByCustomerUserId,
+  destroyCartItemByGuestId,
+  destroyCartItemByProductId,
 } = require("../db/cart");
 
 const {
@@ -196,11 +199,104 @@ apiRouter.patch("/guest/:guestId", async (req, res, next) => {
   }
 });
 
-//DELETE /api/cart/:productId
+//DELETE /api/cart/:cartId
+//deleting cart by cartId
+apiRouter.delete("/:cartId", async (req, res, next) => {
+  try {
+    const cartId = req.params.cartId;
+    
+    const deletedCart = await destroyCartByCartId(cartId);
+    
+    if (!req.headers.authorization) {
+      res.send({
+        name: `UserNotLoggedIn`,
+        message: `Only User can delete orders`,
+      });
+      return;
+    }
+    const token = req.headers.authorization.slice(7);
+    const signedIn = jwt.verify(token, JWT_SECRET);
+    if (signedIn) {
+      res.send(deletedCart);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+//DELETE /api/cart/product/:productId
+//deleting cart by productId
+apiRouter.delete("/product/:productId", async (req, res, next) => {
+  try {
+    const productId = req.params.productId;
+    
+    const deletedCart = await destroyCartItemByProductId(productId);
+    
+    if (!req.headers.authorization) {
+      res.send({
+        name: `UserNotLoggedIn`,
+        message: `Only User can delete orders`,
+      });
+      return;
+    }
+    const token = req.headers.authorization.slice(7);
+    const signedIn = jwt.verify(token, JWT_SECRET);
+    if (signedIn) {
+      res.send(deletedCart);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 //DELETE /api/cart/customer/:customerUserId
-//deleting cart by 
+//deleting cart by customerUserId
+apiRouter.delete("/customer/:customerUserId", async (req, res, next) => {
+  try {
+    const customerUserId = req.params.customerUserId;
+    
+    const deletedCart = await destroyCartItemByCustomerUserId(customerUserId);
+    
+    if (!req.headers.authorization) {
+      res.send({
+        name: `UserNotLoggedIn`,
+        message: `Only User can delete orders`,
+      });
+      return;
+    }
+    const token = req.headers.authorization.slice(7);
+    const signedIn = jwt.verify(token, JWT_SECRET);
+    if (signedIn) {
+      res.send(deletedCart);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 //DELETE /api/cart/guest/:guestId
+//deleting cart by guestId
+apiRouter.delete("/guest/:guestId", async (req, res, next) => {
+  try {
+    const guestId = req.params.guestId;
+    
+    const deletedCart = await destroyCartItemByGuestId(guestId);
+    
+    if (!req.headers.authorization) {
+      res.send({
+        name: `UserNotLoggedIn`,
+        message: `Only User can delete orders`,
+      });
+      return;
+    }
+    const token = req.headers.authorization.slice(7);
+    const signedIn = jwt.verify(token, JWT_SECRET);
+    if (signedIn) {
+      res.send(deletedCart);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = apiRouter;

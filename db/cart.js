@@ -89,8 +89,6 @@ async function getCartByGuestId(guestId) {
 async function updateCartById({
   id, 
   productId,
-  // customerUserId,
-  // guestId
 }) {
   try {
     const {
@@ -113,8 +111,6 @@ async function updateCartById({
 async function updateCartByCustomerUserId({
   id, 
   productId,
-  // customerUserId,
-  // guestId
 }) {
   try {
     const {
@@ -137,8 +133,6 @@ async function updateCartByCustomerUserId({
 async function updateCartByGuestId({
   id, 
   productId,
-  // customerUserId,
-  // guestId
 }) {
   try {
     const {
@@ -159,22 +153,74 @@ async function updateCartByGuestId({
 };
 
 
-async function destroyCartItem({id}) {
+async function destroyCartByCartId(id) {
   try {
     const {
       rows: [cart]
     } = await client.query(`
     DELETE FROM cart
-    WHERE id=$1
+    WHERE cart.id=$1
     RETURNING *
     `, [id] 
     );
     return cart;
   } catch (error) {
-    console.error("error deleting cart", error)
+    console.error("error deleting cart by cart id", error)
     throw error;
   }
 }
+
+async function destroyCartItemByCustomerUserId(id) {
+  try {
+    const {
+      rows: [cart]
+    } = await client.query(`
+    DELETE FROM cart
+    WHERE cart."customerUserId"=$1
+    RETURNING *
+    `, [id] 
+    );
+    return cart;
+  } catch (error) {
+    console.error("error deleting cart by customer id", error)
+    throw error;
+  }
+}
+
+async function destroyCartItemByGuestId(id) {
+  try {
+    const {
+      rows: [cart]
+    } = await client.query(`
+    DELETE FROM cart
+    WHERE cart."guestId"=$1
+    RETURNING *
+    `, [id] 
+    );
+    return cart;
+  } catch (error) {
+    console.error("error deleting cart by guest id", error)
+    throw error;
+  }
+}
+
+async function destroyCartItemByProductId(id) {
+  try {
+    const {
+      rows: [cart]
+    } = await client.query(`
+    DELETE FROM cart
+    WHERE cart."productId"=$1
+    RETURNING *
+    `, [id] 
+    );
+    return cart;
+  } catch (error) {
+    console.error("error deleting cart by guest id", error)
+    throw error;
+  }
+}
+
 
 
 module.exports = {
@@ -184,7 +230,10 @@ module.exports = {
   getCartByCustomerId,
   getCartByGuestId,
   updateCartById,
-  destroyCartItem,
+  destroyCartByCartId,
   updateCartByCustomerUserId,
   updateCartByGuestId,
+  destroyCartItemByCustomerUserId,
+  destroyCartItemByGuestId,
+  destroyCartItemByProductId,
 }
