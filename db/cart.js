@@ -86,7 +86,7 @@ async function getCartByGuestId(guestId) {
   }
 }
 
-async function updateCart({
+async function updateCartById({
   id, 
   productId,
   // customerUserId,
@@ -109,6 +109,55 @@ async function updateCart({
     throw error;
   }
 };
+
+async function updateCartByCustomerUserId({
+  id, 
+  productId,
+  // customerUserId,
+  // guestId
+}) {
+  try {
+    const {
+      rows: [cart],
+    } = await client.query(`
+    UPDATE cart
+    SET
+    "productId" = COALESCE($2, "productId")
+    WHERE "customerUserId"=$1
+    RETURNING *;
+    `, [id, productId] 
+    );
+    return cart;
+  } catch (error) {
+    console.error("error updating cart", error);
+    throw error;
+  }
+};
+
+async function updateCartByGuestId({
+  id, 
+  productId,
+  // customerUserId,
+  // guestId
+}) {
+  try {
+    const {
+      rows: [cart],
+    } = await client.query(`
+    UPDATE cart
+    SET
+    "productId" = COALESCE($2, "productId")
+    WHERE "guestId"=$1
+    RETURNING *;
+    `, [id, productId] 
+    );
+    return cart;
+  } catch (error) {
+    console.error("error updating cart", error);
+    throw error;
+  }
+};
+
 
 async function destroyCartItem({id}) {
   try {
@@ -134,6 +183,8 @@ module.exports = {
   getAllCartsById, 
   getCartByCustomerId,
   getCartByGuestId,
-  updateCart,
-  destroyCartItem
+  updateCartById,
+  destroyCartItem,
+  updateCartByCustomerUserId,
+  updateCartByGuestId,
 }

@@ -12,8 +12,10 @@ const {
   getAllCartsById, 
   getCartByCustomerId,
   getCartByGuestId,
-  updateCart,
-  destroyCartItem
+  updateCartById,
+  destroyCartItem,
+  updateCartByCustomerUserId,
+  updateCartByGuestId,
 } = require("../db/cart");
 
 const {
@@ -114,13 +116,11 @@ apiRouter.get("/guest/:guestId", async (req, res, next) => {
 //editing cart by customerUserId
 apiRouter.patch("/customer/:customerUserId", async (req, res, next) => {
   try {
-    const { productId, customerUserId, guestId } = req.body;
+    const { productId } = req.body;
 
-    const update = await updateCart({
+    const update = await updateCartByCustomerUserId({
       id: req.params.customerUserId,
       productId,
-      customerUserId,
-      guestId
     });
 
     if (!req.headers.authorization) {
@@ -142,6 +142,31 @@ apiRouter.patch("/customer/:customerUserId", async (req, res, next) => {
 
 //PATCH /api/cart/guest/:guestId
 //editing cart by guestId
+apiRouter.patch("/guest/:guestId", async (req, res, next) => {
+  try {
+    const { productId } = req.body;
+
+    const update = await updateCartByGuestId({
+      id: req.params.guestId,
+      productId,
+    });
+
+    if (!req.headers.authorization) {
+      res.send({
+        name: `AdminuserNotLoggedIn`,
+        message: `Only adminUser can make update products`,
+      });
+      return;
+    }
+    const token = req.headers.authorization.slice(7);
+    const signedIn = jwt.verify(token, JWT_SECRET);
+    if (signedIn) {
+      res.send(update);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 //DELETE /api/cart/:productId
 
