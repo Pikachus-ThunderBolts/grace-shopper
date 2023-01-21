@@ -14,10 +14,14 @@ const App = () => {
   return (
     <>
       <div className="container">
-        <section class="hero is-large is-info">
+        <section class="hero is-medium is-info">
           <div className="tabs">
             <Link to="/account">Account</Link>
-            <Link to="/admin">Admin</Link>
+            <div className="tabs is-right">
+              {" "}
+              <Link to="/admin">Admin</Link>
+              <Link to="/cart">Cart</Link>
+            </div>
           </div>
           <div class="hero-body">
             <Link to="/" class="title">
