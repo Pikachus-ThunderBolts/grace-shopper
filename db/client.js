@@ -1,5 +1,5 @@
 // Connect to DB
-const { Client } = require('pg');
+const { Client, Pool } = require('pg');
 
 // change the DB_NAME string to whatever your group decides on
 const DB_NAME = 'tech-buy-dev';
@@ -20,7 +20,11 @@ if (process.env.CI) {
   });
 } else {
   // local / heroku client config
-  client = new Client(DB_URL);
+  // client = new Client(DB_URL);
+  client = new Pool({
+    connectionString: DB_URL,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
+  });
 }
 
 module.exports = client;
