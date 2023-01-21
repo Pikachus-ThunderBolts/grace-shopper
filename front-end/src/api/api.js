@@ -1,3 +1,6 @@
+import { response } from "express";
+
+
 const URL = `https://tech-buy-one.onrender.com/api`
 
 /* PRODUCTS */
@@ -60,6 +63,20 @@ export const fetchProducts = async () => {
 
 /* CART */
 //fetchCarts
+export const fetchCarts = async () => {
+  try {
+    const response = await fetch(`${URL}/cart`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    console.log("fetchCart response", response)
+    return response;
+  } catch (error) {
+    console.error("There was an error fetching the cart", error);
+  };
+};
+
 //fetchGuestCart
 //fetchCustomerCart
 //patchGuestCart
