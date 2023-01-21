@@ -26,6 +26,14 @@ server.use((req, res, next) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
+server.use((error, req, res, next) => {
+  res.status(500)
+  res.send({
+    name: `Internal Server Error`,
+    message: `Error with Internal Server`
+  })
+})
+
 // bring in the DB connection
 const { client } = require('./db');
 
