@@ -1,29 +1,24 @@
-import { response } from "express";
-
-
-const URL = `https://tech-buy-one.onrender.com/api`
+const URL = `https://tech-buy-one.onrender.com/api`;
 
 /* PRODUCTS */
 //fetchAllProducts
 export const fetchProducts = async () => {
-    try {
-        const response = await fetch(`${URL}/products`, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then((response) => response.json());
-        console.log("This is the response", response)
-        return response;
-    } catch (error) {
-        console.error("There was an error fetching the products", error);
-    }
-}
+  try {
+    const response = await fetch(`${URL}/products`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    console.log("This is the response", response);
+    return response;
+  } catch (error) {
+    console.error("There was an error fetching the products", error);
+  }
+};
 //fetchProduct
 //createProduct
 //updateProduct
 //deleteProduct
-
-
 
 /* ADMIN USERS */
 //createAdminUsers
@@ -31,13 +26,11 @@ export const fetchProducts = async () => {
 //registerAdminUsers
 //loginAdminUsers
 
-
 /* GUEST USERS */
 //createGuestUsers
 //fetchGuestUsers
 //registerGuestUsers
 //loginGuestUsers
-
 
 /* CUSTOMER USERS */
 //createCustomerUsers
@@ -45,13 +38,11 @@ export const fetchProducts = async () => {
 //registerCustomerUsers
 //loginCustomerUsers
 
-
 /* REVIEWS */
 //fetchReviews
 //createReviews
 //patchReviews
 //deleteReviews
-
 
 /* ORDERS */
 //fetchAllOrders
@@ -70,11 +61,11 @@ export const fetchCarts = async () => {
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
-    console.log("fetchCart response", response)
+    console.log("fetchCart response", response);
     return response;
   } catch (error) {
     console.error("There was an error fetching the cart", error);
-  };
+  }
 };
 
 //fetchGuestCart
