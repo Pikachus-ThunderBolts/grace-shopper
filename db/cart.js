@@ -1,7 +1,11 @@
 const client = require("./client");
 
 
-async function createCart({productId, customerUserId, guestId}) {
+async function createCart({
+  productId, 
+  customerUserId, 
+  guestId
+}) {
   try {
     const {
       rows: [cart]
@@ -21,15 +25,14 @@ async function createCart({productId, customerUserId, guestId}) {
 
 async function getAllCarts() {
   try {
-    const {
-      rows: [cart]
-    } = await client.query(`
+    const { rows } = await client.query(`
     SELECT *
     FROM cart
     `)
-    return cart;
+    return rows;
   } catch (error) {
     console.error("Error getting all carts", error);
+    throw error;
   }
 };
 
