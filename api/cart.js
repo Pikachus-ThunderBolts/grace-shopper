@@ -112,6 +112,34 @@ apiRouter.get("/guest/:guestId", async (req, res, next) => {
   }
 })
 
+//PATCH /api/cart/:cartId
+//editing cart by cartId
+apiRouter.patch("/:cartId", async (req, res, next) => {
+  try {
+    const { productId } = req.body;
+
+    const update = await updateCartById({
+      id: req.params.cartId,
+      productId,
+    });
+
+    if (!req.headers.authorization) {
+      res.send({
+        name: `AdminuserNotLoggedIn`,
+        message: `Only adminUser can make update products`,
+      });
+      return;
+    }
+    const token = req.headers.authorization.slice(7);
+    const signedIn = jwt.verify(token, JWT_SECRET);
+    if (signedIn) {
+      res.send(update);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 //PATCH /api/cart/customer/:customerUserId
 //editing cart by customerUserId
 apiRouter.patch("/customer/:customerUserId", async (req, res, next) => {
