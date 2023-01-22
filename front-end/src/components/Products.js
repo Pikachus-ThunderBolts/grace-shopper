@@ -12,7 +12,7 @@ const Products = ({ products }) => {
                   <article class="tile is-child notification is-info">
                     <p class="title">{individualProduct.title}</p>
                     <figure class="image is-4by3">
-                      <img src="https://bulma.io/images/placeholders/640x480.png"></img>
+                      <img src={individualProduct.img}></img>
                     </figure>
                     <p class="subtitle">{individualProduct.category}</p>
                     <p class="subtitle">${individualProduct.price}</p>
