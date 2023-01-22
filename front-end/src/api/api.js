@@ -1,4 +1,4 @@
-import { response } from "express";
+
 
 
 const URL = `https://tech-buy-one.onrender.com/api`
@@ -63,7 +63,7 @@ export const fetchProducts = async () => {
 
 /* CART */
 //fetchCarts
-export const fetchCarts = async () => {
+export const fetchCart = async () => {
   try {
     const response = await fetch(`${URL}/cart`, {
       headers: {
@@ -83,3 +83,8 @@ export const fetchCarts = async () => {
 //patchCustomerCart
 //deleteGuestCart
 //deleteCustomerCart
+
+module.exports = {
+  fetchCart,
+  fetchProducts
+}
