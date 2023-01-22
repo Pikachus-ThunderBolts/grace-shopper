@@ -84,7 +84,3 @@ export const fetchCart = async () => {
 //deleteGuestCart
 //deleteCustomerCart
 
-module.exports = {
-  fetchCart,
-  fetchProducts
-}
