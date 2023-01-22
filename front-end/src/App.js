@@ -16,15 +16,14 @@ import Checkout from "./components/Checkout";
 import ProductDetail from "./components/ProductDetail";
 
 const App = () => {
+  const [products, setProducts] = useState([]);
 
-  const [products, setProducts] = useState([])
-
-  useEffect(()=>{
+  useEffect(() => {
     const getProducts = async () => {
       const products = await fetchProducts();
 
       setProducts(products);
-    }
+    };
     getProducts();
   }, []);
   return (
@@ -56,7 +55,7 @@ const App = () => {
             <Home></Home>
           </Route>
           <Route path="/products">
-            <Products></Products>
+            <Products products={products}></Products>
           </Route>
           <Route path="/productdetail">
             <ProductDetail></ProductDetail>
