@@ -3,14 +3,14 @@ const TVs = ({ products }) => {
     <>
       <section class="section">
         <h1 class="title">TVs</h1>
-        <section class="section has-background-info">
+        <section class="section">
           <div className="tile is-ancestor">
             {products.map((individualProduct) => {
               return (
                 <>
                   {individualProduct.category === "TV" ? (
                     <div class="tile is-parent">
-                      <article class="tile is-child notification is-info">
+                      <article class="tile is-child notification is-white">
                         <p class="title">{individualProduct.title}</p>
                         <figure class="image is-4by3">
                           <img src={individualProduct.img}></img>

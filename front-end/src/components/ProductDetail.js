@@ -4,7 +4,7 @@ const ProductDetail = () => {
       <section class="section">
         <div className="tile is-ancestor">
           <div class="tile is-parent">
-            <article class="tile is-child notification is-info">
+            <article class="tile is-child notification is-white">
               <p class="title">Product 1</p>
               <p class="subtitle">Price</p>
               <figure class="image is-4by3">
@@ -17,11 +17,13 @@ const ProductDetail = () => {
           </div>
         </div>
       </section>
-      <section class="section">
-        <h1 class="title">Reviews</h1>
+      <section class="section has-background-info">
+        <h1 class="title has-text-white">Reviews</h1>
         <br></br>
-        <h2 class="subtitle">Review Title</h2>
-        <p classname="content">This is where users will leave reviews. </p>
+        <h2 class="subtitle has-text-white">Review Title</h2>
+        <p classname="content has-text-white">
+          This is where users will leave reviews.{" "}
+        </p>
       </section>
     </>
   );
