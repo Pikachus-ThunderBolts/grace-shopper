@@ -3,6 +3,21 @@ const Cart = () => {
     <>
       <section class="section checkout">
         <h1 class="title">Cart</h1>
+      </section>
+      <section class="section">
+        <h2 class="subtitle has-text-weight-semibold">
+          Please enter your email address to save your cart
+        </h2>
+        <span className="content">
+          {" "}
+          <input
+            class="content input is-link is-inline"
+            type="text"
+            placeholder="e.g. alex@example.com"
+          ></input>
+          <button class="button is-info is-inline">Submit</button>
+        </span>
+
         <table className="table is-bordered is-hoverable is-fullwidth">
           <tbody>
             <tr>
