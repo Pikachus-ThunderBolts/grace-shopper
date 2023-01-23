@@ -40,6 +40,19 @@ export const fetchProducts = async () => {
 
 /* REVIEWS */
 //fetchReviews
+export const fetchReviews = async () => {
+  try {
+    const response = await fetch(`${URL}/reviews`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    console.log("this is reviews", response);
+    return response;
+  } catch (error) {
+    console.error("There was an error fetching the products", error);
+  }
+};
 //createReviews
 //patchReviews
 //deleteReviews
