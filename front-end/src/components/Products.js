@@ -1,3 +1,5 @@
+import { Route, Switch, Link } from "react-router-dom";
+
 const Products = ({ products }) => {
   console.log("products", products);
   return (
@@ -19,6 +21,12 @@ const Products = ({ products }) => {
                     <p class="subtitle">{individualProduct.category}</p>
                     <p class="subtitle">${individualProduct.price}</p>
                     <p clasName="content">{individualProduct.description}</p>
+                    <Link
+                      to={`/product/${individualProduct.id}`}
+                      className="link"
+                    >
+                      View Product
+                    </Link>
                   </article>
                 </div>
               );

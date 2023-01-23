@@ -147,8 +147,8 @@ const App = () => {
           <Route path="/products">
             <Products products={products}></Products>
           </Route>
-          <Route path="/productdetail">
-            <ProductDetail></ProductDetail>
+          <Route path="/product/:productId">
+            <ProductDetail products={products}></ProductDetail>
           </Route>
           <Route path="/laptops">
             <Laptops products={products}></Laptops>
