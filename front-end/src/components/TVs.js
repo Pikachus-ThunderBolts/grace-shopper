@@ -1,22 +1,22 @@
 import { Route, Switch, Link } from "react-router-dom";
 
-const TVs = ({ products }) => {
+const TVs = ({ products, filteredProducts }) => {
   return (
     <>
       <section class="section">
         <h1 class="title">TVs</h1>
         <section class="section">
-          <div className="tile is-ancestor">
-            {products.map((individualProduct) => {
-              return (
-                <>
-                  {individualProduct.category === "TV" ? (
+          {filteredProducts.map((individualProduct) => {
+            return (
+              <>
+                {individualProduct.category === "TV" ? (
+                  <div className="tile is-ancestor">
                     <Link
                       to={`/product/${individualProduct.id}`}
                       className="link"
                     >
                       <div class="tile is-parent">
-                        <article class="tile is-child notification is-white">
+                        <article class="tile is-child notification is-white box">
                           <p class="title">{individualProduct.title}</p>
                           <figure class="image is-4by3">
                             <img src={individualProduct.img}></img>
@@ -29,11 +29,11 @@ const TVs = ({ products }) => {
                         </article>
                       </div>
                     </Link>
-                  ) : null}
-                </>
-              );
-            })}
-          </div>
+                  </div>
+                ) : null}
+              </>
+            );
+          })}
         </section>
       </section>
     </>

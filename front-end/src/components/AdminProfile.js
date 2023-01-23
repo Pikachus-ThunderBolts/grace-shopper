@@ -1,3 +1,4 @@
+import { Route, Switch, Link } from "react-router-dom";
 const AdminProfile = () => {
   return (
     <>
@@ -8,9 +9,15 @@ const AdminProfile = () => {
       </section>
       <section class="section has-background-info">
         <h1 class="title has-text-white">Admin Tools</h1>
-        <h3 className="content has-text-white">Create Product</h3>
-        <h3 className="content has-text-white">Edit Product</h3>
-        <h3 className="content has-text-white">Create Admin User</h3>
+        <Link to="/createproduct">
+          <h3 className="content has-text-white">Create Product</h3>
+        </Link>
+        <Link to="/products">
+          <h3 className="content has-text-white">Edit Product</h3>
+        </Link>
+        <Link to="/createadminuser">
+          <h3 className="content has-text-white">Create Admin User</h3>
+        </Link>
       </section>
     </>
   );

@@ -1,11 +1,11 @@
-const CellPhones = ({ products }) => {
+const CellPhones = ({ products, filteredProducts }) => {
   return (
     <>
       <section class="section">
         <h1 class="title">Cell Phones</h1>
         <section class="section">
           <div className="tile is-ancestor">
-            {products.map((individualProduct) => {
+            {filteredProducts.map((individualProduct) => {
               return (
                 <>
                   {individualProduct.category === "cell phone" ? (

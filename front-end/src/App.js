@@ -14,10 +14,13 @@ import AdminProfile from "./components/AdminProfile";
 import Confirmation from "./components/Confirmation";
 import Checkout from "./components/Checkout";
 import ProductDetail from "./components/ProductDetail";
+import CreateProduct from "./components/CreateProduct";
+import CreateAdminUser from "./components/CreateAdminUser";
 
 const App = () => {
   const [products, setProducts] = useState([]);
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState(products);
   useEffect(() => {
     const getProducts = async () => {
       const products = await fetchProducts();
@@ -26,13 +29,43 @@ const App = () => {
     };
     getProducts();
   }, []);
+
+  useEffect(() => {
+    const searchTermLower = searchTerm.toLowerCase().split(" ");
+    if (searchTermLower) {
+      const filtered = products.filter((productsObject) => {
+        const filterableValues = [
+          productsObject.title,
+          productsObject.description,
+          productsObject.brand,
+          productsObject.price,
+          productsObject.category,
+        ];
+
+        for (let value of filterableValues) {
+          if (value.toLowerCase().includes(searchTermLower)) {
+            return true;
+          }
+        }
+        return false;
+      });
+      setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts(products);
+    }
+  }, [searchTerm, products]);
+
+  console.log(filteredProducts, "filteredproducts");
+
   return (
     <>
       <nav class="navbar " role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <h1 className="navbar-item is-size-2 has-text-info has-text-weight-semibold">
-            Tech-Buy!
-          </h1>
+          <Link to="/">
+            <h1 className="navbar-item is-size-2 has-text-info has-text-weight-semibold">
+              Tech-Buy!
+            </h1>
+          </Link>
 
           <a
             role="button"
@@ -49,6 +82,18 @@ const App = () => {
 
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
+            <div className="navbar-item">
+              <input
+                class="navbar-item input is-rounded"
+                type="text"
+                placeholder="Search Products..."
+                value={searchTerm}
+                onChange={(event) => {
+                  setSearchTerm(event.target.value);
+                }}
+              ></input>
+            </div>
+
             <Link to="/" className="navbar-item">
               <a class="navbar-item">Home</a>
             </Link>
@@ -107,7 +152,7 @@ const App = () => {
             </Link>
 
             <div className="tabs is-right">
-              <Link to="/admin" className="navbar-item">
+              <Link to="/admin" className="">
                 <span class="icon-text">
                   <span class="icon">
                     <i class="fa-solid fa-users"></i>
@@ -124,17 +169,17 @@ const App = () => {
           </div>
           <hr></hr>
           <div className="tabs">
-            <Link to="/products" className="navbar-item">
+            <Link to="/products" className="">
               All Products
             </Link>
 
-            <Link to="/laptops" className="navbar-item">
+            <Link to="/laptops" className="">
               Laptops
             </Link>
-            <Link to="/tvs" className="navbar-item">
+            <Link to="/tvs" className="">
               TVs
             </Link>
-            <Link to="/cellphones" className="navbar-item">
+            <Link to="/cellphones" className="">
               Cell Phones
             </Link>
           </div>
@@ -145,13 +190,19 @@ const App = () => {
             <Home></Home>
           </Route>
           <Route path="/products">
-            <Products products={products}></Products>
+            <Products
+              products={products}
+              filteredProducts={filteredProducts}
+            ></Products>
           </Route>
           <Route path="/product/:productId">
             <ProductDetail products={products}></ProductDetail>
           </Route>
           <Route path="/laptops">
-            <Laptops products={products}></Laptops>
+            <Laptops
+              products={products}
+              filteredProducts={filteredProducts}
+            ></Laptops>
           </Route>
           <Route path="/cart">
             <Cart></Cart>
@@ -168,10 +219,13 @@ const App = () => {
           </Route>
 
           <Route path="/tvs">
-            <TVs products={products}></TVs>
+            <TVs products={products} filteredProducts={filteredProducts}></TVs>
           </Route>
           <Route path="/cellphones">
-            <CellPhones products={products}></CellPhones>
+            <CellPhones
+              products={products}
+              filteredProducts={filteredProducts}
+            ></CellPhones>
           </Route>
           <Route path="/account">
             <Account></Account>
@@ -181,6 +235,12 @@ const App = () => {
           </Route>
           <Route path="/adminprofile">
             <AdminProfile></AdminProfile>
+          </Route>
+          <Route path="/createproduct">
+            <CreateProduct></CreateProduct>
+          </Route>
+          <Route path="/createadminuser">
+            <CreateAdminUser></CreateAdminUser>
           </Route>
         </Switch>
       </div>
