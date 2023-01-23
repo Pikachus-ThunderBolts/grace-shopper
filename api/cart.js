@@ -30,21 +30,18 @@ const {
 //Only admin can have access to get all the carts
 apiRouter.get("/", async (req, res, next) => {
   try {
+    const tokenParts = req.headers.authorization.split(" ");
+    const signature = tokenParts[tokenParts.length-1];
+    jwt.verify(signature, JWT_SECRET);
     const allCarts = await getAllCarts();
-    if(!req.headers.authorization) {
-      res.send({
-        name: `AdminUserNotLoggedIn`,
-        message: `Only adminUsers can see all carts`
-      })
-      return
-    }
-    const token = req.headers.authorization.slice(7);
-    const signedIn = jwt.verify(token, JWT_SECRET);
-    if(signedIn) {
-      res.send(allCarts);
-    }
+    res.send(allCarts);
+    
   } catch (error) {
-    next(error)
+    res.send({
+      name: `AdminUserNotLoggedIn`,
+      message: `Only adminUsers can see all carts`
+    })
+    
   }
 });
 

@@ -1,7 +1,38 @@
+const URL = `http://localhost:4000/api`
 
 
 
-const URL = `https://tech-buy-one.onrender.com/api`
+// const makeHeaders = (token) => {
+//   const headers = {
+//     "Content-Type": "application/json",
+//   };
+
+//   if (token) {
+//     headers['Authorization'] = `Bearer ${token}`;
+//   }
+// //  console.log(headers);
+//   return headers;
+// };
+
+
+// export const apiCall = async (endpoint, defaultOptions= {}) => {
+//   const {token, method, body} = defaultOptions;
+  
+//   const options = {};
+//   options.headers = makeHeaders(token);
+//   if (method) {
+//     options.method = method;
+//   };
+//   if (body) {
+//     options.body = JSON.stringify(body);
+//   }
+//     const response = await fetch(`${BASEURL}/${endpoint}`, options);
+//     const result = await response.json();
+//     console.log(result);
+//     return result;
+// }
+
+
 
 /* PRODUCTS */
 //fetchAllProducts
@@ -63,13 +94,19 @@ export const fetchProducts = async () => {
 
 /* CART */
 //fetchCarts
+
+let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuYXRlIiwiaWF0IjoxNjc0NDUzOTMxfQ.6maX6JqG_4LeBS3GJ_G7Hc2NxZA3tPqQCe26LBzLm5Y'
+
 export const fetchCart = async () => {
+  console.log();
   try {
     const response = await fetch(`${URL}/cart`, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
     }).then((response) => response.json());
+    console.log(token);
     console.log("fetchCart response", response)
     return response;
   } catch (error) {
@@ -78,6 +115,9 @@ export const fetchCart = async () => {
 };
 
 //fetchGuestCart
+
+
+
 //fetchCustomerCart
 //patchGuestCart
 //patchCustomerCart
