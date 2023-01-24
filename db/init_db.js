@@ -1,5 +1,4 @@
 const {
-  client,
   createCustomerUser,
   createAdminUser,
   createNewProduct,
@@ -9,6 +8,8 @@ const {
   createNewReview,
   getProductsByBrand,
 } = require("./");
+
+const client = require("./client")
 
 async function dropTables() {
   console.log("dropping tables...");
@@ -344,8 +345,8 @@ async function rebuildDB() {
     client.end()
   }
 }
-client.connect();
-rebuildDB();
+// client.connect();
+// rebuildDB();
 
 module.exports = {
   rebuildDB,
