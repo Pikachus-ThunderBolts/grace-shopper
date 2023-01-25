@@ -5,5 +5,12 @@ img {
     object-fit: cover;
 }
 
+.productCard{
+    display: flex;
+    flex-wrap: wrap;
+}
 
+.cart{
+    float: right;
+}
 

@@ -2,8 +2,6 @@ import { Route, Switch, Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
 const Products = ({ products, filteredProducts }) => {
-  console.log("filtered products on products page", filteredProducts);
-  console.log("products", products);
   return (
     <>
       <section class="section">
