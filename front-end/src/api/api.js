@@ -40,7 +40,51 @@ export const fetchProducts = async () => {
 
 /* REVIEWS */
 //fetchReviews
+export const fetchReviews = async () => {
+  try {
+    const response = await fetch(`${URL}/reviews`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    console.log("this is reviews", response);
+    return response;
+  } catch (error) {
+    console.error("There was an error fetching the products", error);
+  }
+};
 //createReviews
+/*export const createReview = async (
+  title,
+  review,
+  customerUserId,
+  productId,
+  guestId
+) => {
+  try {
+    const response = await fetch(`${URL}/reviews`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        title,
+        review,
+        customerUserId,
+        productId,
+        guestId,
+      }),
+    });
+
+    const result = await response.json();
+    console.log("createReviews api call result", result);
+    return result;
+  } catch (error) {
+    console.error("There was an error creating a new activity", error);
+  }
+};
+*/
 //patchReviews
 //deleteReviews
 

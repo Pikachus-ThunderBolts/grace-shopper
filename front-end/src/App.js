@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import { fetchProducts } from "./api/api";
+import { fetchProducts, fetchReviews } from "./api/api";
 import Products from "./components/Products";
 import Home from "./components/Home";
 import Laptops from "./components/Laptops";
@@ -19,6 +19,7 @@ import CreateAdminUser from "./components/CreateAdminUser";
 
 const App = () => {
   const [products, setProducts] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
   useEffect(() => {
@@ -29,6 +30,17 @@ const App = () => {
     };
     getProducts();
   }, []);
+
+  useEffect(() => {
+    const getReviews = async () => {
+      const reviews = await fetchReviews();
+
+      setReviews(reviews);
+    };
+    getReviews();
+  }, []);
+
+  console.log("reviews", reviews);
 
   useEffect(() => {
     const searchTermLower = searchTerm.toLowerCase().split(" ");
@@ -196,7 +208,10 @@ const App = () => {
             ></Products>
           </Route>
           <Route path="/product/:productId">
-            <ProductDetail products={products}></ProductDetail>
+            <ProductDetail
+              products={products}
+              reviews={reviews}
+            ></ProductDetail>
           </Route>
           <Route path="/laptops">
             <Laptops
