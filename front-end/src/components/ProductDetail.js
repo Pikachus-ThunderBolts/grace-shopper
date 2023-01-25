@@ -13,6 +13,7 @@ const ProductDetail = ({ products, reviews }) => {
         newReviews.push(reviews[i]);
       }
     }
+
     return newReviews;
   }
 
