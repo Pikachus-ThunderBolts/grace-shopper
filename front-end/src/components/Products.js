@@ -4,24 +4,33 @@ import React, { useState, useEffect } from "react";
 const Products = ({ products, filteredProducts }) => {
   return (
     <>
-      <section className="section">
-        <h1 className="title">Products</h1>
-        <section className="section is-white">
-          <div className="tile is-ancestor productCard">
+      <section class="section">
+        <h1 class="title">Products</h1>
+        <section class="section is-white">
+          <div className="tile is-ancestor is-flex-wrap-wrap ">
             {filteredProducts.map((individualProduct) => {
               return (
                 <Link to={`/product/${individualProduct.id}`} className="link">
-                  <div className="tile is-parent">
-                    <article className="tile is-child notification is-white box">
-                      <p className="title">{individualProduct.title}</p>
+                  <div class="tile is-parent">
+                    <article class="tile is-child notification is-white box">
+                      <p class="title">{individualProduct.title}</p>
 
-                      <figure className="image is-4by3">
-                        <img src={individualProduct.img}></img>
+                      <figure class="image is-4by3">
+                        <img 
+                          src={individualProduct.img}
+                          width="250"
+                          height="250"
+                        ></img>
                       </figure>
-                      <i className="fa-solid fa-cart-plus fa-2x cart"></i>
-                      <p className="subtitle">{individualProduct.category}</p>
-                      <p className="subtitle">${individualProduct.price}</p>
-                      <p className="content">{individualProduct.description}</p>
+
+                      <p class="subtitle">{individualProduct.category}</p>
+                      <p class="subtitle">${individualProduct.price}</p>
+                      <div class="buttons has-addons is-justify-content-space-between">
+                        {" "}
+                        <button class="button is-success">Edit</button>
+                        <button class="button is-danger">Delete</button>
+                      </div>
+                      <p class="content">{individualProduct.description}</p>
                     </article>
                   </div>
                 </Link>
