@@ -18,7 +18,6 @@ export const fetchProducts = async () => {
 
 //fetchProduct
 export const createProduct = async (brand, title, description, price, quantity, category, img, token) => {
-  console.log("here---------------")
   try {
       const gatheringData = await fetch(`${URL}/products`, {
           method: "POST",
@@ -37,8 +36,6 @@ export const createProduct = async (brand, title, description, price, quantity, 
           }),
       });
       const newProduct = await gatheringData.json();
-      console.log("this is the token from the api:", token)
-      console.log("this is newProduct from the api:", newProduct)
       return newProduct;
   } catch (error) {
       console.error("There was an error creating a new product...api", error);
