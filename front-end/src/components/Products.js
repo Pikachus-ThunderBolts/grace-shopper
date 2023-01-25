@@ -27,7 +27,11 @@ const Products = ({ products, filteredProducts }) => {
 
                       <p class="subtitle">{individualProduct.category}</p>
                       <p class="subtitle">${individualProduct.price}</p>
-
+                      <div class="buttons has-addons is-justify-content-space-between">
+                        {" "}
+                        <button class="button is-success">Edit</button>
+                        <button class="button is-danger">Delete</button>
+                      </div>
                     </article>
                   </div>
                 </Link>
