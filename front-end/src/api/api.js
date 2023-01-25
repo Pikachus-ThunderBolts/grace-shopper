@@ -15,7 +15,34 @@ export const fetchProducts = async () => {
     console.error("There was an error fetching the products", error);
   }
 };
+
 //fetchProduct
+export const createProduct = async (brand, title, description, price, quantity, category, img, token) => {
+  try {
+      const gatheringData = await fetch(`${URL}/products`, {
+          method: "POST",
+          headers: {
+              "Content-Type" : "application/json",
+              Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+              brand,
+              title,
+              description,
+              price,
+              quantity,
+              category, 
+              img,
+          }),
+      });
+      const newProduct = await gatheringData.json();
+      return newProduct;
+  } catch (error) {
+      console.error("There was an error creating a new product...api", error);
+      throw error;
+  }
+}
+
 //createProduct
 //updateProduct
 //deleteProduct
