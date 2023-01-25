@@ -15,7 +15,7 @@ const Products = ({ products, filteredProducts }) => {
                     <article class="tile is-child notification is-white box">
                       <p class="title">{individualProduct.title}</p>
 
-                      <figure class="image is-4by3">
+                      <figure class="image-is-square">
                         <img 
                           src={individualProduct.img}
                           width="250"
@@ -30,7 +30,6 @@ const Products = ({ products, filteredProducts }) => {
                         <button class="button is-success">Edit</button>
                         <button class="button is-danger">Delete</button>
                       </div>
-                      <p class="content">{individualProduct.description}</p>
                     </article>
                   </div>
                 </Link>
