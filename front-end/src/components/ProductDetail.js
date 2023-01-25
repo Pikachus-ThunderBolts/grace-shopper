@@ -16,6 +16,23 @@ const ProductDetail = ({ products, reviews }) => {
     return newReviews;
   }
 
+  const handleCreateReview = async (
+    title,
+    review,
+    customerUserId,
+    productId,
+    guestId
+  ) => {
+    console.log(`this is title -${title} this is review -${description}`);
+    const newReview = await createReview(
+      title,
+      review,
+      customerUserId,
+      productId,
+      guestId
+    );
+  };
+
   useEffect(() => {
     const getReviewsPage = async () => {
       const reviewsPage = await fetchReviewsPage(reviews);
