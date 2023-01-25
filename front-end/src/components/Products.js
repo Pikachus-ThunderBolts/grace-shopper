@@ -6,8 +6,13 @@ const Products = ({ products, filteredProducts }) => {
     <>
       <section class="section">
         <h1 class="title has-text-centered">Products</h1>
+        <div>
+          <Link to="/createProduct" className="link">
+            <button class="button is-success edit">Create New Product</button>
+          </Link>
+        </div>
         <section class="section is-white">
-          <div className="tile is-ancestor is-flex-wrap-wrap ">
+          <div className="tile is-ancestor is-flex-wrap-wrap productCard">
             {filteredProducts.map((individualProduct) => {
               return (
                 <Link to={`/product/${individualProduct.id}`} className="link">
@@ -27,7 +32,8 @@ const Products = ({ products, filteredProducts }) => {
                       <p class="subtitle">${individualProduct.price}</p>
                       <div class="buttons has-addons is-justify-content-space-between">
                         {" "}
-                        <button class="button is-success">Edit</button>
+                        
+                        <button class="button is-success edit">Edit</button>
                         <button class="button is-danger">Delete</button>
                       </div>
                     </article>
