@@ -52,7 +52,7 @@ const App = () => {
     getReviews();
   }, []);
 
-  console.log("reviews", reviews);
+  // console.log("reviews", reviews);
 
   useEffect(() => {
     const searchTermLower = searchTerm.toLowerCase().split(" ");
