@@ -57,8 +57,8 @@ export const fetchReviews = async () => {
 export const createReview = async (
   title,
   review,
-  customerUserId,
   productId,
+  customerUserId,
   guestId
 ) => {
   try {
@@ -71,8 +71,8 @@ export const createReview = async (
       body: JSON.stringify({
         title,
         review,
-        customerUserId,
         productId,
+        customerUserId,
         guestId,
       }),
     });

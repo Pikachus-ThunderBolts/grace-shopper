@@ -207,7 +207,7 @@ const App = () => {
               filteredProducts={filteredProducts}
             ></Products>
           </Route>
-          <Route path="/product/:productId">
+          <Route path="/product/:productIdParam">
             <ProductDetail
               products={products}
               reviews={reviews}

@@ -2,14 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { createReview } from "../api/api";
 
-const ProductDetail = ({ products, reviews }) => {
+export const ProductDetail = ({ products, reviews, setReviews }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
-  const { productId } = useParams();
+  const { productIdParam } = useParams();
+  const [title, setTitle] = useState("");
+  const [review, setReview] = useState("");
+
+  console.log("productId", productIdParam);
 
   function fetchReviewsPage(reviews) {
     const newReviews = [];
     for (let i in reviews) {
-      if (productId == reviews[i].productId) {
+      if (productIdParam == reviews[i].productId) {
         newReviews.push(reviews[i]);
       }
     }
@@ -20,18 +24,20 @@ const ProductDetail = ({ products, reviews }) => {
   const handleCreateReview = async (
     title,
     review,
+    productIdParam,
     customerUserId,
-    productId,
     guestId
   ) => {
-    console.log(`this is title -${title} this is review -${description}`);
+    console.log(`this is title -${title} this is review -${review}`);
     const newReview = await createReview(
       title,
       review,
+      productIdParam,
       customerUserId,
-      productId,
       guestId
     );
+    setReviews((previousReviews) => [...previousReviews, newReview]);
+    return newReview;
   };
 
   useEffect(() => {
@@ -46,13 +52,13 @@ const ProductDetail = ({ products, reviews }) => {
   console.log("reviewsPage", reviewsPage);
 
   const singleProduct = products.find((oneProduct) => {
-    const foundProduct = oneProduct.id == productId;
+    const foundProduct = oneProduct.id == productIdParam;
 
     return foundProduct;
   });
 
   const singleReview = reviews.find((oneReview) => {
-    const foundReview = oneReview.productId == productId;
+    const foundReview = oneReview.productId == productIdParam;
 
     return foundReview;
   });
@@ -83,32 +89,53 @@ const ProductDetail = ({ products, reviews }) => {
           <h1 class="title has-text-white has-text-centered">Leave Reviews</h1>
 
           <br></br>
-          <div class="field">
-            <label class="label">Review Title</label>
-            <div class="control">
-              <input
-                class="input"
-                type="text"
-                placeholder="Review Title"
-              ></input>
+          <form
+            onSubmit={(event) => {
+              console.log("please work");
+              event.preventDefault();
+              handleCreateReview(title, review, productIdParam);
+              setTitle("");
+              setReview("");
+            }}
+          >
+            <div class="field">
+              <label class="label">Review Title</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  value={title}
+                  placeholder="Review Title"
+                  required
+                  onChange={(event) => {
+                    setTitle(event.target.value);
+                  }}
+                ></input>
+              </div>
             </div>
-          </div>
 
-          <div class="field">
-            <label class="label">Review</label>
-            <div class="control">
-              <textarea class="textarea" placeholder="My review"></textarea>
+            <div class="field">
+              <label class="label">Review</label>
+              <div class="control">
+                <textarea
+                  class="textarea"
+                  placeholder="My review"
+                  value={review}
+                  required
+                  onChange={(event) => setReview(event.target.value)}
+                ></textarea>
+              </div>
             </div>
-          </div>
 
-          <div class="field is-grouped">
-            <div class="control">
-              <button class="button is-link">Submit</button>
+            <div class="field is-grouped">
+              <div class="control">
+                <button class="button is-link">Submit</button>
+              </div>
+              <div class="control">
+                <button class="button is-link is-light">Cancel</button>
+              </div>
             </div>
-            <div class="control">
-              <button class="button is-link is-light">Cancel</button>
-            </div>
-          </div>
+          </form>
           <hr></hr>
         </section>
         <section className="section has-background-light">
