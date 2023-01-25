@@ -16,7 +16,7 @@ const Products = ({ products, filteredProducts }) => {
                       <p class="title">{individualProduct.title}</p>
 
                       <figure class="image-is-square">
-                        <img 
+                        <img
                           src={individualProduct.img}
                           width="250"
                           height="250"
