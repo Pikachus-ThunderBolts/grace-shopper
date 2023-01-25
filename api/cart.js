@@ -30,21 +30,16 @@ const {
 //Only admin can have access to get all the carts
 apiRouter.get("/", async (req, res, next) => {
   try {
+    const tokenParts = req.headers.authorization.split(" ");
+    const signature = tokenParts[tokenParts.length-1];
+    jwt.verify(signature, JWT_SECRET);
     const allCarts = await getAllCarts();
-    if(!req.headers.authorization) {
-      res.send({
-        name: `AdminUserNotLoggedIn`,
-        message: `Only adminUsers can see all carts`
-      })
-      return
-    }
-    const token = req.headers.authorization.slice(7);
-    const signedIn = jwt.verify(token, JWT_SECRET);
-    if(signedIn) {
-      res.send(allCarts);
-    }
+    res.send(allCarts);
   } catch (error) {
-    next(error)
+    res.send({
+      name: `AdminUserNotLoggedIn`,
+      message: `Only adminUsers can see all carts`
+    })
   }
 });
 
@@ -92,26 +87,19 @@ apiRouter.get("/customer/:customerUserId", async (req, res, next) => {
 //getting cart by guestId
 apiRouter.get("/guest/:guestId", async (req, res, next) => {
   try {
-      const {guestId} = req.params;
-
+      const {guestId} = req.params; 
+      console.log(guestId)
+      const tokenParts = req.headers.authorization.split(" ");
+      const signature = bearerParts[tokenParts.length-1];
+      console.log(signature);
+      jwt.verify(signature, JWT_SECRET);
       const cartByguestId = await getCartByGuestId(guestId);
-
-      if(!req.headers.authorization) {
-          res.send({
-              name: `UserNotLoggedIn`,
-              message: `Only User can view orders by guestUserId`,
-          });
-          return;
-      }
-
-      const token = req.headers.authorization.slice(7);
-      const signedIn = jwt.verify(token, JWT_SECRET);
-
-      if(signedIn) {
-          res.send(cartByguestId)
-      }
+      res.send(cartByguestId);
   } catch (error) {
-      next(error);
+      res.send({
+          name: `UserNotLoggedIn`,
+          message: `Only User can view orders by guestUserId`,
+      });
   }
 })
 

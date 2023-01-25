@@ -29,7 +29,7 @@ const TVs = ({ products, filteredProducts }) => {
 
                           <p class="subtitle">{individualProduct.category}</p>
                           <p class="subtitle">${individualProduct.price}</p>
-                          <p clasName="content">
+                          <p className="content">
                             {individualProduct.description}
                           </p>
                           <div class="buttons has-addons is-justify-content-space-between">

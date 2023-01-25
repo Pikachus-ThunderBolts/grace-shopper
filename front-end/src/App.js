@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import { fetchProducts, fetchReviews } from "./api/api";
+import { fetchProducts, fetchCart, fetchReviews } from "./api/api";
 import Products from "./components/Products";
 import Home from "./components/Home";
 import Laptops from "./components/Laptops";
@@ -22,6 +22,18 @@ const App = () => {
   const [reviews, setReviews] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
+  const [token, setToken] = useState(
+    window.localStorage.getItem("token") || null
+  );
+
+  useEffect(() => {
+    if (token) {
+      window.localStorage.setItem("token", token);
+    } else {
+      window.localStorage.removeItem("token");
+    }
+  }, [token]);
+
   useEffect(() => {
     const getProducts = async () => {
       const products = await fetchProducts();
@@ -67,7 +79,7 @@ const App = () => {
     }
   }, [searchTerm, products]);
 
-  console.log(filteredProducts, "filteredproducts");
+  // console.log(filteredProducts, "filteredproducts");
 
   return (
     <>
@@ -199,7 +211,7 @@ const App = () => {
 
         <Switch>
           <Route exact path="/">
-            <Home></Home>
+            <Home token={token}></Home>
           </Route>
           <Route path="/products">
             <Products
@@ -221,17 +233,17 @@ const App = () => {
             ></Laptops>
           </Route>
           <Route path="/cart">
-            <Cart></Cart>
+            <Cart token={token}></Cart>
           </Route>
           <Route path="/checkout">
-            <Checkout></Checkout>
+            <Checkout token={token}></Checkout>
           </Route>
           <Route path="/confirmation">
             <Confirmation></Confirmation>
           </Route>
 
           <Route path="/profile">
-            <Profile></Profile>
+            <Profile token={token} setToken={setToken}></Profile>
           </Route>
 
           <Route path="/tvs">
@@ -244,19 +256,19 @@ const App = () => {
             ></CellPhones>
           </Route>
           <Route path="/account">
-            <Account></Account>
+            <Account token={token} setToken={setToken}></Account>
           </Route>
           <Route path="/admin">
-            <Admin></Admin>
+            <Admin token={token} setToken={setToken}></Admin>
           </Route>
           <Route path="/adminprofile">
-            <AdminProfile></AdminProfile>
+            <AdminProfile token={token} setToken={setToken}></AdminProfile>
           </Route>
           <Route path="/createproduct">
-            <CreateProduct></CreateProduct>
+            <CreateProduct token={token} products={products}></CreateProduct>
           </Route>
           <Route path="/createadminuser">
-            <CreateAdminUser></CreateAdminUser>
+            <CreateAdminUser token={token} setToken={setToken}></CreateAdminUser>
           </Route>
         </Switch>
       </div>
