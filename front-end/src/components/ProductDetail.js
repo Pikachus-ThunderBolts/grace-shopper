@@ -81,6 +81,11 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
                 <p class="content">{singleProduct.brand}</p>
                 <p class="content">{singleProduct.description}</p>
                 <button class="button is-focused">Add to Cart</button>
+                <div class="buttons has-addons is-justify-content-space-between">
+                  {" "}
+                  <button class="button is-success">Edit</button>
+                  <button class="button is-danger">Delete</button>
+                </div>
               </article>
             </div>
           </div>
