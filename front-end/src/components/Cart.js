@@ -5,27 +5,27 @@ import { fetchCart, fetchGuestCart} from "../api/api";
 
 const Cart = () => {
 
-  const [token, setToken] = useState(window.localStorage.getItem("token") || null);
-  console.log(token);
-  const [cart, setCart] = useState([])
-  const [guestCart, setGuestCart] = useState([]);
+  // const [token, setToken] = useState(window.localStorage.getItem("token") || null);
+  // console.log(token);
+  // const [cart, setCart] = useState([])
+  // const [guestCart, setGuestCart] = useState([]);
 
-  useEffect(()=>{
-    const getCart = async () => {
-      const cart = await fetchCart();
+  // useEffect(()=>{
+  //   const getCart = async () => {
+  //     const cart = await fetchCart();
 
-      setCart(cart);
-    }
-    getCart();
-  }, []);
+  //     setCart(cart);
+  //   }
+  //   getCart();
+  // }, []);
 
-  useEffect(() =>{
-    const getGuestCart = async () => {
-      const guestCart = await fetchGuestCart(guestId);
-      setGuestCart(guestCart);
-    }
-    getGuestCart();
-  }, []);
+  // useEffect(() =>{
+  //   const getGuestCart = async () => {
+  //     const guestCart = await fetchGuestCart(guestId);
+  //     setGuestCart(guestCart);
+  //   }
+  //   getGuestCart();
+  // }, []);
 
   return (
     <>
