@@ -23,7 +23,7 @@ const Products = ({ products, filteredProducts }) => {
                       <i class="fa-solid fa-cart-plus fa-2x"></i>
                       <p class="subtitle">{individualProduct.category}</p>
                       <p class="subtitle">${individualProduct.price}</p>
-                      <p clasName="content">{individualProduct.description}</p>
+                      <p className="content">{individualProduct.description}</p>
                     </article>
                   </div>
                 </Link>

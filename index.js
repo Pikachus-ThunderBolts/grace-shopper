@@ -5,7 +5,13 @@ const server = express();
 // enable cross-origin resource sharing to proxy api requests
 // from localhost:3000 to localhost:4000 in local dev env
 const cors = require('cors');
-server.use(cors());
+server.use(cors({
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+}));
+
 
 // create logs for everything
 const morgan = require('morgan');

@@ -23,7 +23,7 @@ const TVs = ({ products, filteredProducts }) => {
                           </figure>
                           <p class="subtitle">{individualProduct.category}</p>
                           <p class="subtitle">${individualProduct.price}</p>
-                          <p clasName="content">
+                          <p className="content">
                             {individualProduct.description}
                           </p>
                         </article>

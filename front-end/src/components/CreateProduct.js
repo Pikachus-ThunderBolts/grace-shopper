@@ -2,24 +2,24 @@ import React, {useState} from "react";
 import { useHistory } from "react-router-dom";
 import { createProduct } from "../api/api";
 
-const CreateProduct = ({token, setProducts}) => {
-  const history = useHistory();
-  const [title, setTitle] = useState('');
-  const [brand, setBrand] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [category, setCategory] = useState('');
-  const [img, setImg] = useState('');
+const CreateProduct = ({token, products, setProducts}) => {
+  // const history = useHistory();
+  // const [title, setTitle] = useState('');
+  // const [brand, setBrand] = useState('');
+  // const [description, setDescription] = useState('');
+  // const [price, setPrice] = useState('');
+  // const [quantity, setQuantity] = useState('');
+  // const [category, setCategory] = useState('');
+  // const [img, setImg] = useState('');
 
   return (
     <>
-    <form className="section" onSubmit={async(event) =>{
+    {/* <form className="section" onSubmit={async(event) =>{
       event.preventDefault();
 
       const newProduct = await createProduct(brand, title, description, price, quantity, category, img, token);
 
-      console.log('newProdcut from onSubmit:', description)
+      console.log('newProduct from onSubmit:', description)
 
       if(newProduct) {
         //setProducts((previousProducts) => [...previousProducts, newProduct])
@@ -30,12 +30,13 @@ const CreateProduct = ({token, setProducts}) => {
         setQuantity('');
         setCategory('');
         setImg('');
-        history.push('/products')
+        // history.push('/products')
+        console.log("This is the token in the createProduct file:", token)
       }else {
         console.error("There was an error making new products in createProducts file", error);
       }
 
-    }}>
+    }}> */}
       <section class="section">
         <h1 class="title">Create New Product</h1>
       </section>
@@ -145,7 +146,7 @@ const CreateProduct = ({token, setProducts}) => {
           <button class="button is-primary">Create Product</button>
         </div>
       </section>
-      </form>
+      {/* </form> */}
     </>
   );
 };
