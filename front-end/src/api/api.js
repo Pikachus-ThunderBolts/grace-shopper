@@ -54,7 +54,7 @@ export const fetchReviews = async () => {
   }
 };
 //createReviews
-/*export const createReview = async (
+export const createReview = async (
   title,
   review,
   customerUserId,
@@ -84,7 +84,7 @@ export const fetchReviews = async () => {
     console.error("There was an error creating a new activity", error);
   }
 };
-*/
+
 //patchReviews
 //deleteReviews
 

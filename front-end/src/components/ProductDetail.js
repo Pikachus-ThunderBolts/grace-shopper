@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { createReview } from "../api/api";
 
 const ProductDetail = ({ products, reviews }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
@@ -67,14 +68,18 @@ const ProductDetail = ({ products, reviews }) => {
           <div class="field">
             <label class="label">Review Title</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Text input"></input>
+              <input
+                class="input"
+                type="text"
+                placeholder="Review Title"
+              ></input>
             </div>
           </div>
 
           <div class="field">
             <label class="label">Review</label>
             <div class="control">
-              <textarea class="textarea" placeholder="Textarea"></textarea>
+              <textarea class="textarea" placeholder="My review"></textarea>
             </div>
           </div>
 
