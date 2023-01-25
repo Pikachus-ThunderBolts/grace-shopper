@@ -84,11 +84,11 @@ export const fetchReviews = async () => {
   }
 };
 //createReviews
-/*export const createReview = async (
+export const createReview = async (
   title,
   review,
-  customerUserId,
   productId,
+  customerUserId,
   guestId
 ) => {
   try {
@@ -101,8 +101,8 @@ export const fetchReviews = async () => {
       body: JSON.stringify({
         title,
         review,
-        customerUserId,
         productId,
+        customerUserId,
         guestId,
       }),
     });
@@ -114,8 +114,9 @@ export const fetchReviews = async () => {
     console.error("There was an error creating a new activity", error);
   }
 };
-*/
+
 //patchReviews
+
 //deleteReviews
 
 /* ORDERS */
