@@ -1,4 +1,32 @@
+import React, { useState, useEffect } from "react";
+import { Route, Switch, Link } from "react-router-dom";
+import { fetchCart, fetchGuestCart} from "../api/api";
+
+
 const Cart = () => {
+
+  const [token, setToken] = useState(window.localStorage.getItem("token") || null);
+  console.log(token);
+  const [cart, setCart] = useState([])
+  const [guestCart, setGuestCart] = useState([]);
+
+  useEffect(()=>{
+    const getCart = async () => {
+      const cart = await fetchCart();
+
+      setCart(cart);
+    }
+    getCart();
+  }, []);
+
+  useEffect(() =>{
+    const getGuestCart = async () => {
+      const guestCart = await fetchGuestCart(guestId);
+      setGuestCart(guestCart);
+    }
+    getGuestCart();
+  }, []);
+
   return (
     <>
       <section class="section">

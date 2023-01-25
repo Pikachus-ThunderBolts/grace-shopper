@@ -12,18 +12,6 @@ import Account from "./components/Account";
 import Admin from "./components/Admin";
 
 const App = () => {
-  const [token, setToken] = useState(window.localStorage.getItem("token") || null);
-  console.log(token);
-  const [cart, setCart] = useState([])
-
-  useEffect(()=>{
-    const getCart = async () => {
-      const cart = await fetchCart(token);
-
-      setCart(cart);
-    }
-    getCart();
-  }, []);
 
   const [products, setProducts] = useState([])
 
