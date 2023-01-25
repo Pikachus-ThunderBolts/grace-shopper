@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import { fetchProducts, fetchReviews } from "./api/api";
+import { fetchProducts, fetchCart, fetchReviews } from "./api/api";
 import Products from "./components/Products";
 import Home from "./components/Home";
 import Laptops from "./components/Laptops";

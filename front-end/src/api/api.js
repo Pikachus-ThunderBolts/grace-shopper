@@ -98,21 +98,43 @@ export const fetchReviews = async () => {
 
 /* CART */
 //fetchCarts
-export const fetchCarts = async () => {
+
+let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuYXRlIiwiaWF0IjoxNjc0NDUzOTMxfQ.6maX6JqG_4LeBS3GJ_G7Hc2NxZA3tPqQCe26LBzLm5Y'
+
+export const fetchCart = async () => {
   try {
     const response = await fetch(`${URL}/cart`, {
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
     }).then((response) => response.json());
-    console.log("fetchCart response", response);
+    console.log(token);
+    console.log("fetchCart response", response)
+
     return response;
   } catch (error) {
     console.error("There was an error fetching the cart", error);
   }
 };
 
-//fetchGuestCart
+// //fetchGuestCart
+// export const fetchGuestCart = async (guestId) => {
+//   try {
+//     const response = await fetch(`${URL}/cart`, {
+//       headers: {
+//         "Content-Type": "application/json",
+//         "Authorization": `Bearer ${token}`
+//       },
+//     }).then((response) => response.json());
+//     console.log("fetchGuestCart response", response)
+//     return response;
+//   } catch (error) {
+//     console.error("Error fetching guestCart", error)
+//   };
+// };
+
+
 //fetchCustomerCart
 //patchGuestCart
 //patchCustomerCart
