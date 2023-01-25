@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { useHistory } from "react-router-dom";
 import { createProduct } from "../api/api";
 
-const CreateProduct = ({token, products, setProducts}) => {
+const CreateProduct = ({token, setProducts}) => {
   const history = useHistory();
   const [title, setTitle] = useState('');
   const [brand, setBrand] = useState('');
@@ -22,7 +22,7 @@ const CreateProduct = ({token, products, setProducts}) => {
       console.log('newProduct from onSubmit:', description)
 
       if(newProduct) {
-        //setProducts((previousProducts) => [...previousProducts, newProduct])
+        // setProducts((previousProducts) => [...previousProducts, newProduct])
         setTitle('');
         setBrand('');
         setDescription('');

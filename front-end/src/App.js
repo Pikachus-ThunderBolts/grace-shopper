@@ -264,7 +264,7 @@ const App = () => {
             <AdminProfile token={token} setToken={setToken}></AdminProfile>
           </Route>
           <Route path="/createproduct">
-            <CreateProduct token={token} products={products}></CreateProduct>
+            <CreateProduct token={token} products={products} setProducts={setProducts}></CreateProduct>
           </Route>
           <Route path="/createadminuser">
             <CreateAdminUser token={token} setToken={setToken}></CreateAdminUser>
