@@ -1,4 +1,3 @@
-const { query } = require("express");
 const {
   client,
   createCustomerUser,
@@ -342,7 +341,7 @@ async function rebuildDB() {
     console.log("Error rebuilding DB");
     throw error;
   }finally{
-    client.end()
+    await client.end()
   }
 }
 client.connect();
