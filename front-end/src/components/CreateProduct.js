@@ -19,10 +19,8 @@ const CreateProduct = ({token, setProducts}) => {
 
       const newProduct = await createProduct(brand, title, description, price, quantity, category, img, token);
 
-      console.log('newProduct from onSubmit:', description)
-
       if(newProduct) {
-        // setProducts((previousProducts) => [...previousProducts, newProduct])
+        setProducts((previousProducts) => [...previousProducts, newProduct])
         setTitle('');
         setBrand('');
         setDescription('');
@@ -30,7 +28,7 @@ const CreateProduct = ({token, setProducts}) => {
         setQuantity('');
         setCategory('');
         setImg('');
-        // history.push('/products')
+        history.push('/products')
         console.log("This is the token in the createProduct file:", token)
       }else {
         console.error("There was an error making new products in createProducts file", error);

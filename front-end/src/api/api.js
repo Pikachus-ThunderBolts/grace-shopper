@@ -9,7 +9,6 @@ export const fetchProducts = async () => {
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
-    // console.log("This is the response", response);
     return response;
   } catch (error) {
     console.error("There was an error fetching the products", error);
@@ -74,7 +73,6 @@ export const fetchReviews = async () => {
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
-    // console.log("this is reviews", response);
     return response;
   } catch (error) {
     console.error("There was an error fetching the products", error);
@@ -105,7 +103,6 @@ export const createReview = async (
     });
 
     const result = await response.json();
-    console.log("createReviews api call result", result);
     return result;
   } catch (error) {
     console.error("There was an error creating a new activity", error);
@@ -127,7 +124,7 @@ export const createReview = async (
 /* CART */
 //fetchCarts
 
-let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuYXRlIiwiaWF0IjoxNjc0NDUzOTMxfQ.6maX6JqG_4LeBS3GJ_G7Hc2NxZA3tPqQCe26LBzLm5Y'
+// let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuYXRlIiwiaWF0IjoxNjc0NDUzOTMxfQ.6maX6JqG_4LeBS3GJ_G7Hc2NxZA3tPqQCe26LBzLm5Y'
 
 export const fetchCart = async () => {
   try {
