@@ -29,7 +29,6 @@ const CreateProduct = ({token, setProducts}) => {
         setCategory('');
         setImg('');
         history.push('/products')
-        console.log("This is the token in the createProduct file:", token)
       }else {
         console.error("There was an error making new products in createProducts file", error);
       }

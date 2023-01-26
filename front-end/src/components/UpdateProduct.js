@@ -17,10 +17,7 @@ const UpdateProduct = ({
   const individualProduct = products.find(
     (object) => object.id == productIdParam
   );
-  console.log(
-    "this is individualProduct in updateproduct file",
-    individualProduct
-  );
+  
 
   const [title, setTitle] = useState(individualProduct.title);
   const [brand, setBrand] = useState(individualProduct.brand);
@@ -55,7 +52,6 @@ const UpdateProduct = ({
     );
 
     setProducts((previousProducts) => [...previousProducts, updatedProduct]);
-    console.log("updatedProduct here", updatedProduct);
     return updatedProduct;
   };
 
