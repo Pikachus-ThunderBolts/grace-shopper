@@ -12,7 +12,7 @@ export const fetchProducts = async () => {
     // console.log("this is products", response)
     return response;
   } catch (error) {
-    console.error("There was an error fetching the products", error);
+    console.error("There was an error fetching the products in the api call", error);
   }
 };
 
@@ -38,7 +38,7 @@ export const createProduct = async (brand, title, description, price, quantity, 
       const newProduct = await gatheringData.json();
       return newProduct;
   } catch (error) {
-      console.error("There was an error creating a new product...api", error);
+      console.error("There was an error creating a new product in the api call", error);
       throw error;
   }
 }
@@ -66,12 +66,28 @@ export const updateProduct = async (brand, title, description, price, quantity, 
     const editedProduct = await gatheringData.json();
     return editedProduct;
   } catch (error) {
-    console.error("There was an error editing the product in the api", error);
+    console.error("There was an error editing the product in the api call", error);
     throw error;
   }
 }
 
 //deleteProduct
+export const deleteProduct = async (productId, token) => {
+  try {
+    const gatheringData = await fetch(`${URL}/products/${productId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const deletedProduct = await gatheringData.json();
+    return deletedProduct;
+  } catch (error) {
+    console.error("There was an error deleting a product in the api call", error);
+    throw error;
+  }
+};
 
 /* ADMIN USERS */
 //createAdminUsers
