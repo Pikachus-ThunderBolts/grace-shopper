@@ -229,6 +229,7 @@ const App = () => {
               reviews={reviews}
               setReviews={setReviews}
               setProducts={setProducts}
+              token={token}
             ></ProductDetail>
           </Route>
           <Route path="/laptops">

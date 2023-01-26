@@ -8,6 +8,7 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
   const { productIdParam } = useParams();
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
+  const history = useHistory();
 
   console.log("productId", productIdParam);
   //comment
@@ -52,6 +53,16 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
     setReviews((previousReviews) => [...previousReviews, newReview]);
     return newReview;
   };
+
+  const handleDeleteClick = async (productId) => {
+
+    const deletedProduct = await deleteProduct(productId, token);
+    
+    console.log("deleted product from product details file", deletedProduct)
+    history.push(`/products`)
+    
+    setProducts((previousProducts) => previousProducts.filter((products) => products.id !== productId))
+  }
 
   useEffect(() => {
     const getReviewsPage = async () => {
@@ -102,7 +113,9 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
                   >
                     <button class="button is-success">Edit</button>
                   </Link>
-                  <button class="button is-danger">Delete</button>
+                  <button 
+                    onClick={(() => handleDeleteClick(singleProduct.id))}
+                    class="button is-danger">Delete</button>
                 </div>
               </article>
             </div>
