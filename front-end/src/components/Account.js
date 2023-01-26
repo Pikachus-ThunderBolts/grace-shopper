@@ -1,3 +1,7 @@
+import { Route, Switch, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+
 const Account = () => {
   return (
     <>
@@ -27,6 +31,10 @@ const Account = () => {
           </div>
 
           <button class="button is-primary">Sign in</button>
+          <div></div>
+          <Link to={`/admin`}>
+            <button class="button is-danger">Admin Login Page</button>
+          </Link>
         </form>
       </section>
     </>
