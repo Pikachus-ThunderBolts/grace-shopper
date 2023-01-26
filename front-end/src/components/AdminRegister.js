@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, Link } from "react-router-dom";
 import { useHistory, useParams } from "react-router-dom";
-import { registerAdminUsers } from "../api/api";
+import { registerAdminUsers, loginAdminUsers } from "../api/api";
 
-const Admin = ({token, setToken}) => {
+const AdminRegister = ({token, setToken}) => {
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -33,39 +33,12 @@ const Admin = ({token, setToken}) => {
 
 
   }
-
   
-
-  // const handleLogin = async (username, email, password) => {
-  //   const returningUser = await loginCustomerUsers(username, email, password);
-  //   console.log("We are returning user", returningUser);
-  //   setUser(returningUser.user.username);
-  //   setToken(returningUser.token);
-  //   setUsername("");
-  //   setEmail("");
-  //   setPassword("");
-  //   alert(returningUser.message);
-  //   history.push("/");
-  // };
-
-  // const handleRegister = async (username, email, password) => {
-  //   const newUser = await registerCustomerUsers(username, email, password);
-  //   console.log("We are new user", newUser);
-  //   if (newUser) {
-  //     setUser(newUser.username);
-  //     setToken(newUser.token);
-  //     setUsername("");
-  //     setEmail("");
-  //     setPassword("");
-  //     alert(newUser.message);
-  //     history.push("/");
-  //   }
-  // };
 
   return (
     <>
       <section class="section">
-        <h1 class="title">Admin Login</h1>
+        <h1 class="title">Admin Register</h1>
         <form 
         className="box"
         onSubmit={(event) => {
@@ -117,7 +90,6 @@ const Admin = ({token, setToken}) => {
             handleRegister(username, email, password)
           }}
           >Register</button>
-          <button className="button is-primary">Log In</button>
           
         </form>
       </section>
@@ -125,4 +97,4 @@ const Admin = ({token, setToken}) => {
   );
 };
 
-export default Admin;
+export default AdminRegister;

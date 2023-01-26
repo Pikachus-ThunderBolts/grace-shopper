@@ -31,10 +31,6 @@ const Account = () => {
           </div>
 
           <button class="button is-primary">Sign in</button>
-          <div></div>
-          <Link to={`/admin`}>
-            <button class="button is-danger">Admin Login Page</button>
-          </Link>
         </form>
       </section>
     </>

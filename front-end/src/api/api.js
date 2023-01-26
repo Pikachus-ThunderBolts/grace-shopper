@@ -147,25 +147,25 @@ export const registerAdminUsers = async (username, email, password) => {
 };
 
 // //loginAdminUsers
-// export const loginAdminUsers = async (username, password) => {
-//   try {
-//     const response = await fetch(`${URL}/adminUsers/login`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         username,
-//         password,
-//       }),
-//     });
-//     const result = await response.json();
-//     return result;
-//   } catch (error) {
-//     console.error("There was an error logging in the admin user", error);
-//     throw error;
-//   }
-// };
+export const loginAdminUsers = async (username, password) => {
+  try {
+    const response = await fetch(`${URL}/adminUsers/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("There was an error logging in the admin user", error);
+    throw error;
+  }
+};
 
 /* GUEST USERS */
 //createGuestUsers
