@@ -9,7 +9,7 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
   const [review, setReview] = useState("");
 
   console.log("productId", productIdParam);
-
+  //comment
   function fetchReviewsPage(reviews) {
     const newReviews = [];
     for (let i in reviews) {
