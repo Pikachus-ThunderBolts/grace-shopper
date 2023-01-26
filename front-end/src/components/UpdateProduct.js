@@ -5,8 +5,6 @@ import { updateProduct } from "../api/api";
 
 const UpdateProduct = ({
   token,
-  reviews,
-  setReviews,
   setProducts,
   products,
 }) => {
@@ -50,8 +48,10 @@ const UpdateProduct = ({
       productId,
       productIdParam
     );
-
-    setProducts((previousProducts) => [...previousProducts, updatedProduct]);
+    
+    const updatingState = products.filter((product => product.id !== updatedProduct.id));
+    
+    setProducts([...updatingState, updatedProduct])
     return updatedProduct;
   };
 
