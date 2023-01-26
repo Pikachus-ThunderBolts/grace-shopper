@@ -54,7 +54,6 @@ const App = () => {
     getReviews();
   }, []);
 
-  // console.log("reviews", reviews);
 
   useEffect(() => {
     const searchTermLower = searchTerm.toLowerCase().split(" ");
@@ -81,7 +80,6 @@ const App = () => {
     }
   }, [searchTerm, products]);
 
-  // console.log(filteredProducts, "filteredproducts");
 
   return (
     <>

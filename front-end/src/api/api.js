@@ -9,7 +9,7 @@ export const fetchProducts = async () => {
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
-    // console.log("this is products", response)
+    
     return response;
   } catch (error) {
     console.error("There was an error fetching the products in the api call", error);
@@ -47,7 +47,7 @@ export const createProduct = async (
     const newProduct = await gatheringData.json();
     return newProduct;
   } catch (error) {
-    console.error("There was an error creating a new product...api", error);
+    console.error("There was an error creating a new product in the api", error);
     throw error;
   }
 };
@@ -101,7 +101,7 @@ export const deleteProduct = async (productId, token) => {
       },
     });
     const deletedProduct = await gatheringData.json();
-    console.log("This is deleted product in api", deletedProduct);
+    
     return deletedProduct;
   } catch (error) {
     console.error("There was an error deleting a product in the api call", error);
@@ -217,7 +217,7 @@ export const deleteReview = async (id, token) => {
       },
     });
     const result = await response.json();
-    console.log("this review was deleted: ", result);
+    // console.log("this review was deleted: ", result);
     return result;
   } catch (error) {
     console.log("there was an error deleting a review: ", error);
@@ -246,8 +246,8 @@ export const fetchCart = async () => {
         Authorization: `Bearer ${token}`,
       },
     }).then((response) => response.json());
-    console.log(token);
-    console.log("fetchCart response", response);
+    // console.log(token);
+    // console.log("fetchCart response", response);
 
     return response;
   } catch (error) {

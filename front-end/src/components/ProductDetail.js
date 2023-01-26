@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { createReview, deleteReview } from "../api/api";
+import { useHistory, useParams } from "react-router-dom";
+import { createReview, deleteReview, deleteProduct } from "../api/api";
 
-export const ProductDetail = ({ products, reviews, setReviews, token }) => {
+export const ProductDetail = ({ products, reviews, setReviews, setProducts, token }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
   const history = useHistory();
 
-  console.log("productId", productIdParam);
-  //comment
 
   const individualProduct = products.find(
     (object) => object.id == productIdParam
@@ -29,7 +27,7 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
   }
 
   const handleDeleteReview = async (id) => {
-    console.log(`this is deleted review id -${id} this is token-${token}`);
+    // console.log(`this is deleted review id -${id} this is token-${token}`);
     const deletedReview = await deleteReview(id, token);
 
     return deletedReview;
@@ -58,7 +56,6 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
 
     const deletedProduct = await deleteProduct(productId, token);
     
-    console.log("deleted product from product details file", deletedProduct)
     history.push(`/products`)
     
     setProducts((previousProducts) => previousProducts.filter((products) => products.id !== productId))
@@ -127,7 +124,6 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
           <br></br>
           <form
             onSubmit={(event) => {
-              // console.log("please work");
               event.preventDefault();
               handleCreateReview(title, review, productIdParam);
               setTitle("");
