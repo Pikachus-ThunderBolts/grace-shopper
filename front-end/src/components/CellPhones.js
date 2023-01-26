@@ -1,3 +1,5 @@
+import { Route, Switch, Link } from "react-router-dom";
+
 const CellPhones = ({ products, filteredProducts }) => {
   return (
     <>

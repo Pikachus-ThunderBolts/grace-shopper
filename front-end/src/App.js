@@ -17,6 +17,7 @@ import ProductDetail from "./components/ProductDetail";
 import CreateProduct from "./components/CreateProduct";
 import CreateAdminUser from "./components/CreateAdminUser";
 import UpdateProduct from "./components/UpdateProduct";
+import UpdateReview from "./components/UpdateReview";
 
 const App = () => {
   const [products, setProducts] = useState([]);
@@ -216,7 +217,9 @@ const App = () => {
           </Route>
           <Route path="/products">
             <Products
-              products={products} setProducts={setProducts} token={token}
+              products={products}
+              setProducts={setProducts}
+              token={token}
               filteredProducts={filteredProducts}
             ></Products>
           </Route>
@@ -267,13 +270,33 @@ const App = () => {
             <AdminProfile token={token} setToken={setToken}></AdminProfile>
           </Route>
           <Route path="/createproduct">
-            <CreateProduct token={token} products={products} setProducts={setProducts}></CreateProduct>
+            <CreateProduct
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            ></CreateProduct>
           </Route>
           <Route path="/updateProduct/:productIdParam">
-            <UpdateProduct token={token} products={products} setProducts={setProducts}></UpdateProduct>
+            <UpdateProduct
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            ></UpdateProduct>
+          </Route>
+          <Route path="/updateReview/:productIdParam">
+            <UpdateReview
+              token={token}
+              reviews={reviews}
+              setReviews={setReviews}
+            ></UpdateReview>
           </Route>
           <Route path="/createadminuser">
-            <CreateAdminUser token={token} setToken={setToken}></CreateAdminUser>
+            <CreateAdminUser
+              token={token}
+              setToken={setToken}
+              products={products}
+              setProducts={setProducts}
+            ></CreateAdminUser>
           </Route>
         </Switch>
       </div>

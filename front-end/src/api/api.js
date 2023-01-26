@@ -17,34 +17,53 @@ export const fetchProducts = async () => {
 };
 
 //createProduct
-export const createProduct = async (brand, title, description, price, quantity, category, img, token) => {
+export const createProduct = async (
+  brand,
+  title,
+  description,
+  price,
+  quantity,
+  category,
+  img,
+  token
+) => {
   try {
-      const gatheringData = await fetch(`${URL}/products`, {
-          method: "POST",
-          headers: {
-              "Content-Type" : "application/json",
-              Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-              brand,
-              title,
-              description,
-              price,
-              quantity,
-              category, 
-              img,
-          }),
-      });
-      const newProduct = await gatheringData.json();
-      return newProduct;
+    const gatheringData = await fetch(`${URL}/products`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        brand,
+        title,
+        description,
+        price,
+        quantity,
+        category,
+        img,
+      }),
+    });
+    const newProduct = await gatheringData.json();
+    return newProduct;
   } catch (error) {
-      console.error("There was an error creating a new product...api", error);
-      throw error;
+    console.error("There was an error creating a new product...api", error);
+    throw error;
   }
-}
+};
 
 //updateProduct
-export const updateProduct = async (brand, title, description, price, quantity, category, img, token, productId) => {
+export const updateProduct = async (
+  brand,
+  title,
+  description,
+  price,
+  quantity,
+  category,
+  img,
+  token,
+  productId
+) => {
   try {
     const gatheringData = await fetch(`${URL}/products/${productId}`, {
       method: "PATCH",
@@ -59,7 +78,7 @@ export const updateProduct = async (brand, title, description, price, quantity, 
         price,
         quantity,
         category,
-        img
+        img,
       }),
     });
 
@@ -69,7 +88,7 @@ export const updateProduct = async (brand, title, description, price, quantity, 
     console.error("There was an error editing the product in the api", error);
     throw error;
   }
-}
+};
 
 //deleteProduct
 
@@ -137,8 +156,57 @@ export const createReview = async (
 };
 
 //patchReviews
+export const updateReview = async (
+  id,
+  title,
+  review,
+  productId,
+  customerUserId,
+  guestId,
+  token
+) => {
+  try {
+    const gatheringData = await fetch(`${URL}/reviews/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        title,
+        review,
+        productId,
+        customerUserId,
+        guestId,
+      }),
+    });
+
+    const editedReview = await gatheringData.json();
+    return editedReview;
+  } catch (error) {
+    console.error("There was an error editing the review in the api", error);
+    throw error;
+  }
+};
 
 //deleteReviews
+export const deleteReview = async (id, token) => {
+  try {
+    const response = await fetch(`${URL}/reviews/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+    console.log("this review was deleted: ", result);
+    return result;
+  } catch (error) {
+    console.log("there was an error deleting a review: ", error);
+    throw error;
+  }
+};
 
 /* ORDERS */
 //fetchAllOrders
@@ -158,11 +226,11 @@ export const fetchCart = async () => {
     const response = await fetch(`${URL}/cart`, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     }).then((response) => response.json());
     console.log(token);
-    console.log("fetchCart response", response)
+    console.log("fetchCart response", response);
 
     return response;
   } catch (error) {
@@ -185,7 +253,6 @@ export const fetchCart = async () => {
 //     console.error("Error fetching guestCart", error)
 //   };
 // };
-
 
 //fetchCustomerCart
 //patchGuestCart

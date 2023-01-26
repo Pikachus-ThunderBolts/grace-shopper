@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { createReview } from "../api/api";
+import { createReview, deleteReview } from "../api/api";
 
-export const ProductDetail = ({ products, reviews, setReviews }) => {
+export const ProductDetail = ({ products, reviews, setReviews, token }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
 
-  
-  const individualProduct = products.find((object) => object.id == productIdParam)
+  console.log("productId", productIdParam);
+  //comment
 
+  const individualProduct = products.find(
+    (object) => object.id == productIdParam
+  );
 
   function fetchReviewsPage(reviews) {
     const newReviews = [];
@@ -23,6 +26,13 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
 
     return newReviews;
   }
+
+  const handleDeleteReview = async (id) => {
+    console.log(`this is deleted review id -${id} this is token-${token}`);
+    const deletedReview = await deleteReview(id, token);
+
+    return deletedReview;
+  };
 
   const handleCreateReview = async (
     title,
@@ -86,8 +96,11 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
                 <button class="button is-focused">Add to Cart</button>
                 <div class="buttons has-addons is-justify-content-space-between">
                   {" "}
-                  <Link to={`/updateProduct/${individualProduct.id}`} className="link">
-                  <button class="button is-success">Edit</button>
+                  <Link
+                    to={`/updateProduct/${individualProduct.id}`}
+                    className="link"
+                  >
+                    <button class="button is-success">Edit</button>
                   </Link>
                   <button class="button is-danger">Delete</button>
                 </div>
@@ -106,6 +119,7 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
               handleCreateReview(title, review, productIdParam);
               setTitle("");
               setReview("");
+              history.push("/product/:productIdParam");
             }}
           >
             <div class="field">
@@ -157,6 +171,25 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
                 <h1 className="title">{individualReview.title}</h1>
 
                 <p className="subtitle">{individualReview.review}</p>
+                <div class="buttons has-addons is-justify-content-space-between">
+                  {" "}
+                  <Link
+                    to={`/updateReview/${individualProduct.id}`}
+                    className="link"
+                  >
+                    <button class="button is-success edit">Edit</button>
+                  </Link>
+                  <button
+                    class="button is-danger"
+                    onClick={(event) => {
+                      console.log("delete click", individualReview.id);
+                      event.preventDefault();
+                      handleDeleteReview(individualReview.id, token);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             );
           })}
