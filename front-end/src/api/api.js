@@ -54,8 +54,8 @@ export const createProduct = async (
 
 //updateProduct
 export const updateProduct = async (
-  brand,
   title,
+  brand,
   description,
   price,
   quantity,
