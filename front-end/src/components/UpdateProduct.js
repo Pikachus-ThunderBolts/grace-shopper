@@ -9,6 +9,7 @@ const UpdateProduct = ({token, setProducts, products}) => {
     const {productIdParam} = useParams();
 
     const individualProduct = products.find((object) => object.id == productIdParam)
+    console.log("this is individualProduct in updateproduct file", individualProduct);
 
     const [title, setTitle] = useState(individualProduct.title);
     const [brand, setBrand] = useState(individualProduct.brand);
@@ -18,15 +19,16 @@ const UpdateProduct = ({token, setProducts, products}) => {
     const [category, setCategory] = useState(individualProduct.category);
     const [img, setImg] = useState(individualProduct.img);
 
-
     const handleEditProduct = async (title, brand, description, price, quantity, category, img, productId, productIdParam) => {
 
         const updatedProduct = await updateProduct(title, brand, description, price, quantity, category, img, token, productId, productIdParam);
     
         setProducts((previousProducts) => [...previousProducts, updatedProduct]);
+        console.log("updatedProduct here", updatedProduct)
         return updatedProduct
     
     };
+   
         
   return (
     <>
@@ -34,7 +36,6 @@ const UpdateProduct = ({token, setProducts, products}) => {
         event.preventDefault();
 
         
-
         handleEditProduct(title, brand, description, price, quantity, category, img, productIdParam)
 
         setTitle('');
