@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, Link } from "react-router-dom";
 
-const Home = () => {
+const Home = ({token, setToken}) => {
   return (
     <>
       <section class="section">

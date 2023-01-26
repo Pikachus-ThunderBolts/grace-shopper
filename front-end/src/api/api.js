@@ -125,7 +125,7 @@ export const fetchAdminUsers = async () => {
   }
 };
 //registerAdminUsers
-export const registerAdminUsers = async (username, password) => {
+export const registerAdminUsers = async (username, email, password) => {
   try {
     const response = await fetch(`${URL}/adminUsers/register`, {
       method: "POST",
@@ -134,6 +134,7 @@ export const registerAdminUsers = async (username, password) => {
       },
       body: JSON.stringify({
         username,
+        email,
         password,
       }),
     });

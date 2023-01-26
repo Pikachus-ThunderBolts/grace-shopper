@@ -80,6 +80,16 @@ const App = () => {
     }
   }, [searchTerm, products]);
 
+  const LogOut = ({setToken}) => {
+    return (
+      <button 
+      className="button is-light"
+      onClick={() => {
+        setToken("");
+      }}>Sign Out</button>
+    );
+  };
+
 
   return (
     <>
@@ -142,13 +152,13 @@ const App = () => {
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                <Link to="/account" class="button is-info">
+                {token ? null : (<Link to="/account" class="button is-info">
                   <strong>Sign up</strong>
-                </Link>
-
-                <Link to="/account" class="button is-light">
-                  Log in
-                </Link>
+                </Link>)}
+                
+                {token ? <LogOut setToken={setToken}
+                className="button is-light"/> : null}
+                
                 <Link to="/cart" className="button is-light">
                   <span class="icon-text">
                     <span class="icon">
@@ -211,7 +221,7 @@ const App = () => {
 
         <Switch>
           <Route exact path="/">
-            <Home token={token}></Home>
+            <Home token={token} setToken={setToken}></Home>
           </Route>
           <Route path="/products">
             <Products
