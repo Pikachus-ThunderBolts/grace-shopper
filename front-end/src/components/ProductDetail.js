@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { createReview } from "../api/api";
+import { createReview, deleteReview } from "../api/api";
 
 export const ProductDetail = ({ products, reviews, setReviews, token }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
