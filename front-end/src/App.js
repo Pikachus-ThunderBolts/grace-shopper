@@ -224,6 +224,7 @@ const App = () => {
               products={products}
               reviews={reviews}
               setReviews={setReviews}
+              token={token}
             ></ProductDetail>
           </Route>
           <Route path="/laptops">
@@ -265,10 +266,17 @@ const App = () => {
             <AdminProfile token={token} setToken={setToken}></AdminProfile>
           </Route>
           <Route path="/createproduct">
-            <CreateProduct token={token} products={products} setProducts={setProducts}></CreateProduct>
+            <CreateProduct
+              token={token}
+              products={products}
+              setProducts={setProducts}
+            ></CreateProduct>
           </Route>
           <Route path="/createadminuser">
-            <CreateAdminUser token={token} setToken={setToken}></CreateAdminUser>
+            <CreateAdminUser
+              token={token}
+              setToken={setToken}
+            ></CreateAdminUser>
           </Route>
         </Switch>
       </div>

@@ -16,31 +16,40 @@ export const fetchProducts = async () => {
 };
 
 //fetchProduct
-export const createProduct = async (brand, title, description, price, quantity, category, img, token) => {
+export const createProduct = async (
+  brand,
+  title,
+  description,
+  price,
+  quantity,
+  category,
+  img,
+  token
+) => {
   try {
-      const gatheringData = await fetch(`${URL}/products`, {
-          method: "POST",
-          headers: {
-              "Content-Type" : "application/json",
-              Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-              brand,
-              title,
-              description,
-              price,
-              quantity,
-              category, 
-              img,
-          }),
-      });
-      const newProduct = await gatheringData.json();
-      return newProduct;
+    const gatheringData = await fetch(`${URL}/products`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        brand,
+        title,
+        description,
+        price,
+        quantity,
+        category,
+        img,
+      }),
+    });
+    const newProduct = await gatheringData.json();
+    return newProduct;
   } catch (error) {
-      console.error("There was an error creating a new product...api", error);
-      throw error;
+    console.error("There was an error creating a new product...api", error);
+    throw error;
   }
-}
+};
 
 //createProduct
 //updateProduct
@@ -112,6 +121,23 @@ export const createReview = async (
 //patchReviews
 
 //deleteReviews
+export const deleteReview = async (id, token) => {
+  try {
+    const response = await fetch(`${URL}/reviews/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+    console.log("this review was deleted: ", result);
+    return result;
+  } catch (error) {
+    console.log("there was an error deleting a review: ", error);
+    throw error;
+  }
+};
 
 /* ORDERS */
 //fetchAllOrders
@@ -131,11 +157,11 @@ export const fetchCart = async () => {
     const response = await fetch(`${URL}/cart`, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     }).then((response) => response.json());
     console.log(token);
-    console.log("fetchCart response", response)
+    console.log("fetchCart response", response);
 
     return response;
   } catch (error) {
@@ -158,7 +184,6 @@ export const fetchCart = async () => {
 //     console.error("Error fetching guestCart", error)
 //   };
 // };
-
 
 //fetchCustomerCart
 //patchGuestCart

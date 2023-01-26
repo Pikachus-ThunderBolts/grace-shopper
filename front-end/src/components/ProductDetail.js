@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { createReview } from "../api/api";
+import { createReview, deleteReview } from "../api/api";
 
-export const ProductDetail = ({ products, reviews, setReviews }) => {
+export const ProductDetail = ({ products, reviews, setReviews, token }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
   const [title, setTitle] = useState("");
@@ -20,6 +20,13 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
 
     return newReviews;
   }
+
+  const handleDeleteReview = async (id) => {
+    console.log(`this is deleted review id -${id} this is token-${token}`);
+    const deletedReview = await deleteReview(id, token);
+
+    return deletedReview;
+  };
 
   const handleCreateReview = async (
     title,
@@ -152,6 +159,20 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
                 <h1 className="title">{individualReview.title}</h1>
 
                 <p className="subtitle">{individualReview.review}</p>
+                <div class="buttons has-addons is-justify-content-space-between">
+                  {" "}
+                  <button class="button is-success edit">Edit</button>
+                  <button
+                    class="button is-danger"
+                    onClick={(event) => {
+                      console.log("delete click", individualReview.id);
+                      event.preventDefault();
+                      handleDeleteReview(individualReview.id, token);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             );
           })}
