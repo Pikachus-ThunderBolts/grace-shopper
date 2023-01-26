@@ -3,7 +3,14 @@ import { Route, Switch, Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { createReview, deleteReview } from "../api/api";
 
-export const ProductDetail = ({ products, reviews, setReviews, token }) => {
+export const ProductDetail = ({
+  products,
+  reviews,
+  setReviews,
+  token,
+  localCart,
+  setLocalCart,
+}) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
   const [title, setTitle] = useState("");
@@ -93,7 +100,17 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
                 <p class="subtitle">{singleProduct.price}</p>
                 <p class="content">{singleProduct.brand}</p>
                 <p class="content">{singleProduct.description}</p>
-                <button class="button is-focused">Add to Cart</button>
+                <button
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setLocalCart(individualProduct);
+
+                    console.log(localCart, "localcart");
+                  }}
+                  class="button is-focused"
+                >
+                  Add to Cart
+                </button>
                 <div class="buttons has-addons is-justify-content-space-between">
                   {" "}
                   <Link

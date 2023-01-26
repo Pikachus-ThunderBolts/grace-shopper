@@ -27,7 +27,9 @@ const App = () => {
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || null
   );
+  const [localCart, setLocalCart] = useState([]);
 
+  console.log("official local cart", localCart);
   useEffect(() => {
     if (token) {
       window.localStorage.setItem("token", token);
@@ -229,6 +231,8 @@ const App = () => {
               reviews={reviews}
               setReviews={setReviews}
               setProducts={setProducts}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
             ></ProductDetail>
           </Route>
           <Route path="/laptops">
@@ -238,7 +242,7 @@ const App = () => {
             ></Laptops>
           </Route>
           <Route path="/cart">
-            <Cart token={token}></Cart>
+            <Cart token={token} localCart={localCart}></Cart>
           </Route>
           <Route path="/checkout">
             <Checkout token={token}></Checkout>

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import { fetchCart, fetchGuestCart} from "../api/api";
+import { fetchCart, fetchGuestCart } from "../api/api";
 
-
-const Cart = () => {
-
+const Cart = ({ localCart }) => {
   // const [token, setToken] = useState(window.localStorage.getItem("token") || null);
   // console.log(token);
   // const [cart, setCart] = useState([])
@@ -63,6 +61,12 @@ const Cart = () => {
             <tr>
               <th>2</th>
               <td>Dummy Item 2</td>
+              <td>0.00</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <th>3</th>
+              <td>{localCart.title}</td>
               <td>0.00</td>
               <td>2</td>
             </tr>
