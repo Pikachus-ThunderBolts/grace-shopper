@@ -9,13 +9,14 @@ export const fetchProducts = async () => {
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
+    // console.log("this is products", response)
     return response;
   } catch (error) {
     console.error("There was an error fetching the products", error);
   }
 };
 
-//fetchProduct
+//createProduct
 export const createProduct = async (brand, title, description, price, quantity, category, img, token) => {
   try {
       const gatheringData = await fetch(`${URL}/products`, {
@@ -42,8 +43,34 @@ export const createProduct = async (brand, title, description, price, quantity, 
   }
 }
 
-//createProduct
 //updateProduct
+export const updateProduct = async (brand, title, description, price, quantity, category, img, token, productId) => {
+  try {
+    const gatheringData = await fetch(`${URL}/products/${productId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        brand,
+        title,
+        description,
+        price,
+        quantity,
+        category,
+        img
+      }),
+    });
+
+    const editedProduct = await gatheringData.json();
+    return editedProduct;
+  } catch (error) {
+    console.error("There was an error editing the product in the api", error);
+    throw error;
+  }
+}
+
 //deleteProduct
 
 /* ADMIN USERS */

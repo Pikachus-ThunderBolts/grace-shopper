@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Route, Switch, Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { createReview } from "../api/api";
 
@@ -8,7 +9,9 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
 
-  console.log("productId", productIdParam);
+  
+  const individualProduct = products.find((object) => object.id == productIdParam)
+
 
   function fetchReviewsPage(reviews) {
     const newReviews = [];
@@ -28,7 +31,7 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
     customerUserId,
     guestId
   ) => {
-    console.log(`this is title -${title} this is review -${review}`);
+    // console.log(`this is title -${title} this is review -${review}`);
     const newReview = await createReview(
       title,
       review,
@@ -49,7 +52,7 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
     getReviewsPage();
   }, []);
 
-  console.log("reviewsPage", reviewsPage);
+  // console.log("reviewsPage", reviewsPage);
 
   const singleProduct = products.find((oneProduct) => {
     const foundProduct = oneProduct.id == productIdParam;
@@ -83,7 +86,9 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
                 <button class="button is-focused">Add to Cart</button>
                 <div class="buttons has-addons is-justify-content-space-between">
                   {" "}
+                  <Link to={`/updateProduct/${individualProduct.id}`} className="link">
                   <button class="button is-success">Edit</button>
+                  </Link>
                   <button class="button is-danger">Delete</button>
                 </div>
               </article>
@@ -96,7 +101,7 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
           <br></br>
           <form
             onSubmit={(event) => {
-              console.log("please work");
+              // console.log("please work");
               event.preventDefault();
               handleCreateReview(title, review, productIdParam);
               setTitle("");
