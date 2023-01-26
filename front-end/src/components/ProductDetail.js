@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { createReview } from "../api/api";
+import { useHistory, useParams } from "react-router-dom";
+import { createReview, deleteProduct } from "../api/api";
 
-export const ProductDetail = ({ products, reviews, setReviews }) => {
+export const ProductDetail = ({ products, reviews, setReviews, setProducts, token }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
+  const history = useHistory();
 
   
   const individualProduct = products.find((object) => object.id == productIdParam)
@@ -42,6 +43,16 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
     setReviews((previousReviews) => [...previousReviews, newReview]);
     return newReview;
   };
+
+  const handleDeleteClick = async (productId) => {
+
+    const deletedProduct = await deleteProduct(productId, token);
+    
+    console.log("deleted product from product details file", deletedProduct)
+    history.push(`/products`)
+    
+    setProducts((previousProducts) => previousProducts.filter((products) => products.id !== productId))
+  }
 
   useEffect(() => {
     const getReviewsPage = async () => {
@@ -89,7 +100,9 @@ export const ProductDetail = ({ products, reviews, setReviews }) => {
                   <Link to={`/updateProduct/${individualProduct.id}`} className="link">
                   <button class="button is-success">Edit</button>
                   </Link>
-                  <button class="button is-danger">Delete</button>
+                  <button 
+                    onClick={(() => handleDeleteClick(singleProduct.id))}
+                    class="button is-danger">Delete</button>
                 </div>
               </article>
             </div>

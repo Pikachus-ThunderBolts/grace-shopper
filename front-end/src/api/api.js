@@ -82,6 +82,7 @@ export const deleteProduct = async (productId, token) => {
       },
     });
     const deletedProduct = await gatheringData.json();
+    console.log("This is deleted product in api", deletedProduct);
     return deletedProduct;
   } catch (error) {
     console.error("There was an error deleting a product in the api call", error);
