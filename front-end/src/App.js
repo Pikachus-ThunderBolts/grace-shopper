@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import { fetchProducts, fetchCart, fetchReviews } from "./api/api";
+import { fetchProducts, fetchCart, fetchReviews, loginAdminUsers } from "./api/api";
 import Products from "./components/Products";
 import Home from "./components/Home";
 import Laptops from "./components/Laptops";
@@ -9,7 +9,7 @@ import CellPhones from "./components/CellPhones";
 import Cart from "./components/Cart";
 import Profile from "./components/Profile";
 import Account from "./components/Account";
-import Admin from "./components/Admin";
+import AdminLogin from "./components/AdminLogin";
 import AdminProfile from "./components/AdminProfile";
 import Confirmation from "./components/Confirmation";
 import Checkout from "./components/Checkout";
@@ -18,6 +18,7 @@ import CreateProduct from "./components/CreateProduct";
 import CreateAdminUser from "./components/CreateAdminUser";
 import UpdateProduct from "./components/UpdateProduct";
 import UpdateReview from "./components/UpdateReview";
+import AdminRegister from "./components/AdminRegister";
 
 const App = () => {
   const [products, setProducts] = useState([]);
@@ -79,6 +80,16 @@ const App = () => {
       setFilteredProducts(products);
     }
   }, [searchTerm, products]);
+
+  const LogOut = ({setToken}) => {
+    return (
+      <button 
+      className="button is-light"
+      onClick={() => {
+        setToken("");
+      }}>Sign Out</button>
+    );
+  };
 
 
   return (
@@ -142,13 +153,20 @@ const App = () => {
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                <Link to="/account" class="button is-info">
+                {token ? null : (<Link to="/account" class="button is-info">
                   <strong>Sign up</strong>
-                </Link>
+                </Link>)}
+                
+                {token ? <LogOut setToken={setToken}
+                className="button is-light"/> : null}
+                
+                {!token ? (<Link to="/adminLogin" className="button">
+                  <strong>Admin</strong>
+                  {/* Need to make new route for admin page below once admin is logged in*/}
+                </Link>) : <Link to="/" className="button">
+                  <strong>Profile</strong>
+                </Link>}
 
-                <Link to="/account" class="button is-light">
-                  Log in
-                </Link>
                 <Link to="/cart" className="button is-light">
                   <span class="icon-text">
                     <span class="icon">
@@ -176,7 +194,7 @@ const App = () => {
             </Link>
 
             <div className="tabs is-right">
-              <Link to="/admin" className="">
+              <Link to="/adminLogin" className="">
                 <span class="icon-text">
                   <span class="icon">
                     <i class="fa-solid fa-users"></i>
@@ -211,7 +229,7 @@ const App = () => {
 
         <Switch>
           <Route exact path="/">
-            <Home token={token}></Home>
+            <Home token={token} setToken={setToken}></Home>
           </Route>
           <Route path="/products">
             <Products
@@ -262,8 +280,11 @@ const App = () => {
           <Route path="/account">
             <Account token={token} setToken={setToken}></Account>
           </Route>
-          <Route path="/admin">
-            <Admin token={token} setToken={setToken}></Admin>
+          <Route path="/adminLogin">
+            <AdminLogin token={token} setToken={setToken}></AdminLogin>
+          </Route>
+          <Route path="/adminRegister">
+            <AdminRegister token={token} setToken={setToken}></AdminRegister>
           </Route>
           <Route path="/adminprofile">
             <AdminProfile token={token} setToken={setToken}></AdminProfile>
