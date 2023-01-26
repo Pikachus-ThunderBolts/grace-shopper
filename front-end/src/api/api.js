@@ -38,7 +38,7 @@ export const createProduct = async (brand, title, description, price, quantity, 
       const newProduct = await gatheringData.json();
       return newProduct;
   } catch (error) {
-      console.error("There was an error creating a new product in the api call", error);
+      console.error("There was an error creating a new product...api", error);
       throw error;
   }
 }

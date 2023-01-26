@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import { useHistory, useParams } from "react-router-dom";
-import { createReview, deleteProduct } from "../api/api";
+import { useParams } from "react-router-dom";
+import { createReview, deleteReview } from "../api/api";
 
-export const ProductDetail = ({ products, reviews, setReviews, setProducts, token }) => {
+export const ProductDetail = ({ products, reviews, setReviews, token }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
   const [title, setTitle] = useState("");
