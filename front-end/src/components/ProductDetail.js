@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Route, Switch, Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { createReview, deleteReview } from "../api/api";
+import { createReview } from "../api/api";
 
 export const ProductDetail = ({ products, reviews, setReviews, token }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
@@ -10,6 +11,11 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
 
   console.log("productId", productIdParam);
   //comment
+
+  const individualProduct = products.find(
+    (object) => object.id == productIdParam
+  );
+
   function fetchReviewsPage(reviews) {
     const newReviews = [];
     for (let i in reviews) {
@@ -35,7 +41,7 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
     customerUserId,
     guestId
   ) => {
-    console.log(`this is title -${title} this is review -${review}`);
+    // console.log(`this is title -${title} this is review -${review}`);
     const newReview = await createReview(
       title,
       review,
@@ -56,7 +62,7 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
     getReviewsPage();
   }, []);
 
-  console.log("reviewsPage", reviewsPage);
+  // console.log("reviewsPage", reviewsPage);
 
   const singleProduct = products.find((oneProduct) => {
     const foundProduct = oneProduct.id == productIdParam;
@@ -90,7 +96,12 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
                 <button class="button is-focused">Add to Cart</button>
                 <div class="buttons has-addons is-justify-content-space-between">
                   {" "}
-                  <button class="button is-success">Edit</button>
+                  <Link
+                    to={`/updateProduct/${individualProduct.id}`}
+                    className="link"
+                  >
+                    <button class="button is-success">Edit</button>
+                  </Link>
                   <button class="button is-danger">Delete</button>
                 </div>
               </article>
@@ -103,11 +114,12 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
           <br></br>
           <form
             onSubmit={(event) => {
-              console.log("please work");
+              // console.log("please work");
               event.preventDefault();
               handleCreateReview(title, review, productIdParam);
               setTitle("");
               setReview("");
+              history.push("/product/:productIdParam");
             }}
           >
             <div class="field">
@@ -161,7 +173,12 @@ export const ProductDetail = ({ products, reviews, setReviews, token }) => {
                 <p className="subtitle">{individualReview.review}</p>
                 <div class="buttons has-addons is-justify-content-space-between">
                   {" "}
-                  <button class="button is-success edit">Edit</button>
+                  <Link
+                    to={`/updateReview/${individualProduct.id}`}
+                    className="link"
+                  >
+                    <button class="button is-success edit">Edit</button>
+                  </Link>
                   <button
                     class="button is-danger"
                     onClick={(event) => {

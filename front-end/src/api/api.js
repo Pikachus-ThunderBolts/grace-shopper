@@ -9,13 +9,14 @@ export const fetchProducts = async () => {
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
+    // console.log("this is products", response)
     return response;
   } catch (error) {
     console.error("There was an error fetching the products", error);
   }
 };
 
-//fetchProduct
+//createProduct
 export const createProduct = async (
   brand,
   title,
@@ -51,8 +52,44 @@ export const createProduct = async (
   }
 };
 
-//createProduct
 //updateProduct
+export const updateProduct = async (
+  brand,
+  title,
+  description,
+  price,
+  quantity,
+  category,
+  img,
+  token,
+  productId
+) => {
+  try {
+    const gatheringData = await fetch(`${URL}/products/${productId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        brand,
+        title,
+        description,
+        price,
+        quantity,
+        category,
+        img,
+      }),
+    });
+
+    const editedProduct = await gatheringData.json();
+    return editedProduct;
+  } catch (error) {
+    console.error("There was an error editing the product in the api", error);
+    throw error;
+  }
+};
+
 //deleteProduct
 
 /* ADMIN USERS */
@@ -119,6 +156,38 @@ export const createReview = async (
 };
 
 //patchReviews
+export const updateReview = async (
+  id,
+  title,
+  review,
+  productId,
+  customerUserId,
+  guestId,
+  token
+) => {
+  try {
+    const gatheringData = await fetch(`${URL}/reviews/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        title,
+        review,
+        productId,
+        customerUserId,
+        guestId,
+      }),
+    });
+
+    const editedReview = await gatheringData.json();
+    return editedReview;
+  } catch (error) {
+    console.error("There was an error editing the review in the api", error);
+    throw error;
+  }
+};
 
 //deleteReviews
 export const deleteReview = async (id, token) => {
