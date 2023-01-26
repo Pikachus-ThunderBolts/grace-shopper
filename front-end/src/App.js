@@ -16,6 +16,7 @@ import Checkout from "./components/Checkout";
 import ProductDetail from "./components/ProductDetail";
 import CreateProduct from "./components/CreateProduct";
 import CreateAdminUser from "./components/CreateAdminUser";
+import UpdateProduct from "./components/UpdateProduct";
 
 const App = () => {
   const [products, setProducts] = useState([]);
@@ -215,7 +216,7 @@ const App = () => {
           </Route>
           <Route path="/products">
             <Products
-              products={products}
+              products={products} setProducts={setProducts} token={token}
               filteredProducts={filteredProducts}
             ></Products>
           </Route>
@@ -224,6 +225,7 @@ const App = () => {
               products={products}
               reviews={reviews}
               setReviews={setReviews}
+              setProducts={setProducts}
             ></ProductDetail>
           </Route>
           <Route path="/laptops">
@@ -266,6 +268,9 @@ const App = () => {
           </Route>
           <Route path="/createproduct">
             <CreateProduct token={token} products={products} setProducts={setProducts}></CreateProduct>
+          </Route>
+          <Route path="/updateProduct/:productIdParam">
+            <UpdateProduct token={token} products={products} setProducts={setProducts}></UpdateProduct>
           </Route>
           <Route path="/createadminuser">
             <CreateAdminUser token={token} setToken={setToken}></CreateAdminUser>

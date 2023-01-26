@@ -1,7 +1,8 @@
 import { Route, Switch, Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { updateProduct } from "../api/api";
 
-const Products = ({ products, filteredProducts }) => {
+const Products = ({ products, filteredProducts, token, setProducts }) => {
   return (
     <>
       <section class="section">
@@ -32,9 +33,10 @@ const Products = ({ products, filteredProducts }) => {
                       <p class="subtitle">${individualProduct.price}</p>
                       <div class="buttons has-addons is-justify-content-space-between">
                         {" "}
-                        
-                        <button class="button is-success edit">Edit</button>
-                        <button class="button is-danger">Delete</button>
+                        {/* <Link to={`/updateProduct/${individualProduct.id}`} className="link"> */}
+                          {/* <button class="button is-success edit">Edit</button> */}
+                        {/* </Link> */}
+                        {/* <button class="button is-danger">Delete</button> */}
                       </div>
                     </article>
                   </div>
