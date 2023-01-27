@@ -37,6 +37,7 @@ const App = () => {
   );
   const [localCart, setLocalCart] = useState(cartFromLocalStorage);
   const [total, setTotal] = useState(0);
+  const [user, setUser] = useState("");
 
   console.log("official local cart", localCart);
   useEffect(() => {
@@ -52,9 +53,6 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(localCart));
   }, [localCart]);
-
-  const [localCart, setLocalCart] = useState(cartFromLocalStorage);
-  const [total, setTotal] = useState(0);
 
   console.log("official local cart", localCart);
   useEffect(() => {
@@ -209,6 +207,15 @@ const App = () => {
                   <Link to="/adminLogin" className="button">
                     <strong>Admin</strong>
                     {/* Need to make new route for admin page below once admin is logged in*/}
+                  </Link>
+                ) : (
+                  <Link to="/" className="button">
+                    <strong>Profile</strong>
+                  </Link>
+                )}
+                {!token ? (
+                  <Link to="/customerLogin" className="button">
+                    <strong>Returning Customer</strong>
                   </Link>
                 ) : (
                   <Link to="/" className="button">
