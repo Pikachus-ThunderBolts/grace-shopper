@@ -15,6 +15,7 @@ export const ProductDetail = ({
   const { productIdParam } = useParams();
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
+  const [backEndCart, setBackEndCart] = useState(localCart);
 
   console.log("productId", productIdParam);
   //comment
@@ -103,9 +104,14 @@ export const ProductDetail = ({
                 <button
                   onClick={(event) => {
                     event.preventDefault();
-                    setLocalCart(individualProduct);
+                    //setBackEndCart(localCart.push(individualProduct));
+                    setLocalCart((localCart) => [
+                      ...localCart,
+                      individualProduct,
+                    ]);
 
                     console.log(localCart, "localcart");
+                    console.log(backEndCart, "back-end-cart");
                   }}
                   class="button is-focused"
                 >

@@ -19,6 +19,7 @@ import CreateAdminUser from "./components/CreateAdminUser";
 import UpdateProduct from "./components/UpdateProduct";
 import UpdateReview from "./components/UpdateReview";
 
+const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 const App = () => {
   const [products, setProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -27,7 +28,8 @@ const App = () => {
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || null
   );
-  const [localCart, setLocalCart] = useState([]);
+  const [localCart, setLocalCart] = useState(cartFromLocalStorage);
+  const [total, setTotal] = useState(0);
 
   console.log("official local cart", localCart);
   useEffect(() => {
@@ -37,6 +39,12 @@ const App = () => {
       window.localStorage.removeItem("token");
     }
   }, [token]);
+
+  console.log(token, "token");
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(localCart));
+  }, [localCart]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -242,7 +250,13 @@ const App = () => {
             ></Laptops>
           </Route>
           <Route path="/cart">
-            <Cart token={token} localCart={localCart}></Cart>
+            <Cart
+              token={token}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
+              setTotal={setTotal}
+              total={total}
+            ></Cart>
           </Route>
           <Route path="/checkout">
             <Checkout token={token}></Checkout>
