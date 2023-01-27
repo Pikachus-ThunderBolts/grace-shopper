@@ -15,6 +15,7 @@ import Cart from "./components/Cart";
 import Profile from "./components/Profile";
 import Account from "./components/Account";
 import AdminLogin from "./components/AdminLogin";
+import CustomerLogin from "./components/CustomerLogin";
 import AdminProfile from "./components/AdminProfile";
 import Confirmation from "./components/Confirmation";
 import Checkout from "./components/Checkout";
@@ -52,6 +53,23 @@ const App = () => {
     localStorage.setItem("cart", JSON.stringify(localCart));
   }, [localCart]);
 
+  const [localCart, setLocalCart] = useState(cartFromLocalStorage);
+  const [total, setTotal] = useState(0);
+
+  console.log("official local cart", localCart);
+  useEffect(() => {
+    if (token) {
+      window.localStorage.setItem("token", token);
+    } else {
+      window.localStorage.removeItem("token");
+    }
+  }, [token]);
+
+  console.log(token, "token");
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(localCart));
+  }, [localCart]);
   useEffect(() => {
     if (token) {
       window.localStorage.setItem("token", token);
@@ -215,12 +233,12 @@ const App = () => {
       <div className="container is-widescreen">
         <section class="hero is-medium is-info ">
           <div className="tabs">
-            <Link to="/account" className="navbar-item">
+            <Link to="/customerLogin" className="navbar-item">
               <span class="icon-text">
                 <span class="icon">
                   <i class="fa-solid fa-user"></i>
                 </span>
-                <span>Account</span>
+                <span>Customer Login</span>
               </span>
             </Link>
 
@@ -317,8 +335,17 @@ const App = () => {
             ></CellPhones>
           </Route>
           <Route path="/account">
-            <Account token={token} setToken={setToken}></Account>
+            <Account
+              token={token}
+              setToken={setToken}
+              setUser={setUser}
+            ></Account>
           </Route>
+
+          <Route path="/customerLogin">
+            <CustomerLogin token={token} setToken={setToken}></CustomerLogin>
+          </Route>
+
           <Route path="/adminLogin">
             <AdminLogin token={token} setToken={setToken}></AdminLogin>
           </Route>
