@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import { fetchProducts, fetchCart, fetchReviews, loginAdminUsers } from "./api/api";
+import {
+  fetchProducts,
+  fetchCart,
+  fetchReviews,
+  loginAdminUsers,
+} from "./api/api";
 import Products from "./components/Products";
 import Home from "./components/Home";
 import Laptops from "./components/Laptops";
@@ -28,6 +33,7 @@ const App = () => {
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || null
   );
+  const [user, setUser] = useState("");
 
   useEffect(() => {
     if (token) {
@@ -55,7 +61,6 @@ const App = () => {
     getReviews();
   }, []);
 
-
   useEffect(() => {
     const searchTermLower = searchTerm.toLowerCase().split(" ");
     if (searchTermLower) {
@@ -81,16 +86,18 @@ const App = () => {
     }
   }, [searchTerm, products]);
 
-  const LogOut = ({setToken}) => {
+  const LogOut = ({ setToken }) => {
     return (
-      <button 
-      className="button is-light"
-      onClick={() => {
-        setToken("");
-      }}>Sign Out</button>
+      <button
+        className="button is-light"
+        onClick={() => {
+          setToken("");
+        }}
+      >
+        Sign Out
+      </button>
     );
   };
-
 
   return (
     <>
@@ -153,19 +160,26 @@ const App = () => {
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                {token ? null : (<Link to="/account" class="button is-info">
-                  <strong>Sign up</strong>
-                </Link>)}
-                
-                {token ? <LogOut setToken={setToken}
-                className="button is-light"/> : null}
-                
-                {!token ? (<Link to="/adminLogin" className="button">
-                  <strong>Admin</strong>
-                  {/* Need to make new route for admin page below once admin is logged in*/}
-                </Link>) : <Link to="/" className="button">
-                  <strong>Profile</strong>
-                </Link>}
+                {token ? null : (
+                  <Link to="/account" class="button is-info">
+                    <strong>Sign up</strong>
+                  </Link>
+                )}
+
+                {token ? (
+                  <LogOut setToken={setToken} className="button is-light" />
+                ) : null}
+
+                {!token ? (
+                  <Link to="/adminLogin" className="button">
+                    <strong>Admin</strong>
+                    {/* Need to make new route for admin page below once admin is logged in*/}
+                  </Link>
+                ) : (
+                  <Link to="/" className="button">
+                    <strong>Profile</strong>
+                  </Link>
+                )}
 
                 <Link to="/cart" className="button is-light">
                   <span class="icon-text">
@@ -278,7 +292,11 @@ const App = () => {
             ></CellPhones>
           </Route>
           <Route path="/account">
-            <Account token={token} setToken={setToken}></Account>
+            <Account
+              token={token}
+              setToken={setToken}
+              setUser={setUser}
+            ></Account>
           </Route>
           <Route path="/adminLogin">
             <AdminLogin token={token} setToken={setToken}></AdminLogin>

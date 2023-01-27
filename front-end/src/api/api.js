@@ -1,4 +1,5 @@
 const URL = `https://tech-buy-one.onrender.com/api`;
+// const URL = "http://localhost:4000";
 
 /* PRODUCTS */
 //fetchAllProducts
@@ -9,10 +10,13 @@ export const fetchProducts = async () => {
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
-    
+
     return response;
   } catch (error) {
-    console.error("There was an error fetching the products in the api call", error);
+    console.error(
+      "There was an error fetching the products in the api call",
+      error
+    );
   }
 };
 
@@ -47,7 +51,10 @@ export const createProduct = async (
     const newProduct = await gatheringData.json();
     return newProduct;
   } catch (error) {
-    console.error("There was an error creating a new product in the api", error);
+    console.error(
+      "There was an error creating a new product in the api",
+      error
+    );
     throw error;
   }
 };
@@ -85,7 +92,10 @@ export const updateProduct = async (
     const editedProduct = await gatheringData.json();
     return editedProduct;
   } catch (error) {
-    console.error("There was an error editing the product in the api call", error);
+    console.error(
+      "There was an error editing the product in the api call",
+      error
+    );
     throw error;
   }
 };
@@ -101,10 +111,13 @@ export const deleteProduct = async (productId, token) => {
       },
     });
     const deletedProduct = await gatheringData.json();
-    
+
     return deletedProduct;
   } catch (error) {
-    console.error("There was an error deleting a product in the api call", error);
+    console.error(
+      "There was an error deleting a product in the api call",
+      error
+    );
     throw error;
   }
 };
@@ -118,7 +131,7 @@ export const fetchAdminUsers = async () => {
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
-    console.log("this is the response for adminUsers", response)
+    console.log("this is the response for adminUsers", response);
     return response;
   } catch (error) {
     console.error("There was an error fetching admin users");
@@ -174,10 +187,60 @@ export const loginAdminUsers = async (username, password) => {
 //loginGuestUsers
 
 /* CUSTOMER USERS */
-//createCustomerUsers
 //fetchCustomerUsers
+export const fetchCustomerUsers = async () => {
+  try {
+    const response = await fetch(`${URL}/customerUsers`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    return response;
+  } catch (error) {
+    console.error("There was an error fetching customer user");
+  }
+};
 //registerCustomerUsers
+export const registerCustomerUsers = async (username, email, password) => {
+  try {
+    const response = await fetch(`${URL}/customerUsers/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+      }),
+    });
+    const result = await response.json();
+    console.log(result, "this is the result of register customer users");
+    return result;
+  } catch (error) {
+    console.error("Error registering the customer user", error);
+  }
+};
 //loginCustomerUsers
+export const loginCustomerUsers = async (username, password) => {
+  try {
+    const response = await fetch(`${URL}/customerUsers/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("There was an error logging in the customer user", error);
+    throw error;
+  }
+};
 
 /* REVIEWS */
 //fetchReviews
