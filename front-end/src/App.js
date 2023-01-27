@@ -15,6 +15,7 @@ import Cart from "./components/Cart";
 import Profile from "./components/Profile";
 import Account from "./components/Account";
 import AdminLogin from "./components/AdminLogin";
+import CustomerLogin from "./components/CustomerLogin";
 import AdminProfile from "./components/AdminProfile";
 import Confirmation from "./components/Confirmation";
 import Checkout from "./components/Checkout";
@@ -181,6 +182,16 @@ const App = () => {
                   </Link>
                 )}
 
+                {!token ? (
+                  <Link to="/customerLogin" className="button">
+                    <strong>Returning Customer</strong>
+                  </Link>
+                ) : (
+                  <Link to="/" className="button">
+                    <strong>Profile</strong>
+                  </Link>
+                )}
+
                 <Link to="/cart" className="button is-light">
                   <span class="icon-text">
                     <span class="icon">
@@ -298,6 +309,11 @@ const App = () => {
               setUser={setUser}
             ></Account>
           </Route>
+
+          <Route path="/customerLogin">
+            <CustomerLogin token={token} setToken={setToken}></CustomerLogin>
+          </Route>
+
           <Route path="/adminLogin">
             <AdminLogin token={token} setToken={setToken}></AdminLogin>
           </Route>

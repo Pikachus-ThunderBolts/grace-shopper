@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { loginCustomerUsers, registerCustomerUsers } from "../api/api";
+import { registerCustomerUsers } from "../api/api";
 import { useHistory } from "react-router-dom";
 
 const Account = ({ setToken, setUser }) => {
@@ -7,18 +7,6 @@ const Account = ({ setToken, setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-
-  const handleLogin = async (username, email, password) => {
-    const returningUser = await loginCustomerUsers(username, email, password);
-    console.log("We are returning user", returningUser);
-    setUser(returningUser.user.username);
-    setToken(returningUser.token);
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    alert(returningUser.message);
-    history.push("/");
-  };
 
   const handleRegister = async (username, email, password) => {
     const newUser = await registerCustomerUsers(username, email, password);
@@ -37,7 +25,7 @@ const Account = ({ setToken, setUser }) => {
   return (
     <>
       <section class="section">
-        <h1 class="title">Register / Login</h1>
+        <h1 class="title">Register</h1>
         <form
           class="box"
           onSubmit={(event) => {

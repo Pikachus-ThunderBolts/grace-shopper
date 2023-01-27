@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { loginAdminUsers } from "../api/api";
+import { loginCustomerUsers } from "../api/api";
 
-const AdminLogin = ({ token, setToken }) => {
+const CustomerLogin = ({ token, setToken }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-
   useEffect(() => {
     if (token) {
       window.localStorage.setItem("token", token);
@@ -16,36 +15,33 @@ const AdminLogin = ({ token, setToken }) => {
     }
   }, [token]);
 
-  // const handleRegister = async(username, email, password) => {
-  //   const registerNewAdmin = await registerAdminUsers(username, email, password)
-
-  //   if(registerNewAdmin) {
-  //     setUsername(registerNewAdmin.username);
-  //     setToken(registerNewAdmin.token);
-  //     setEmail("")
-  //     setPassword("")
-
-  //     history.push('/')
-  //   }
-
-  // }
-
   const handleLogin = async (username, password) => {
-    const loggedInAdmin = await loginAdminUsers(username, password);
+    const loggedInCustomer = await loginCustomerUsers(username, password);
 
-    if (loggedInAdmin) {
-      setUsername(loggedInAdmin.username);
-      setToken(loggedInAdmin.token);
+    if (loggedInCustomer) {
+      setUsername(loggedInCustomer.username);
+      setToken(loggedInCustomer.token);
       setPassword("");
 
       history.push("/");
     }
   };
 
+  //   const handleLogin = async (username, password) => {
+  //     const returningUser = await loginCustomerUsers(username, password);
+  //     console.log("We are returning user", returningUser);
+  //     setUser(returningUser.user.username);
+  //     setToken(returningUser.token);
+  //     setUsername("");
+  //     setEmail("");
+  //     setPassword("");
+  //     alert(returningUser.message);
+  //     history.push("/");
+
   return (
     <>
       <section class="section">
-        <h1 class="title">Admin Login</h1>
+        <h1 class="title">Customer Login</h1>
         <form
           className="box"
           onSubmit={(event) => {
@@ -87,8 +83,8 @@ const AdminLogin = ({ token, setToken }) => {
             >
               Log In
             </button>
-            <Link to={`/adminRegister`} className="link">
-              <button className="button is-danger">New Admin User</button>
+            <Link to={`/account`} className="link">
+              <button className="button is-danger">New Customer User</button>
             </Link>
           </div>
         </form>
@@ -97,4 +93,4 @@ const AdminLogin = ({ token, setToken }) => {
   );
 };
 
-export default AdminLogin;
+export default CustomerLogin;
