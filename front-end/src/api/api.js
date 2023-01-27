@@ -169,6 +169,24 @@ export const loginAdminUsers = async (username, password) => {
 
 /* GUEST USERS */
 //createGuestUsers
+export const createGuestUsers = async (email) => {
+  try {
+    const response = await fetch(`${URL}/guestUsers/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email
+      }),
+    });
+    const result = await response.json();
+    console.log("New Guest user created", result);
+    return result;
+  } catch (error) {
+    console.error("Error registering the guest user", error);
+  }
+};
 //fetchGuestUsers
 //registerGuestUsers
 //loginGuestUsers
