@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, Link, useHistory } from "react-router-dom";
-import { fetchCart, fetchGuestCart} from "../api/api";
-import { createGuestUsers } from "../api/api";
+import { Route, Switch, Link } from "react-router-dom";
+import { fetchCart, fetchGuestCart } from "../api/api";
 
-
-const Cart = ({token, setToken}) => {
-
+const Cart = ({ localCart, setLocalCart, total, setTotal }) => {
   // const [token, setToken] = useState(window.localStorage.getItem("token") || null);
   // console.log(token);
   // const [cart, setCart] = useState([])
@@ -28,29 +25,21 @@ const Cart = ({token, setToken}) => {
   //   getGuestCart();
   // }, []);
 
-  const [email, setEmail] = useState("");
-  const history = useHistory();
+  function removeItemFromCart(id) {
+    let temp = localCart.filter((item) => item !== id);
+    console.log("temp", temp);
+    setLocalCart(temp);
 
-
-  useEffect(() => {
-    if (token) {
-      window.localStorage.setItem("token", token);
-    } else {
-      window.localStorage.removeItem("token");
-    }
-  })
-
-  const handleSubmit = async(email) => {
-    const registerGuestUser = await createGuestUsers(email);
-
-    if (registerGuestUser) {
-      setEmail(registerGuestUser.email)
-      setToken(registerGuestUser.token);
-
-      history.push('/');
-    }
-
+    return temp;
   }
+
+  //let total = 0;
+
+  localCart.forEach((item) => {
+    total += Number(item.price);
+  });
+
+  console.log("total", total);
 
   return (
     <>
@@ -64,40 +53,42 @@ const Cart = ({token, setToken}) => {
         <span className="content">
           {" "}
           <input
-            // onSubmit={(event) => {event.preventDefault();}}
-            onChange={(event) => setEmail(event.target.value)}
             class="content input is-link is-inline"
             type="text"
             placeholder="e.g. alex@example.com"
           ></input>
-          <button 
-          class="button is-info is-inline" 
-          onClick={() => {
-            handleSubmit(email)
-          }}
-          >Submit</button>
+          <button class="button is-info is-inline">Submit</button>
         </span>
 
         <table className="table is-bordered is-hoverable is-fullwidth">
           <tbody>
             <tr>
-              <th>#</th>
               <th>Name</th>
               <th>Price</th>
-              <th>Quantity</th>
+              <th>Remove</th>
             </tr>
-            <tr>
-              <th>1</th>
-              <td>Dummy Item</td>
-              <td>0.00</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <th>2</th>
-              <td>Dummy Item 2</td>
-              <td>0.00</td>
-              <td>2</td>
-            </tr>
+            {localCart.map((individualProduct) => {
+              return (
+                <tr>
+                  <th>{individualProduct.title}</th>
+                  <th>${individualProduct.price}</th>
+                  <th>
+                    <button
+                      class="button is-danger is-light"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        removeItemFromCart(individualProduct);
+                        console.log("click");
+                      }}
+                    >
+                      X
+                    </button>
+                  </th>
+                </tr>
+              );
+            })}
+            <th>Total</th>
+            <th>${total}</th>
           </tbody>
         </table>
       </section>

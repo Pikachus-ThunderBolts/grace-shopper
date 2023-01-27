@@ -3,13 +3,20 @@ import { Route, Switch, Link } from "react-router-dom";
 import { useHistory, useParams } from "react-router-dom";
 import { createReview, deleteReview, deleteProduct } from "../api/api";
 
-export const ProductDetail = ({ products, reviews, setReviews, setProducts, token }) => {
+export const ProductDetail = ({
+  products,
+  reviews,
+  setReviews,
+  setProducts,
+  token,
+  setLocalCart,
+  localCart,
+}) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
   const history = useHistory();
-
 
   const individualProduct = products.find(
     (object) => object.id == productIdParam
@@ -53,13 +60,14 @@ export const ProductDetail = ({ products, reviews, setReviews, setProducts, toke
   };
 
   const handleDeleteClick = async (productId) => {
-
     const deletedProduct = await deleteProduct(productId, token);
-    
-    history.push(`/products`)
-    
-    setProducts((previousProducts) => previousProducts.filter((products) => products.id !== productId))
-  }
+
+    history.push(`/products`);
+
+    setProducts((previousProducts) =>
+      previousProducts.filter((products) => products.id !== productId)
+    );
+  };
 
   useEffect(() => {
     const getReviewsPage = async () => {
@@ -101,7 +109,18 @@ export const ProductDetail = ({ products, reviews, setReviews, setProducts, toke
                 <p class="subtitle">{singleProduct.price}</p>
                 <p class="content">{singleProduct.brand}</p>
                 <p class="content">{singleProduct.description}</p>
-                <button class="button is-focused">Add to Cart</button>
+                <button
+                  class="button is-focused"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setLocalCart((localCart) => [
+                      ...localCart,
+                      individualProduct,
+                    ]);
+                  }}
+                >
+                  Add to Cart
+                </button>
                 <div class="buttons has-addons is-justify-content-space-between">
                   {" "}
                   <Link
@@ -110,9 +129,12 @@ export const ProductDetail = ({ products, reviews, setReviews, setProducts, toke
                   >
                     <button class="button is-success">Edit</button>
                   </Link>
-                  <button 
-                    onClick={(() => handleDeleteClick(singleProduct.id))}
-                    class="button is-danger">Delete</button>
+                  <button
+                    onClick={() => handleDeleteClick(singleProduct.id)}
+                    class="button is-danger"
+                  >
+                    Delete
+                  </button>
                 </div>
               </article>
             </div>

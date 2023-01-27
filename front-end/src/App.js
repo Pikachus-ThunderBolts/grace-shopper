@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import { fetchProducts, fetchCart, fetchReviews, loginAdminUsers } from "./api/api";
+import {
+  fetchProducts,
+  fetchCart,
+  fetchReviews,
+  loginAdminUsers,
+} from "./api/api";
 import Products from "./components/Products";
 import Home from "./components/Home";
 import Laptops from "./components/Laptops";
@@ -20,6 +25,7 @@ import UpdateProduct from "./components/UpdateProduct";
 import UpdateReview from "./components/UpdateReview";
 import AdminRegister from "./components/AdminRegister";
 
+const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 const App = () => {
   const [products, setProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -28,6 +34,23 @@ const App = () => {
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || null
   );
+  const [localCart, setLocalCart] = useState(cartFromLocalStorage);
+  const [total, setTotal] = useState(0);
+
+  console.log("official local cart", localCart);
+  useEffect(() => {
+    if (token) {
+      window.localStorage.setItem("token", token);
+    } else {
+      window.localStorage.removeItem("token");
+    }
+  }, [token]);
+
+  console.log(token, "token");
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(localCart));
+  }, [localCart]);
 
   useEffect(() => {
     if (token) {
@@ -55,7 +78,6 @@ const App = () => {
     getReviews();
   }, []);
 
-
   useEffect(() => {
     const searchTermLower = searchTerm.toLowerCase().split(" ");
     if (searchTermLower) {
@@ -81,16 +103,18 @@ const App = () => {
     }
   }, [searchTerm, products]);
 
-  const LogOut = ({setToken}) => {
+  const LogOut = ({ setToken }) => {
     return (
-      <button 
-      className="button is-light"
-      onClick={() => {
-        setToken("");
-      }}>Sign Out</button>
+      <button
+        className="button is-light"
+        onClick={() => {
+          setToken("");
+        }}
+      >
+        Sign Out
+      </button>
     );
   };
-
 
   return (
     <>
@@ -153,19 +177,26 @@ const App = () => {
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                {token ? null : (<Link to="/account" class="button is-info">
-                  <strong>Sign up</strong>
-                </Link>)}
-                
-                {token ? <LogOut setToken={setToken}
-                className="button is-light"/> : null}
-                
-                {!token ? (<Link to="/adminLogin" className="button">
-                  <strong>Admin</strong>
-                  {/* Need to make new route for admin page below once admin is logged in*/}
-                </Link>) : <Link to="/" className="button">
-                  <strong>Profile</strong>
-                </Link>}
+                {token ? null : (
+                  <Link to="/account" class="button is-info">
+                    <strong>Sign up</strong>
+                  </Link>
+                )}
+
+                {token ? (
+                  <LogOut setToken={setToken} className="button is-light" />
+                ) : null}
+
+                {!token ? (
+                  <Link to="/adminLogin" className="button">
+                    <strong>Admin</strong>
+                    {/* Need to make new route for admin page below once admin is logged in*/}
+                  </Link>
+                ) : (
+                  <Link to="/" className="button">
+                    <strong>Profile</strong>
+                  </Link>
+                )}
 
                 <Link to="/cart" className="button is-light">
                   <span class="icon-text">
@@ -246,6 +277,8 @@ const App = () => {
               setReviews={setReviews}
               setProducts={setProducts}
               token={token}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
             ></ProductDetail>
           </Route>
           <Route path="/laptops">
@@ -255,7 +288,13 @@ const App = () => {
             ></Laptops>
           </Route>
           <Route path="/cart">
-            <Cart token={token}></Cart>
+            <Cart
+              token={token}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
+              setTotal={setTotal}
+              total={total}
+            ></Cart>
           </Route>
           <Route path="/checkout">
             <Checkout token={token}></Checkout>
