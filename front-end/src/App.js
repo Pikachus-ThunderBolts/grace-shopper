@@ -34,8 +34,24 @@ const App = () => {
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || null
   );
-  const [user, setUser] = useState("");
 
+  const [localCart, setLocalCart] = useState(cartFromLocalStorage);
+  const [total, setTotal] = useState(0);
+
+  console.log("official local cart", localCart);
+  useEffect(() => {
+    if (token) {
+      window.localStorage.setItem("token", token);
+    } else {
+      window.localStorage.removeItem("token");
+    }
+  }, [token]);
+
+  console.log(token, "token");
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(localCart));
+  }, [localCart]);
   useEffect(() => {
     if (token) {
       window.localStorage.setItem("token", token);
@@ -175,16 +191,6 @@ const App = () => {
                   <Link to="/adminLogin" className="button">
                     <strong>Admin</strong>
                     {/* Need to make new route for admin page below once admin is logged in*/}
-                  </Link>
-                ) : (
-                  <Link to="/" className="button">
-                    <strong>Profile</strong>
-                  </Link>
-                )}
-
-                {!token ? (
-                  <Link to="/customerLogin" className="button">
-                    <strong>Returning Customer</strong>
                   </Link>
                 ) : (
                   <Link to="/" className="button">

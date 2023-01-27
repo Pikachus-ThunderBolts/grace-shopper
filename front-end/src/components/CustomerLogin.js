@@ -27,17 +27,6 @@ const CustomerLogin = ({ token, setToken }) => {
     }
   };
 
-  //   const handleLogin = async (username, password) => {
-  //     const returningUser = await loginCustomerUsers(username, password);
-  //     console.log("We are returning user", returningUser);
-  //     setUser(returningUser.user.username);
-  //     setToken(returningUser.token);
-  //     setUsername("");
-  //     setEmail("");
-  //     setPassword("");
-  //     alert(returningUser.message);
-  //     history.push("/");
-
   return (
     <>
       <section class="section">
