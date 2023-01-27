@@ -82,15 +82,6 @@ const Account = ({ setToken, setUser }) => {
           >
             Register
           </button>
-          <button
-            class="button is-primary"
-            type="submit"
-            onClick={() => {
-              handleLogin(username, password);
-            }}
-          >
-            Login
-          </button>
         </form>
       </section>
     </>

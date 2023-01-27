@@ -84,7 +84,7 @@ const CustomerLogin = ({ token, setToken }) => {
               Log In
             </button>
             <Link to={`/account`} className="link">
-              <button className="button is-danger">New Customer User</button>
+              <button className="button is-danger">New Customer</button>
             </Link>
           </div>
         </form>
