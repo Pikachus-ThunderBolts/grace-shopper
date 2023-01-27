@@ -3,13 +3,18 @@ import { Route, Switch, Link } from "react-router-dom";
 import { useHistory, useParams } from "react-router-dom";
 import { createReview, deleteReview, deleteProduct } from "../api/api";
 
-export const ProductDetail = ({ products, reviews, setReviews, setProducts, token }) => {
+export const ProductDetail = ({
+  products,
+  reviews,
+  setReviews,
+  setProducts,
+  token,
+}) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
   const [title, setTitle] = useState("");
   const [review, setReview] = useState("");
   const history = useHistory();
-
 
   const individualProduct = products.find(
     (object) => object.id == productIdParam
@@ -30,6 +35,11 @@ export const ProductDetail = ({ products, reviews, setReviews, setProducts, toke
     // console.log(`this is deleted review id -${id} this is token-${token}`);
     const deletedReview = await deleteReview(id, token);
 
+    const updatingState = reviews.filter(
+      (review) => review.id !== deletedReview.id
+    );
+
+    setReviews([...updatingState, deletedReview]);
     return deletedReview;
   };
 
@@ -53,13 +63,14 @@ export const ProductDetail = ({ products, reviews, setReviews, setProducts, toke
   };
 
   const handleDeleteClick = async (productId) => {
-
     const deletedProduct = await deleteProduct(productId, token);
-    
-    history.push(`/products`)
-    
-    setProducts((previousProducts) => previousProducts.filter((products) => products.id !== productId))
-  }
+
+    history.push(`/products`);
+
+    setProducts((previousProducts) =>
+      previousProducts.filter((products) => products.id !== productId)
+    );
+  };
 
   useEffect(() => {
     const getReviewsPage = async () => {
@@ -110,9 +121,12 @@ export const ProductDetail = ({ products, reviews, setReviews, setProducts, toke
                   >
                     <button class="button is-success">Edit</button>
                   </Link>
-                  <button 
-                    onClick={(() => handleDeleteClick(singleProduct.id))}
-                    class="button is-danger">Delete</button>
+                  <button
+                    onClick={() => handleDeleteClick(singleProduct.id)}
+                    class="button is-danger"
+                  >
+                    Delete
+                  </button>
                 </div>
               </article>
             </div>
@@ -128,7 +142,7 @@ export const ProductDetail = ({ products, reviews, setReviews, setProducts, toke
               handleCreateReview(title, review, productIdParam);
               setTitle("");
               setReview("");
-              history.push("/product/:productIdParam");
+              history.push(`/product/${individualProduct.id}`);
             }}
           >
             <div class="field">
@@ -194,6 +208,7 @@ export const ProductDetail = ({ products, reviews, setReviews, setProducts, toke
                       console.log("delete click", individualReview.id);
                       event.preventDefault();
                       handleDeleteReview(individualReview.id, token);
+                      history.push(`/product/${individualProduct.id}`);
                     }}
                   >
                     Delete
