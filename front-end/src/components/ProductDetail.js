@@ -9,6 +9,8 @@ export const ProductDetail = ({
   setReviews,
   setProducts,
   token,
+  setLocalCart,
+  localCart,
 }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
