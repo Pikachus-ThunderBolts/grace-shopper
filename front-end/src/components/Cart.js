@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch, Link, useHistory } from "react-router-dom";
 import { fetchCart, fetchGuestCart} from "../api/api";
+import { createGuestUsers } from "../api/api";
 
 
-const Cart = () => {
+const Cart = ({token, setToken}) => {
 
   // const [token, setToken] = useState(window.localStorage.getItem("token") || null);
   // console.log(token);
@@ -27,6 +28,30 @@ const Cart = () => {
   //   getGuestCart();
   // }, []);
 
+  const [email, setEmail] = useState("");
+  const history = useHistory();
+
+
+  useEffect(() => {
+    if (token) {
+      window.localStorage.setItem("token", token);
+    } else {
+      window.localStorage.removeItem("token");
+    }
+  })
+
+  const handleSubmit = async(email) => {
+    const registerGuestUser = await createGuestUsers(email);
+
+    if (registerGuestUser) {
+      setEmail(registerGuestUser.email)
+      setToken(registerGuestUser.token);
+
+      history.push('/');
+    }
+
+  }
+
   return (
     <>
       <section class="section checkout">
@@ -39,11 +64,18 @@ const Cart = () => {
         <span className="content">
           {" "}
           <input
+            // onSubmit={(event) => {event.preventDefault();}}
+            onChange={(event) => setEmail(event.target.value)}
             class="content input is-link is-inline"
             type="text"
             placeholder="e.g. alex@example.com"
           ></input>
-          <button class="button is-info is-inline">Submit</button>
+          <button 
+          class="button is-info is-inline" 
+          onClick={() => {
+            handleSubmit(email)
+          }}
+          >Submit</button>
         </span>
 
         <table className="table is-bordered is-hoverable is-fullwidth">
