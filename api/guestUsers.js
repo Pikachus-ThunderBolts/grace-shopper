@@ -21,16 +21,6 @@ apiRouter.get("/", async (req, res) => {
 apiRouter.post("/register", async (req, res, next) => {
   const { email } = req.body;
   try {
-    const _guestUser = await getGuestUserByEmail(email);
-
-    if (email === _guestUser.email) {
-      res.status(403)
-      res.send({ 
-        error: "Error",
-        name: "Username error",
-        message: `User ${email} is already taken.`})
-    }
-
     const newGuest = await createGuestUsers({ email });
     const token = jwt.sign(newGuest, JWT_SECRET, {expiresIn: "1h"});
     res.send({

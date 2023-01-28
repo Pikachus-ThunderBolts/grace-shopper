@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import { fetchCart, fetchGuestCart } from "../api/api";
+import { fetchCart, fetchGuestCart, createGuestUsers } from "../api/api";
 
-const Cart = ({ localCart, setLocalCart, total, setTotal }) => {
+const Cart = ({ localCart, setLocalCart, total, setTotal, setToken }) => {
   // const [token, setToken] = useState(window.localStorage.getItem("token") || null);
   // console.log(token);
   // const [cart, setCart] = useState([])
@@ -25,6 +25,18 @@ const Cart = ({ localCart, setLocalCart, total, setTotal }) => {
   //   getGuestCart();
   // }, []);
 
+  const [email, setEmail] = useState("");
+
+  const handleRegister = async (email) => {
+    const newGuest = await createGuestUsers(email); 
+    console.log("New Guest user", newGuest);
+
+    if(newGuest) {
+      setEmail(newGuest.email);
+      setToken(newGuest.token);
+    }
+  };
+
   function removeItemFromCart(id) {
     let temp = localCart.filter((item) => item !== id);
     console.log("temp", temp);
@@ -33,7 +45,6 @@ const Cart = ({ localCart, setLocalCart, total, setTotal }) => {
     return temp;
   }
 
-  //let total = 0;
 
   localCart.forEach((item) => {
     total += Number(item.price);
@@ -56,6 +67,7 @@ const Cart = ({ localCart, setLocalCart, total, setTotal }) => {
             class="content input is-link is-inline"
             type="text"
             placeholder="e.g. alex@example.com"
+            onChange 
           ></input>
           <button class="button is-info is-inline">Submit</button>
         </span>
