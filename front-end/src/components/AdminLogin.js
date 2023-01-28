@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { loginAdminUsers } from "../api/api";
 
-const AdminLogin = ({ token, setToken }) => {
+const AdminLogin = ({ token, setToken, adminUser, setAdminUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
@@ -15,20 +15,6 @@ const AdminLogin = ({ token, setToken }) => {
       window.localStorage.removeItem("token");
     }
   }, [token]);
-
-  // const handleRegister = async(username, email, password) => {
-  //   const registerNewAdmin = await registerAdminUsers(username, email, password)
-
-  //   if(registerNewAdmin) {
-  //     setUsername(registerNewAdmin.username);
-  //     setToken(registerNewAdmin.token);
-  //     setEmail("")
-  //     setPassword("")
-
-  //     history.push('/')
-  //   }
-
-  // }
 
   const handleLogin = async (username, password) => {
     const loggedInAdmin = await loginAdminUsers(username, password);
@@ -83,6 +69,7 @@ const AdminLogin = ({ token, setToken }) => {
               type="submit"
               onClick={() => {
                 handleLogin(username, password);
+                setAdminUser((adminUser) => "true")
               }}
             >
               Log In
