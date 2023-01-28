@@ -28,6 +28,7 @@ import AdminRegister from "./components/AdminRegister";
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 const adminFromLocalStorage = JSON.parse(localStorage.getItem("admin") || null)
+const customerFromLocalStorage = JSON.parse(localStorage.getItem("customer") || null)
 const App = () => {
   const [products, setProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -37,7 +38,8 @@ const App = () => {
     window.localStorage.getItem("token") || null
   );
   const [localCart, setLocalCart] = useState(cartFromLocalStorage);
-  const [adminUser, setAdminUser] = useState(adminFromLocalStorage)
+  const [adminUser, setAdminUser] = useState(adminFromLocalStorage);
+  const [customerUser, setCustomerUser] = useState(customerFromLocalStorage);
   const [total, setTotal] = useState(0);
   const [user, setUser] = useState("");
 
@@ -57,6 +59,15 @@ const App = () => {
     }
 
   }, [adminUser])
+
+  useEffect(() => {
+    if(customerUser) {
+      localStorage.setItem("customer", JSON.stringify(customerUser));
+    }else {
+      localStorage.removeItem("customer")
+    }
+
+  }, [customerUser])
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(localCart));
@@ -111,7 +122,8 @@ const App = () => {
         className="button is-light"
         onClick={() => {
           setToken("");
-          setAdminUser("")
+          setAdminUser("");
+          setCustomerUser("");
         }}
       >
         Sign Out
@@ -199,12 +211,10 @@ const App = () => {
                 )}
                 {!token ? (
                   <Link to="/customerLogin" className="button">
-                    <strong>Returning Customer</strong>
+                    <strong>Log In</strong>
                   </Link>
                 ) : (
-                  <Link to="/" className="button">
-                    <strong> Customer Profile</strong>
-                  </Link>
+                  null
                 )}
 
                 <Link to="/cart" className="button is-light">
@@ -222,26 +232,21 @@ const App = () => {
       </nav>
 
       <div className="container is-widescreen">
-        <section class="hero is-medium is-info ">
-          <div className="tabs">
-            <Link to="/customerLogin" className="navbar-item">
-              <span class="icon-text">
-                <span class="icon">
-                  <i class="fa-solid fa-user"></i>
-                </span>
-                <span>Customer Login</span>
-              </span>
-            </Link>
-
-            <div className="tabs is-right">
-              <Link to="/adminLogin" className="">
+        <section class="hero is-medium is-info">
+          <div className="tabs tab">
+            
+              <span class="icon-text"></span>
+          
+            <div className="tabs tab">
+              {customerUser ? (null) : (<Link to="/adminLogin" className="">
                 <span class="icon-text">
                   <span class="icon">
                     <i class="fa-solid fa-users"></i>
                   </span>
                   <span>Admin</span>
                 </span>
-              </Link>
+              </Link>)}
+              
             </div>
           </div>
           <div class="hero-body">
@@ -337,7 +342,7 @@ const App = () => {
           </Route>
 
           <Route path="/customerLogin">
-            <CustomerLogin token={token} setToken={setToken}></CustomerLogin>
+            <CustomerLogin token={token} setToken={setToken} customerUser={customerUser} setCustomerUser={setCustomerUser}></CustomerLogin>
           </Route>
 
           <Route path="/adminLogin">

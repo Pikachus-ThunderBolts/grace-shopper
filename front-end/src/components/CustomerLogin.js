@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { loginCustomerUsers } from "../api/api";
 
-const CustomerLogin = ({ token, setToken }) => {
+const CustomerLogin = ({ token, setToken, customerUser, setCustomerUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
@@ -68,6 +68,7 @@ const CustomerLogin = ({ token, setToken }) => {
               type="submit"
               onClick={() => {
                 handleLogin(username, password);
+                setCustomerUser((customerUser) => "true")
               }}
             >
               Log In
