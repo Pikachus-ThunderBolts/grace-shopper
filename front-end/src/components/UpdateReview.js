@@ -49,7 +49,7 @@ const UpdateReview = ({ reviews, setReviews, individualProduct, token }) => {
       (review) => review.id !== updatedReview.id
     );
 
-    setReviews((previousReviews) => [...previousReviews, updatedReview]);
+    setReviews([...updatingState, updatedReview]);
 
     return updatedReview;
   };

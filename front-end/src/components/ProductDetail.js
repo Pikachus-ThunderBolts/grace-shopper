@@ -38,19 +38,21 @@ export const ProductDetail = ({
 
   console.log("reviews", reviews);
 
-  const handleDeleteReview = async (id) => {
+  const handleDeleteReview = async (id, token) => {
     // console.log(`this is deleted review id -${id} this is token-${token}`);
     const deletedReview = await deleteReview(id, token);
 
-    const updatingState = reviews.filter(
+    /* const updatingState = reviews.filter(
       (review) => review.id !== deletedReview.id
     );
+    */
 
     console.log(deleteReview, "deleted review");
 
-    setReviews((previousReviews) => [...previousReviews, deletedReview]);
-
-    return deletedReview;
+    // setReviews([...updatingState, deletedReview]);
+    setReviews((previousReviews) =>
+      previousReviews.filter((reviews) => reviews.id !== id)
+    );
   };
 
   const handleCreateReview = async (
@@ -216,10 +218,10 @@ export const ProductDetail = ({
                         to={`/updateReview/${individualProduct.id}`}
                         className="link"
                       >
-                        <button class="button is-success edit">Edit</button>
+                        <button class="button is-light edit">Edit</button>
                       </Link>
                       <button
-                        class="button is-danger"
+                        class="button is-danger is-light"
                         onClick={(event) => {
                           console.log("delete click", individualReview.id);
                           event.preventDefault();
