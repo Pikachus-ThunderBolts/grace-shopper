@@ -9,8 +9,10 @@ export const ProductDetail = ({
   setReviews,
   setProducts,
   token,
-  setIsLoading,
-  isLoading,
+
+  setLocalCart,
+  localCart,
+
 }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
@@ -74,6 +76,15 @@ export const ProductDetail = ({
   const handleDeleteClick = async (productId) => {
     const deletedProduct = await deleteProduct(productId, token);
 
+
+    history.push(`/products`);
+
+    setProducts((previousProducts) =>
+      previousProducts.filter((products) => products.id !== productId)
+    );
+  };
+
+
     history.push(`/products`);
 
     setProducts((previousProducts) =>
@@ -122,7 +133,18 @@ export const ProductDetail = ({
                 <p class="subtitle">{singleProduct.price}</p>
                 <p class="content">{singleProduct.brand}</p>
                 <p class="content">{singleProduct.description}</p>
-                <button class="button is-focused">Add to Cart</button>
+                <button
+                  class="button is-focused"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setLocalCart((localCart) => [
+                      ...localCart,
+                      individualProduct,
+                    ]);
+                  }}
+                >
+                  Add to Cart
+                </button>
                 <div class="buttons has-addons is-justify-content-space-between">
                   {" "}
                   <Link

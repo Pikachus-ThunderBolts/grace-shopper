@@ -1,4 +1,5 @@
 const URL = `https://tech-buy-one.onrender.com/api`;
+// const URL = "http://localhost:4000";
 
 /* PRODUCTS */
 //fetchAllProducts
@@ -122,22 +123,142 @@ export const deleteProduct = async (productId, token) => {
 };
 
 /* ADMIN USERS */
-//createAdminUsers
 //fetchAdminUsers
+export const fetchAdminUsers = async () => {
+  try {
+    const response = await fetch(`${URL}/adminUsers`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    console.log("this is the response for adminUsers", response);
+    return response;
+  } catch (error) {
+    console.error("There was an error fetching admin users");
+  }
+};
 //registerAdminUsers
-//loginAdminUsers
+export const registerAdminUsers = async (username, email, password) => {
+  try {
+    const response = await fetch(`${URL}/adminUsers/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+      }),
+    });
+    const result = await response.json();
+    console.log(result, "this is the result of register admin users");
+    return result;
+  } catch (error) {
+    console.error("Error registering the admin user", error);
+  }
+};
+
+// //loginAdminUsers
+export const loginAdminUsers = async (username, password) => {
+  try {
+    const response = await fetch(`${URL}/adminUsers/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("There was an error logging in the admin user", error);
+    throw error;
+  }
+};
 
 /* GUEST USERS */
 //createGuestUsers
+export const createGuestUsers = async (email) => {
+  try {
+    const response = await fetch(`${URL}/guestUsers/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email
+      }),
+    });
+    const result = await response.json();
+    console.log("New Guest user created", result);
+    return result;
+  } catch (error) {
+    console.error("Error registering the guest user", error);
+  }
+};
 //fetchGuestUsers
 //registerGuestUsers
 //loginGuestUsers
 
 /* CUSTOMER USERS */
-//createCustomerUsers
 //fetchCustomerUsers
+export const fetchCustomerUsers = async () => {
+  try {
+    const response = await fetch(`${URL}/customerUsers`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    return response;
+  } catch (error) {
+    console.error("There was an error fetching customer user");
+  }
+};
 //registerCustomerUsers
+export const registerCustomerUsers = async (username, email, password) => {
+  try {
+    const response = await fetch(`${URL}/customerUsers/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+      }),
+    });
+    const result = await response.json();
+    console.log(result, "this is the result of register customer users");
+    return result;
+  } catch (error) {
+    console.error("Error registering the customer user", error);
+  }
+};
 //loginCustomerUsers
+export const loginCustomerUsers = async (username, password) => {
+  try {
+    const response = await fetch(`${URL}/customerUsers/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("There was an error logging in the customer user", error);
+    throw error;
+  }
+};
 
 /* REVIEWS */
 //fetchReviews

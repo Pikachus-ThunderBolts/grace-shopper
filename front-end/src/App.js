@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Link } from "react-router-dom";
-import { fetchProducts, fetchCart, fetchReviews } from "./api/api";
+import {
+  fetchProducts,
+  fetchCart,
+  fetchReviews,
+  loginAdminUsers,
+} from "./api/api";
 import Products from "./components/Products";
 import Home from "./components/Home";
 import Laptops from "./components/Laptops";
@@ -9,7 +14,8 @@ import CellPhones from "./components/CellPhones";
 import Cart from "./components/Cart";
 import Profile from "./components/Profile";
 import Account from "./components/Account";
-import Admin from "./components/Admin";
+import AdminLogin from "./components/AdminLogin";
+import CustomerLogin from "./components/CustomerLogin";
 import AdminProfile from "./components/AdminProfile";
 import Confirmation from "./components/Confirmation";
 import Checkout from "./components/Checkout";
@@ -18,7 +24,9 @@ import CreateProduct from "./components/CreateProduct";
 import CreateAdminUser from "./components/CreateAdminUser";
 import UpdateProduct from "./components/UpdateProduct";
 import UpdateReview from "./components/UpdateReview";
+import AdminRegister from "./components/AdminRegister";
 
+const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 const App = () => {
   const [products, setProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -27,7 +35,39 @@ const App = () => {
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || null
   );
+  const [localCart, setLocalCart] = useState(cartFromLocalStorage);
+  const [total, setTotal] = useState(0);
+  const [user, setUser] = useState("");
 
+  console.log("official local cart", localCart);
+  useEffect(() => {
+    if (token) {
+      window.localStorage.setItem("token", token);
+    } else {
+      window.localStorage.removeItem("token");
+    }
+  }, [token]);
+
+  console.log(token, "token");
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(localCart));
+  }, [localCart]);
+
+  console.log("official local cart", localCart);
+  useEffect(() => {
+    if (token) {
+      window.localStorage.setItem("token", token);
+    } else {
+      window.localStorage.removeItem("token");
+    }
+  }, [token]);
+
+  console.log(token, "token");
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(localCart));
+  }, [localCart]);
   useEffect(() => {
     const getProducts = async () => {
       const products = await fetchProducts();
@@ -46,7 +86,6 @@ const App = () => {
     getReviews();
   }, []);
 
-  console.log("products", products);
 
   useEffect(() => {
     const searchTermLower = searchTerm.toLowerCase().split(" ");
@@ -72,6 +111,21 @@ const App = () => {
       setFilteredProducts(products);
     }
   }, [searchTerm, products]);
+
+
+  const LogOut = ({ setToken }) => {
+    return (
+      <button
+        className="button is-light"
+        onClick={() => {
+          setToken("");
+        }}
+      >
+        Sign Out
+      </button>
+    );
+  };
+
 
   return (
     <>
@@ -134,13 +188,36 @@ const App = () => {
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                <Link to="/account" class="button is-info">
-                  <strong>Sign up</strong>
-                </Link>
+                {token ? null : (
+                  <Link to="/account" class="button is-info">
+                    <strong>Sign up</strong>
+                  </Link>
+                )}
 
-                <Link to="/account" class="button is-light">
-                  Log in
-                </Link>
+                {token ? (
+                  <LogOut setToken={setToken} className="button is-light" />
+                ) : null}
+
+                {!token ? (
+                  <Link to="/adminLogin" className="button">
+                    <strong>Admin</strong>
+                    {/* Need to make new route for admin page below once admin is logged in*/}
+                  </Link>
+                ) : (
+                  <Link to="/" className="button">
+                    <strong>Profile</strong>
+                  </Link>
+                )}
+                {!token ? (
+                  <Link to="/customerLogin" className="button">
+                    <strong>Returning Customer</strong>
+                  </Link>
+                ) : (
+                  <Link to="/" className="button">
+                    <strong>Profile</strong>
+                  </Link>
+                )}
+
                 <Link to="/cart" className="button is-light">
                   <span class="icon-text">
                     <span class="icon">
@@ -158,17 +235,17 @@ const App = () => {
       <div className="container is-widescreen">
         <section class="hero is-medium is-info ">
           <div className="tabs">
-            <Link to="/account" className="navbar-item">
+            <Link to="/customerLogin" className="navbar-item">
               <span class="icon-text">
                 <span class="icon">
                   <i class="fa-solid fa-user"></i>
                 </span>
-                <span>Account</span>
+                <span>Customer Login</span>
               </span>
             </Link>
 
             <div className="tabs is-right">
-              <Link to="/admin" className="">
+              <Link to="/adminLogin" className="">
                 <span class="icon-text">
                   <span class="icon">
                     <i class="fa-solid fa-users"></i>
@@ -203,7 +280,7 @@ const App = () => {
 
         <Switch>
           <Route exact path="/">
-            <Home token={token}></Home>
+            <Home token={token} setToken={setToken}></Home>
           </Route>
           <Route path="/products">
             <Products
@@ -220,6 +297,8 @@ const App = () => {
               setReviews={setReviews}
               setProducts={setProducts}
               token={token}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
             ></ProductDetail>
           </Route>
           <Route path="/laptops">
@@ -229,7 +308,13 @@ const App = () => {
             ></Laptops>
           </Route>
           <Route path="/cart">
-            <Cart token={token}></Cart>
+            <Cart
+              token={token}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
+              setTotal={setTotal}
+              total={total}
+            ></Cart>
           </Route>
           <Route path="/checkout">
             <Checkout token={token}></Checkout>
@@ -252,10 +337,22 @@ const App = () => {
             ></CellPhones>
           </Route>
           <Route path="/account">
-            <Account token={token} setToken={setToken}></Account>
+            <Account
+              token={token}
+              setToken={setToken}
+              setUser={setUser}
+            ></Account>
           </Route>
-          <Route path="/admin">
-            <Admin token={token} setToken={setToken}></Admin>
+
+          <Route path="/customerLogin">
+            <CustomerLogin token={token} setToken={setToken}></CustomerLogin>
+          </Route>
+
+          <Route path="/adminLogin">
+            <AdminLogin token={token} setToken={setToken}></AdminLogin>
+          </Route>
+          <Route path="/adminRegister">
+            <AdminRegister token={token} setToken={setToken}></AdminRegister>
           </Route>
           <Route path="/adminprofile">
             <AdminProfile token={token} setToken={setToken}></AdminProfile>

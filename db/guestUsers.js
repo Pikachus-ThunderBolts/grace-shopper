@@ -32,7 +32,27 @@ async function getAllGuestUsers() {
     throw error;
   }
 }
+
+async function getGuestUserByEmail(email) {
+  try {
+    const {
+      rows: [fetchGuestUserByEmail],
+    } = await client.query(
+      `
+      SELECT * FROM guestUsers
+      WHERE email =$1
+      ;
+      `, [email]
+    );
+    return fetchGuestUserByEmail;
+  } catch (error) {
+    console.error("Error getting guest by email", error);
+    throw error;
+  }
+};
+
 module.exports = {
   createGuestUsers,
   getAllGuestUsers,
+  getGuestUserByEmail,
 };
