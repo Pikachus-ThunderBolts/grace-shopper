@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { updateReview } from "../api/api";
 
-const UpdateReview = ({ reviews, individualProduct, token }) => {
+const UpdateReview = ({ reviews, setReviews, individualProduct, token }) => {
   const history = useHistory();
 
   const { productIdParam } = useParams();
+
   const individualReview = reviews.find(
-    (object) => object.id == productIdParam
+    (object) => object.productId == productIdParam
   );
 
   const [reviewTitle, setReviewTitle] = useState(individualReview.title);
@@ -41,7 +42,11 @@ const UpdateReview = ({ reviews, individualProduct, token }) => {
       token
     );
 
-    setReview((previousReview) => [...previousReview, updatedReview]);
+    const updatingState = reviews.filter(
+      (review) => review.id !== updatedReview.id
+    );
+
+    setReviews([...updatingState, updatedReview]);
 
     return updatedReview;
   };
@@ -68,7 +73,7 @@ const UpdateReview = ({ reviews, individualProduct, token }) => {
           setReviewCustomerUserId("");
           setreviewGuestUserId("");
 
-          history.push(`/product/${productIdParam}`);
+          history.push(`/product/${individualReview.productId}`);
         }}
       >
         <section class="section">

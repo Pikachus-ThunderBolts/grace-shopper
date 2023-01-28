@@ -9,8 +9,10 @@ export const ProductDetail = ({
   setReviews,
   setProducts,
   token,
+
   setLocalCart,
   localCart,
+
 }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
@@ -22,22 +24,33 @@ export const ProductDetail = ({
     (object) => object.id == productIdParam
   );
 
-  function fetchReviewsPage(reviews) {
+  /*function fetchReviewsPage(reviews) {
     const newReviews = [];
+    console.log("new Reviews", newReviews);
     for (let i in reviews) {
       if (productIdParam == reviews[i].productId) {
         newReviews.push(reviews[i]);
       }
     }
 
-    return newReviews;
+    setReviewsPage(newReviews);
   }
 
-  const handleDeleteReview = async (id) => {
+  */
+
+  const handleDeleteReview = async (id, token) => {
     // console.log(`this is deleted review id -${id} this is token-${token}`);
     const deletedReview = await deleteReview(id, token);
 
-    return deletedReview;
+    /* const updatingState = reviews.filter(
+      (review) => review.id !== deletedReview.id
+    );
+    */
+
+    // setReviews([...updatingState, deletedReview]);
+    setReviews((previousReviews) =>
+      previousReviews.filter((reviews) => reviews.id !== id)
+    );
   };
 
   const handleCreateReview = async (
@@ -55,12 +68,14 @@ export const ProductDetail = ({
       customerUserId,
       guestId
     );
+
     setReviews((previousReviews) => [...previousReviews, newReview]);
     return newReview;
   };
 
   const handleDeleteClick = async (productId) => {
     const deletedProduct = await deleteProduct(productId, token);
+
 
     history.push(`/products`);
 
@@ -69,7 +84,15 @@ export const ProductDetail = ({
     );
   };
 
-  useEffect(() => {
+
+    history.push(`/products`);
+
+    setProducts((previousProducts) =>
+      previousProducts.filter((products) => products.id !== productId)
+    );
+  };
+
+  /*useEffect(() => {
     const getReviewsPage = async () => {
       const reviewsPage = await fetchReviewsPage(reviews);
 
@@ -77,6 +100,7 @@ export const ProductDetail = ({
     };
     getReviewsPage();
   }, []);
+  */
 
   // console.log("reviewsPage", reviewsPage);
 
@@ -150,7 +174,7 @@ export const ProductDetail = ({
               handleCreateReview(title, review, productIdParam);
               setTitle("");
               setReview("");
-              history.push("/product/:productIdParam");
+              history.push(`/product/${individualProduct.id}`);
             }}
           >
             <div class="field">
@@ -196,32 +220,36 @@ export const ProductDetail = ({
         <section className="section has-background-light">
           <h1 className="title has-text-centered ">Reviews</h1>
 
-          {reviewsPage.map((individualReview) => {
+          {reviews.map((individualReview) => {
             return (
-              <div className="title is-ancestor box">
-                <h1 className="title">{individualReview.title}</h1>
+              <>
+                {productIdParam == individualReview.productId ? (
+                  <div className="title is-ancestor box">
+                    <h1 className="title">{individualReview.title}</h1>
 
-                <p className="subtitle">{individualReview.review}</p>
-                <div class="buttons has-addons is-justify-content-space-between">
-                  {" "}
-                  <Link
-                    to={`/updateReview/${individualProduct.id}`}
-                    className="link"
-                  >
-                    <button class="button is-success edit">Edit</button>
-                  </Link>
-                  <button
-                    class="button is-danger"
-                    onClick={(event) => {
-                      console.log("delete click", individualReview.id);
-                      event.preventDefault();
-                      handleDeleteReview(individualReview.id, token);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
+                    <p className="subtitle">{individualReview.review}</p>
+                    <div class="buttons has-addons is-justify-content-space-between">
+                      {" "}
+                      <Link
+                        to={`/updateReview/${individualProduct.id}`}
+                        className="link"
+                      >
+                        <button class="button is-light edit">Edit</button>
+                      </Link>
+                      <button
+                        class="button is-danger is-light"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          handleDeleteReview(individualReview.id, token);
+                          history.push(`/product/${individualProduct.id}`);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ) : null}
+              </>
             );
           })}
         </section>
