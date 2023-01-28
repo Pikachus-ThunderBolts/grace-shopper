@@ -27,7 +27,7 @@ const App = () => {
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || null
   );
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     if (token) {
       window.localStorage.setItem("token", token);
@@ -39,6 +39,7 @@ const App = () => {
   useEffect(() => {
     const getProducts = async () => {
       const products = await fetchProducts();
+      setIsLoading(false);
 
       setProducts(products);
     };
@@ -54,6 +55,7 @@ const App = () => {
     getReviews();
   }, []);
 
+  console.log("products", products);
 
   useEffect(() => {
     const searchTermLower = searchTerm.toLowerCase().split(" ");
@@ -79,7 +81,6 @@ const App = () => {
       setFilteredProducts(products);
     }
   }, [searchTerm, products]);
-
 
   return (
     <>
@@ -228,6 +229,8 @@ const App = () => {
               setReviews={setReviews}
               setProducts={setProducts}
               token={token}
+              setIsLoading={setIsLoading}
+              isLoading={isLoading}
             ></ProductDetail>
           </Route>
           <Route path="/laptops">

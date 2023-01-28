@@ -7,10 +7,14 @@ const UpdateReview = ({ reviews, setReviews, individualProduct, token }) => {
   const history = useHistory();
 
   const { productIdParam } = useParams();
+
   const individualReview = reviews.find(
-    (object) => object.id == productIdParam
+    (object) => object.productId == productIdParam
   );
 
+  console.log("individualProduct", individualProduct);
+
+  console.log("individualReview", individualReview);
   const [reviewTitle, setReviewTitle] = useState(individualReview.title);
   const [review, setReview] = useState(individualReview.review);
   const [reviewProductId, setReviewProductId] = useState(
@@ -45,7 +49,7 @@ const UpdateReview = ({ reviews, setReviews, individualProduct, token }) => {
       (review) => review.id !== updatedReview.id
     );
 
-    setReviews([...updatingState, updatedReview]);
+    setReviews((previousReviews) => [...previousReviews, updatedReview]);
 
     return updatedReview;
   };
@@ -72,7 +76,7 @@ const UpdateReview = ({ reviews, setReviews, individualProduct, token }) => {
           setReviewCustomerUserId("");
           setreviewGuestUserId("");
 
-          history.push(`/product/${individualReview.id}`);
+          history.push(`/product/${individualReview.productId}`);
         }}
       >
         <section class="section">

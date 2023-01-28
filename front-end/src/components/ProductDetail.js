@@ -9,6 +9,8 @@ export const ProductDetail = ({
   setReviews,
   setProducts,
   token,
+  setIsLoading,
+  isLoading,
 }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
@@ -20,16 +22,21 @@ export const ProductDetail = ({
     (object) => object.id == productIdParam
   );
 
-  function fetchReviewsPage(reviews) {
+  /*function fetchReviewsPage(reviews) {
     const newReviews = [];
+    console.log("new Reviews", newReviews);
     for (let i in reviews) {
       if (productIdParam == reviews[i].productId) {
         newReviews.push(reviews[i]);
       }
     }
 
-    return newReviews;
+    setReviewsPage(newReviews);
   }
+
+  */
+
+  console.log("reviews", reviews);
 
   const handleDeleteReview = async (id) => {
     // console.log(`this is deleted review id -${id} this is token-${token}`);
@@ -39,7 +46,10 @@ export const ProductDetail = ({
       (review) => review.id !== deletedReview.id
     );
 
-    setReviews([...updatingState, deletedReview]);
+    console.log(deleteReview, "deleted review");
+
+    setReviews((previousReviews) => [...previousReviews, deletedReview]);
+
     return deletedReview;
   };
 
@@ -58,6 +68,8 @@ export const ProductDetail = ({
       customerUserId,
       guestId
     );
+
+    console.log("new reviews", newReview);
     setReviews((previousReviews) => [...previousReviews, newReview]);
     return newReview;
   };
@@ -72,7 +84,7 @@ export const ProductDetail = ({
     );
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     const getReviewsPage = async () => {
       const reviewsPage = await fetchReviewsPage(reviews);
 
@@ -80,6 +92,7 @@ export const ProductDetail = ({
     };
     getReviewsPage();
   }, []);
+  */
 
   // console.log("reviewsPage", reviewsPage);
 
@@ -143,6 +156,7 @@ export const ProductDetail = ({
               setTitle("");
               setReview("");
               history.push(`/product/${individualProduct.id}`);
+              console.log("only if create review is triggered");
             }}
           >
             <div class="field">
@@ -188,33 +202,37 @@ export const ProductDetail = ({
         <section className="section has-background-light">
           <h1 className="title has-text-centered ">Reviews</h1>
 
-          {reviewsPage.map((individualReview) => {
+          {reviews.map((individualReview) => {
             return (
-              <div className="title is-ancestor box">
-                <h1 className="title">{individualReview.title}</h1>
+              <>
+                {productIdParam == individualReview.productId ? (
+                  <div className="title is-ancestor box">
+                    <h1 className="title">{individualReview.title}</h1>
 
-                <p className="subtitle">{individualReview.review}</p>
-                <div class="buttons has-addons is-justify-content-space-between">
-                  {" "}
-                  <Link
-                    to={`/updateReview/${individualProduct.id}`}
-                    className="link"
-                  >
-                    <button class="button is-success edit">Edit</button>
-                  </Link>
-                  <button
-                    class="button is-danger"
-                    onClick={(event) => {
-                      console.log("delete click", individualReview.id);
-                      event.preventDefault();
-                      handleDeleteReview(individualReview.id, token);
-                      history.push(`/product/${individualProduct.id}`);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
+                    <p className="subtitle">{individualReview.review}</p>
+                    <div class="buttons has-addons is-justify-content-space-between">
+                      {" "}
+                      <Link
+                        to={`/updateReview/${individualProduct.id}`}
+                        className="link"
+                      >
+                        <button class="button is-success edit">Edit</button>
+                      </Link>
+                      <button
+                        class="button is-danger"
+                        onClick={(event) => {
+                          console.log("delete click", individualReview.id);
+                          event.preventDefault();
+                          handleDeleteReview(individualReview.id, token);
+                          history.push(`/product/${individualProduct.id}`);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ) : null}
+              </>
             );
           })}
         </section>

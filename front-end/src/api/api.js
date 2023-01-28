@@ -9,10 +9,13 @@ export const fetchProducts = async () => {
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
-    
+
     return response;
   } catch (error) {
-    console.error("There was an error fetching the products in the api call", error);
+    console.error(
+      "There was an error fetching the products in the api call",
+      error
+    );
   }
 };
 
@@ -47,7 +50,10 @@ export const createProduct = async (
     const newProduct = await gatheringData.json();
     return newProduct;
   } catch (error) {
-    console.error("There was an error creating a new product in the api", error);
+    console.error(
+      "There was an error creating a new product in the api",
+      error
+    );
     throw error;
   }
 };
@@ -85,7 +91,10 @@ export const updateProduct = async (
     const editedProduct = await gatheringData.json();
     return editedProduct;
   } catch (error) {
-    console.error("There was an error editing the product in the api call", error);
+    console.error(
+      "There was an error editing the product in the api call",
+      error
+    );
     throw error;
   }
 };
@@ -101,10 +110,13 @@ export const deleteProduct = async (productId, token) => {
       },
     });
     const deletedProduct = await gatheringData.json();
-    
+
     return deletedProduct;
   } catch (error) {
-    console.error("There was an error deleting a product in the api call", error);
+    console.error(
+      "There was an error deleting a product in the api call",
+      error
+    );
     throw error;
   }
 };
