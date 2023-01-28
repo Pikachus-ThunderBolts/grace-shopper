@@ -198,6 +198,7 @@ export const createGuestUsers = async (email) => {
     return result;
   } catch (error) {
     console.error("Error registering the guest user", error);
+    console.log("What is going on", error);
   }
 };
 //fetchGuestUsers

@@ -29,6 +29,7 @@ apiRouter.post("/register", async (req, res, next) => {
       token: token,
     });
   } catch (error) {
+    console.log('register guest error', error)
     next(error);
   }
 });
