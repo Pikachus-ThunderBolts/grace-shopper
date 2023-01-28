@@ -76,7 +76,6 @@ export const ProductDetail = ({
   const handleDeleteClick = async (productId) => {
     const deletedProduct = await deleteProduct(productId, token);
 
-
     history.push(`/products`);
 
     setProducts((previousProducts) =>
@@ -84,25 +83,6 @@ export const ProductDetail = ({
     );
   };
 
-
-    history.push(`/products`);
-
-    setProducts((previousProducts) =>
-      previousProducts.filter((products) => products.id !== productId)
-    );
-  };
-
-  /*useEffect(() => {
-    const getReviewsPage = async () => {
-      const reviewsPage = await fetchReviewsPage(reviews);
-
-      setReviewsPage(reviewsPage);
-    };
-    getReviewsPage();
-  }, []);
-  */
-
-  // console.log("reviewsPage", reviewsPage);
 
   const singleProduct = products.find((oneProduct) => {
     const foundProduct = oneProduct.id == productIdParam;

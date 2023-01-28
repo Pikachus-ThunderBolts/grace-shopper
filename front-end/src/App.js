@@ -39,7 +39,6 @@ const App = () => {
   const [total, setTotal] = useState(0);
   const [user, setUser] = useState("");
 
-  console.log("official local cart", localCart);
   useEffect(() => {
     if (token) {
       window.localStorage.setItem("token", token);
@@ -47,14 +46,11 @@ const App = () => {
       window.localStorage.removeItem("token");
     }
   }, [token]);
-
-  console.log(token, "token");
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(localCart));
   }, [localCart]);
 
-  console.log("official local cart", localCart);
   useEffect(() => {
     if (token) {
       window.localStorage.setItem("token", token);
@@ -62,8 +58,6 @@ const App = () => {
       window.localStorage.removeItem("token");
     }
   }, [token]);
-
-  console.log(token, "token");
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(localCart));
