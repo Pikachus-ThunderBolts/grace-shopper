@@ -36,8 +36,6 @@ export const ProductDetail = ({
 
   */
 
-  console.log("reviews", reviews);
-
   const handleDeleteReview = async (id, token) => {
     // console.log(`this is deleted review id -${id} this is token-${token}`);
     const deletedReview = await deleteReview(id, token);
@@ -46,8 +44,6 @@ export const ProductDetail = ({
       (review) => review.id !== deletedReview.id
     );
     */
-
-    console.log(deleteReview, "deleted review");
 
     // setReviews([...updatingState, deletedReview]);
     setReviews((previousReviews) =>
@@ -71,7 +67,6 @@ export const ProductDetail = ({
       guestId
     );
 
-    console.log("new reviews", newReview);
     setReviews((previousReviews) => [...previousReviews, newReview]);
     return newReview;
   };
@@ -158,7 +153,6 @@ export const ProductDetail = ({
               setTitle("");
               setReview("");
               history.push(`/product/${individualProduct.id}`);
-              console.log("only if create review is triggered");
             }}
           >
             <div class="field">
@@ -223,7 +217,6 @@ export const ProductDetail = ({
                       <button
                         class="button is-danger is-light"
                         onClick={(event) => {
-                          console.log("delete click", individualReview.id);
                           event.preventDefault();
                           handleDeleteReview(individualReview.id, token);
                           history.push(`/product/${individualProduct.id}`);

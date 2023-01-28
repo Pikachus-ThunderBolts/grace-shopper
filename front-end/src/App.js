@@ -27,19 +27,10 @@ const App = () => {
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || null
   );
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    if (token) {
-      window.localStorage.setItem("token", token);
-    } else {
-      window.localStorage.removeItem("token");
-    }
-  }, [token]);
 
   useEffect(() => {
     const getProducts = async () => {
       const products = await fetchProducts();
-      setIsLoading(false);
 
       setProducts(products);
     };
@@ -229,8 +220,6 @@ const App = () => {
               setReviews={setReviews}
               setProducts={setProducts}
               token={token}
-              setIsLoading={setIsLoading}
-              isLoading={isLoading}
             ></ProductDetail>
           </Route>
           <Route path="/laptops">

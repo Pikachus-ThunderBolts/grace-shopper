@@ -12,9 +12,6 @@ const UpdateReview = ({ reviews, setReviews, individualProduct, token }) => {
     (object) => object.productId == productIdParam
   );
 
-  console.log("individualProduct", individualProduct);
-
-  console.log("individualReview", individualReview);
   const [reviewTitle, setReviewTitle] = useState(individualReview.title);
   const [review, setReview] = useState(individualReview.review);
   const [reviewProductId, setReviewProductId] = useState(
