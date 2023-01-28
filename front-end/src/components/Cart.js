@@ -38,7 +38,7 @@ const Cart = ({ localCart, setLocalCart, total, setTotal, token, setToken }) => 
     }
   }, [token]);
 
-  const handleRegister = async () => {
+  const handleRegister = () => {
     setRegistered(true);
   };
 
