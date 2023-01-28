@@ -74,9 +74,6 @@ const AdminLogin = ({ token, setToken, adminUser, setAdminUser }) => {
             >
               Log In
             </button>
-            <Link to={`/adminRegister`} className="link">
-              <button className="button is-danger">New Admin User</button>
-            </Link>
           </div>
         </form>
       </section>
