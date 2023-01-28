@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch, Link, useHistory } from "react-router-dom";
 import { fetchCart, fetchGuestCart, createGuestUsers } from "../api/api";
+import { GuestRegister } from "./GuestMessage";
 
 const Cart = ({ localCart, setLocalCart, total, setTotal, token, setToken }) => {
   // const [token, setToken] = useState(window.localStorage.getItem("token") || null);
@@ -26,6 +27,7 @@ const Cart = ({ localCart, setLocalCart, total, setTotal, token, setToken }) => 
   // }, []);
 
   const [email, setEmail] = useState("");
+  const [registered, setRegistered] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -36,14 +38,8 @@ const Cart = ({ localCart, setLocalCart, total, setTotal, token, setToken }) => 
     }
   }, [token]);
 
-  const handleRegister = async (email) => {
-    
-    // const registeredGuest = await createGuestUsers(email); 
-    console.log("New Guest user", registeredGuest);
-
-    if(registeredGuest) {
-      setEmail(registeredGuest.email);
-    }
+  const handleRegister = async () => {
+    setRegistered(true);
   };
 
   function removeItemFromCart(id) {
@@ -80,10 +76,11 @@ const Cart = ({ localCart, setLocalCart, total, setTotal, token, setToken }) => 
           ></input>
           <button 
           class="button is-info is-inline"
-          onClick={() => {
-            handleRegister(email);
-          }}
+          onClick={handleRegister}
           >Submit</button>
+          <div>
+            {registered && <GuestRegister />}
+          </div>
         </span>
 
         <table className="table is-bordered is-hoverable is-fullwidth">
