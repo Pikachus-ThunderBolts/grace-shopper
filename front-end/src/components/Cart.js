@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, Link } from "react-router-dom";
-import { fetchCart, fetchGuestCart } from "../api/api";
+import { Route, Switch, Link, useHistory } from "react-router-dom";
+import { fetchCart, fetchGuestCart, createGuestUsers } from "../api/api";
+import { GuestRegister } from "./GuestMessage";
 
-const Cart = ({ localCart, setLocalCart, total, setTotal }) => {
+const Cart = ({ localCart, setLocalCart, total, setTotal, token, setToken }) => {
   // const [token, setToken] = useState(window.localStorage.getItem("token") || null);
   // console.log(token);
   // const [cart, setCart] = useState([])
@@ -25,6 +26,22 @@ const Cart = ({ localCart, setLocalCart, total, setTotal }) => {
   //   getGuestCart();
   // }, []);
 
+  const [email, setEmail] = useState("");
+  const [registered, setRegistered] = useState(false);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (token) {
+      window.localStorage.setItem("token", token);
+    } else {
+      window.localStorage.removeItem("token");
+    }
+  }, [token]);
+
+  const handleRegister = () => {
+    setRegistered(true);
+  };
+
   function removeItemFromCart(id) {
     let temp = localCart.filter((item) => item !== id);
     console.log("temp", temp);
@@ -33,7 +50,6 @@ const Cart = ({ localCart, setLocalCart, total, setTotal }) => {
     return temp;
   }
 
-  //let total = 0;
 
   localCart.forEach((item) => {
     total += Number(item.price);
@@ -56,8 +72,15 @@ const Cart = ({ localCart, setLocalCart, total, setTotal }) => {
             class="content input is-link is-inline"
             type="text"
             placeholder="e.g. alex@example.com"
+            onChange={(event) => setEmail(event.target.value)}
           ></input>
-          <button class="button is-info is-inline">Submit</button>
+          <button 
+          class="button is-info is-inline"
+          onClick={handleRegister}
+          >Submit</button>
+          <div>
+            {registered && <GuestRegister />}
+          </div>
         </span>
 
         <table className="table is-bordered is-hoverable is-fullwidth">
