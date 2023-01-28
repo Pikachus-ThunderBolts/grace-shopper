@@ -52,17 +52,6 @@ const App = () => {
   }, [localCart]);
 
   useEffect(() => {
-    if (token) {
-      window.localStorage.setItem("token", token);
-    } else {
-      window.localStorage.removeItem("token");
-    }
-  }, [token]);
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(localCart));
-  }, [localCart]);
-  useEffect(() => {
     const getProducts = async () => {
       const products = await fetchProducts();
 
@@ -79,7 +68,6 @@ const App = () => {
     };
     getReviews();
   }, []);
-
 
   useEffect(() => {
     const searchTermLower = searchTerm.toLowerCase().split(" ");
@@ -106,7 +94,6 @@ const App = () => {
     }
   }, [searchTerm, products]);
 
-
   const LogOut = ({ setToken }) => {
     return (
       <button
@@ -119,7 +106,6 @@ const App = () => {
       </button>
     );
   };
-
 
   return (
     <>
