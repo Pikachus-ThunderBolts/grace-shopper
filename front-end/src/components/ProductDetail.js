@@ -9,7 +9,7 @@ export const ProductDetail = ({
   setReviews,
   setProducts,
   token,
-
+  adminUser,
   setLocalCart,
   localCart,
 
@@ -127,18 +127,23 @@ export const ProductDetail = ({
                 </button>
                 <div class="buttons has-addons is-justify-content-space-between">
                   {" "}
-                  <Link
-                    to={`/updateProduct/${individualProduct.id}`}
-                    className="link"
-                  >
-                    <button class="button is-success">Edit</button>
-                  </Link>
-                  <button
-                    onClick={() => handleDeleteClick(singleProduct.id)}
-                    class="button is-danger"
-                  >
-                    Delete
-                  </button>
+                  {
+                    token && adminUser ? (<Link
+                      to={`/updateProduct/${individualProduct.id}`}
+                      className="link"
+                    >
+                      <button class="button is-success">Edit</button>
+                    </Link>) : (null)
+                  }
+                  {
+                    token && adminUser ? (<button
+                      onClick={() => handleDeleteClick(singleProduct.id)}
+                      class="button is-danger"
+                    >
+                      Delete
+                    </button>) : (null)
+                  }
+                  
                 </div>
               </article>
             </div>

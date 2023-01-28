@@ -2,15 +2,18 @@ import { Route, Switch, Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { updateProduct } from "../api/api";
 
-const Products = ({ products, filteredProducts, token, setProducts }) => {
+const Products = ({ products, filteredProducts, token, setProducts, adminUser }) => {
   return (
     <>
       <section class="section">
         <h1 class="title has-text-centered">Products</h1>
         <div>
-          <Link to="/createProduct" className="link">
+          {
+            token && adminUser ? (<Link to="/createProduct" className="link">
             <button class="button is-success edit">Create New Product</button>
-          </Link>
+          </Link>) : ( null )
+          }
+          
         </div>
         <section class="section is-white">
           <div className="tile is-ancestor is-flex-wrap-wrap productCard">

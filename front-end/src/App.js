@@ -203,7 +203,7 @@ const App = () => {
                   </Link>
                 ) : (
                   <Link to="/" className="button">
-                    <strong>Profile</strong>
+                    <strong> Customer Profile</strong>
                   </Link>
                 )}
 
@@ -276,7 +276,8 @@ const App = () => {
               products={products}
               setProducts={setProducts}
               token={token}
-              filteredProducts={filteredProducts}
+              filteredProducts={filteredProducts} adminUser={adminUser} 
+              setAdminUser={setAdminUser}
             ></Products>
           </Route>
           <Route path="/product/:productIdParam">
@@ -288,6 +289,8 @@ const App = () => {
               token={token}
               localCart={localCart}
               setLocalCart={setLocalCart}
+              adminUser={adminUser} 
+              setAdminUser={setAdminUser}
             ></ProductDetail>
           </Route>
           <Route path="/laptops">
@@ -351,6 +354,8 @@ const App = () => {
               token={token}
               products={products}
               setProducts={setProducts}
+              adminUser={adminUser} 
+              setAdminUser={setAdminUser}
             ></CreateProduct>
           </Route>
           <Route path="/updateProduct/:productIdParam">
@@ -358,6 +363,8 @@ const App = () => {
               token={token}
               products={products}
               setProducts={setProducts}
+              adminUser={adminUser} 
+              setAdminUser={setAdminUser}
             ></UpdateProduct>
           </Route>
           <Route path="/updateReview/:productIdParam">
@@ -373,6 +380,8 @@ const App = () => {
               setToken={setToken}
               products={products}
               setProducts={setProducts}
+              adminUser={adminUser} 
+              setAdminUser={setAdminUser}
             ></CreateAdminUser>
           </Route>
         </Switch>

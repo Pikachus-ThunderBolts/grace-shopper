@@ -14,3 +14,10 @@ img {
     float: left;
 }
 
+.adminButton {
+    font-size: 18px;
+}
+
+.adminButton:hover {
+    text-decoration: underline;
+}
