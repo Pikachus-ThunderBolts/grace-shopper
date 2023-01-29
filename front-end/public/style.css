@@ -21,3 +21,8 @@ img {
 .adminButton:hover {
     text-decoration: underline;
 }
+
+.productcontainer {
+    columns: 2 auto;
+  }
+
