@@ -12,7 +12,6 @@ export const ProductDetail = ({
   adminUser,
   setLocalCart,
   localCart,
-
 }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
@@ -83,7 +82,6 @@ export const ProductDetail = ({
     );
   };
 
-
   const singleProduct = products.find((oneProduct) => {
     const foundProduct = oneProduct.id == productIdParam;
 
@@ -104,17 +102,18 @@ export const ProductDetail = ({
         <section class="section">
           <div className="tile is-ancestor">
             <div class="tile is-parent">
-              <article class="tile is-child notification is-white">
+              <article class="tile is-child notification is-white box">
                 <p class="title has-text-centered">{singleProduct.title}</p>
 
-                <figure class="image is-4by3">
-                  <img src={singleProduct.img}></img>
+                <figure className="has-text-centered">
+                  <img src={singleProduct.img} width="400" height="500"></img>
                 </figure>
-                <p class="subtitle">{singleProduct.price}</p>
-                <p class="content">{singleProduct.brand}</p>
+                <p class="subtitle">{singleProduct.brand}</p>
                 <p class="content">{singleProduct.description}</p>
+                <p class="subtitle">{singleProduct.price}</p>
+
                 <button
-                  class="button is-focused"
+                  class="button is-info is-rounded"
                   onClick={(event) => {
                     event.preventDefault();
                     setLocalCart((localCart) => [
@@ -123,27 +122,26 @@ export const ProductDetail = ({
                     ]);
                   }}
                 >
-                  Add to Cart
+                  +Add
                 </button>
                 <div class="buttons has-addons is-justify-content-space-between">
                   {" "}
-                  {
-                    token && adminUser ? (<Link
+                  {token && adminUser ? (
+                    <Link
                       to={`/updateProduct/${individualProduct.id}`}
                       className="link"
                     >
                       <button class="button is-success">Edit</button>
-                    </Link>) : (null)
-                  }
-                  {
-                    token && adminUser ? (<button
+                    </Link>
+                  ) : null}
+                  {token && adminUser ? (
+                    <button
                       onClick={() => handleDeleteClick(singleProduct.id)}
                       class="button is-danger"
                     >
                       Delete
-                    </button>) : (null)
-                  }
-                  
+                    </button>
+                  ) : null}
                 </div>
               </article>
             </div>

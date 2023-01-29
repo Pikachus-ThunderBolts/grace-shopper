@@ -8,16 +8,15 @@ const Products = ({
   token,
   setProducts,
   adminUser,
+  localCart,
+  setLocalCart,
 }) => {
-  console.log("products", products);
   const arr = [1, 2, 3, 4, 5, 6];
   let firstList = [...filteredProducts];
   let secondList = [...filteredProducts];
   firstList.splice(0, filteredProducts.length / 2);
   secondList.splice(filteredProducts.length / 2, filteredProducts.length - 1);
 
-  console.log("firstList", firstList);
-  console.log("secondList", secondList);
   return (
     <>
       <section class="section">
@@ -37,15 +36,39 @@ const Products = ({
                 {firstList.map((individualProduct) => {
                   return (
                     <div className="tile is-child box">
-                      <Link to="/laptops" className="link">
+                      <Link
+                        to={`/product/${individualProduct.id}`}
+                        className="link"
+                      >
                         <article class="tile is-child notification is-white">
                           <p class="title">{individualProduct.title}</p>
                           <p className="subtitle">
                             {individualProduct.description}
                           </p>
-                          <p className="subtitle">{individualProduct.price}</p>
-                          <figure class="image">
-                            <img src={individualProduct.img}></img>
+                          <div class="buttons is-justify-content-space-between">
+                            <p className="subtitle">
+                              {individualProduct.price}
+                            </p>
+                            <button
+                              class="button is-info is-rounded"
+                              onClick={(event) => {
+                                event.preventDefault();
+                                setLocalCart((localCart) => [
+                                  ...localCart,
+                                  individualProduct,
+                                ]);
+                              }}
+                            >
+                              +Add
+                            </button>
+                          </div>
+
+                          <figure class="has-text-centered">
+                            <img
+                              src={individualProduct.img}
+                              width="300"
+                              height="400"
+                            ></img>
                           </figure>
                         </article>
                       </Link>
@@ -57,15 +80,38 @@ const Products = ({
                 {secondList.map((individualProduct) => {
                   return (
                     <div className="tile is-child box">
-                      <Link to="/laptops" className="link">
+                      <Link
+                        to={`/product/${individualProduct.id}`}
+                        className="link"
+                      >
                         <article class="tile is-child notification is-white">
                           <p class="title">{individualProduct.title}</p>
                           <p className="subtitle">
                             {individualProduct.description}
                           </p>
-                          <p className="subtitle">{individualProduct.price}</p>
-                          <figure class="image">
-                            <img src={individualProduct.img}></img>
+                          <div class="buttons is-justify-content-space-between">
+                            <p className="subtitle">
+                              {individualProduct.price}
+                            </p>
+                            <button
+                              class="button is-info is-rounded"
+                              onClick={(event) => {
+                                event.preventDefault();
+                                setLocalCart((localCart) => [
+                                  ...localCart,
+                                  individualProduct,
+                                ]);
+                              }}
+                            >
+                              +Add
+                            </button>
+                          </div>
+                          <figure class="has-text-centered">
+                            <img
+                              src={individualProduct.img}
+                              width="300"
+                              height="400"
+                            ></img>
                           </figure>
                         </article>
                       </Link>

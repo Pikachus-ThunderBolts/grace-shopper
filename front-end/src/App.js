@@ -27,7 +27,7 @@ import UpdateReview from "./components/UpdateReview";
 import AdminRegister from "./components/AdminRegister";
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
-const adminFromLocalStorage = JSON.parse(localStorage.getItem("admin") || null)
+const adminFromLocalStorage = JSON.parse(localStorage.getItem("admin") || null);
 const App = () => {
   const [products, setProducts] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -37,9 +37,11 @@ const App = () => {
     window.localStorage.getItem("token") || null
   );
   const [localCart, setLocalCart] = useState(cartFromLocalStorage);
-  const [adminUser, setAdminUser] = useState(adminFromLocalStorage)
+  const [adminUser, setAdminUser] = useState(adminFromLocalStorage);
   const [total, setTotal] = useState(0);
   const [user, setUser] = useState("");
+
+  console.log("localcart on app", localCart.length);
 
   useEffect(() => {
     if (token) {
@@ -50,13 +52,12 @@ const App = () => {
   }, [token]);
 
   useEffect(() => {
-    if(adminUser) {
+    if (adminUser) {
       localStorage.setItem("admin", JSON.stringify(adminUser));
-    }else {
-      localStorage.removeItem("admin")
+    } else {
+      localStorage.removeItem("admin");
     }
-
-  }, [adminUser])
+  }, [adminUser]);
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(localCart));
@@ -111,7 +112,7 @@ const App = () => {
         className="button is-light"
         onClick={() => {
           setToken("");
-          setAdminUser("")
+          setAdminUser("");
         }}
       >
         Sign Out
@@ -192,11 +193,9 @@ const App = () => {
 
                 {token && adminUser ? (
                   <Link to="/adminprofile" className="button">
-                  <strong>Admin Profile</strong>
-                </Link>
-                ) : (
-                  null
-                )}
+                    <strong>Admin Profile</strong>
+                  </Link>
+                ) : null}
                 {!token ? (
                   <Link to="/customerLogin" className="button">
                     <strong>Returning Customer</strong>
@@ -212,7 +211,7 @@ const App = () => {
                     <span class="icon">
                       <i class="fa-solid fa-cart-shopping"></i>
                     </span>
-                    <span>Cart</span>
+                    <span>Cart ({localCart.length})</span>
                   </span>
                 </Link>
               </div>
@@ -276,8 +275,11 @@ const App = () => {
               products={products}
               setProducts={setProducts}
               token={token}
-              filteredProducts={filteredProducts} adminUser={adminUser} 
+              filteredProducts={filteredProducts}
+              adminUser={adminUser}
               setAdminUser={setAdminUser}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
             ></Products>
           </Route>
           <Route path="/product/:productIdParam">
@@ -289,7 +291,7 @@ const App = () => {
               token={token}
               localCart={localCart}
               setLocalCart={setLocalCart}
-              adminUser={adminUser} 
+              adminUser={adminUser}
               setAdminUser={setAdminUser}
             ></ProductDetail>
           </Route>
@@ -341,20 +343,30 @@ const App = () => {
           </Route>
 
           <Route path="/adminLogin">
-            <AdminLogin token={token} setToken={setToken} adminUser={adminUser} setAdminUser={setAdminUser}></AdminLogin>
+            <AdminLogin
+              token={token}
+              setToken={setToken}
+              adminUser={adminUser}
+              setAdminUser={setAdminUser}
+            ></AdminLogin>
           </Route>
           <Route path="/adminRegister">
             <AdminRegister token={token} setToken={setToken}></AdminRegister>
           </Route>
           <Route path="/adminprofile">
-            <AdminProfile token={token} setToken={setToken} adminUser={adminUser} setAdminUser={setAdminUser}></AdminProfile>
+            <AdminProfile
+              token={token}
+              setToken={setToken}
+              adminUser={adminUser}
+              setAdminUser={setAdminUser}
+            ></AdminProfile>
           </Route>
           <Route path="/createproduct">
             <CreateProduct
               token={token}
               products={products}
               setProducts={setProducts}
-              adminUser={adminUser} 
+              adminUser={adminUser}
               setAdminUser={setAdminUser}
             ></CreateProduct>
           </Route>
@@ -363,7 +375,7 @@ const App = () => {
               token={token}
               products={products}
               setProducts={setProducts}
-              adminUser={adminUser} 
+              adminUser={adminUser}
               setAdminUser={setAdminUser}
             ></UpdateProduct>
           </Route>
@@ -380,7 +392,7 @@ const App = () => {
               setToken={setToken}
               products={products}
               setProducts={setProducts}
-              adminUser={adminUser} 
+              adminUser={adminUser}
               setAdminUser={setAdminUser}
             ></CreateAdminUser>
           </Route>
