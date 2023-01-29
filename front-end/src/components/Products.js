@@ -11,7 +11,6 @@ const Products = ({
   localCart,
   setLocalCart,
 }) => {
-  const arr = [1, 2, 3, 4, 5, 6];
   let firstList = [...filteredProducts];
   let secondList = [...filteredProducts];
   firstList.splice(0, filteredProducts.length / 2);
