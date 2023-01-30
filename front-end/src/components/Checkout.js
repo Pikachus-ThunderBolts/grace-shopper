@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Cart from "./Cart";
 
 const Checkout = () => {
@@ -5,7 +6,7 @@ const Checkout = () => {
     <>
       <section class="section">
         <h1 class="title">Checkout</h1>
-        <Cart></Cart>
+        {/* <Cart></Cart> */}
       </section>
       <section class="section has-background-info">
         <h1 class="title has-text-white">Shipping Address</h1>
@@ -80,7 +81,9 @@ const Checkout = () => {
           </div>
         </div>
         <div class="control">
-          <button class="button is-primary">Place Order</button>
+          <Link to="/confirmation">
+            <button class="button is-primary">Place Order</button>
+          </Link>
         </div>
       </section>
     </>

@@ -318,7 +318,7 @@ const App = () => {
             <Checkout token={token}></Checkout>
           </Route>
           <Route path="/confirmation">
-            <Confirmation></Confirmation>
+            <Confirmation localCart={localCart}></Confirmation>
           </Route>
 
           <Route path="/profile">
@@ -417,7 +417,7 @@ const App = () => {
       <footer class="footer">
         <div class="content has-text-centered">
           <p>
-            <strong>Tech-Buy!</strong> Cindy Carillo - Mitchel Alejo - Nathan
+            <strong>Tech-Buy!</strong> Cindy Carrillo - Mitchel Alejo - Nathan
             Hamilton - Martin Hampton
           </p>
         </div>

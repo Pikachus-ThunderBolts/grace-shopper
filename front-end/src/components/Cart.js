@@ -3,7 +3,14 @@ import { Route, Switch, Link, useHistory } from "react-router-dom";
 import { fetchCart, fetchGuestCart, createGuestUsers } from "../api/api";
 import { GuestRegister } from "./GuestMessage";
 
-const Cart = ({ localCart, setLocalCart, total, setTotal, token, setToken }) => {
+const Cart = ({
+  localCart,
+  setLocalCart,
+  total,
+  setTotal,
+  token,
+  setToken,
+}) => {
   // const [token, setToken] = useState(window.localStorage.getItem("token") || null);
   // console.log(token);
   // const [cart, setCart] = useState([])
@@ -50,7 +57,6 @@ const Cart = ({ localCart, setLocalCart, total, setTotal, token, setToken }) => 
     return temp;
   }
 
-
   localCart.forEach((item) => {
     total += Number(item.price);
   });
@@ -62,25 +68,22 @@ const Cart = ({ localCart, setLocalCart, total, setTotal, token, setToken }) => 
       <section class="section checkout">
         <h1 class="title">Cart</h1>
       </section>
-      <section class="section">
-        <h2 class="subtitle has-text-weight-semibold">
+      <section className="section">
+        <h2 className="subtitle has-text-weight-semibold">
           Please enter your email address to save your cart
         </h2>
         <span className="content">
           {" "}
           <input
-            class="content input is-link is-inline"
+            className="content input is-link is-inline"
             type="text"
             placeholder="e.g. alex@example.com"
             onChange={(event) => setEmail(event.target.value)}
           ></input>
-          <button 
-          class="button is-info is-inline"
-          onClick={handleRegister}
-          >Submit</button>
-          <div>
-            {registered && <GuestRegister />}
-          </div>
+          <button class="button is-info is-inline" onClick={handleRegister}>
+            Submit
+          </button>
+          <div>{registered && <GuestRegister />}</div>
         </span>
 
         <table className="table is-bordered is-hoverable is-fullwidth">
@@ -97,7 +100,7 @@ const Cart = ({ localCart, setLocalCart, total, setTotal, token, setToken }) => 
                   <th>${individualProduct.price}</th>
                   <th>
                     <button
-                      class="button is-danger is-light"
+                      className="button is-danger is-light"
                       onClick={(event) => {
                         event.preventDefault();
                         removeItemFromCart(individualProduct);
@@ -114,6 +117,9 @@ const Cart = ({ localCart, setLocalCart, total, setTotal, token, setToken }) => 
             <th>${total}</th>
           </tbody>
         </table>
+        <Link to="/checkout">
+          <button className="button is-danger is-light"> Checkout </button>
+        </Link>
       </section>
     </>
   );
