@@ -12,7 +12,6 @@ export const ProductDetail = ({
   adminUser,
   setLocalCart,
   localCart,
-
 }) => {
   const [reviewsPage, setReviewsPage] = useState([]);
   const { productIdParam } = useParams();
@@ -32,10 +31,8 @@ export const ProductDetail = ({
         newReviews.push(reviews[i]);
       }
     }
-
     setReviewsPage(newReviews);
   }
-
   */
 
   const handleDeleteReview = async (id, token) => {
@@ -83,7 +80,6 @@ export const ProductDetail = ({
     );
   };
 
-
   const singleProduct = products.find((oneProduct) => {
     const foundProduct = oneProduct.id == productIdParam;
 
@@ -102,54 +98,62 @@ export const ProductDetail = ({
     return (
       <>
         <section class="section">
-          <div className="tile is-ancestor">
-            <div class="tile is-parent">
-              <article class="tile is-child notification is-white">
-                <p class="title has-text-centered">{singleProduct.title}</p>
+          <div className="container">
+            <div className="tile is-ancestor">
+              <div class="tile is-parent">
+                <article class="tile is-child notification is-white box">
+                  <p class="title has-text-centered">{singleProduct.title}</p>
+                  <p class="subtitle">{singleProduct.brand}</p>
+                  <p class="content">{singleProduct.description}</p>
 
-                <figure class="image is-4by3">
-                  <img src={singleProduct.img}></img>
-                </figure>
-                <p class="subtitle">{singleProduct.price}</p>
-                <p class="content">{singleProduct.brand}</p>
-                <p class="content">{singleProduct.description}</p>
-                <button
-                  class="button is-focused"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    setLocalCart((localCart) => [
-                      ...localCart,
-                      individualProduct,
-                    ]);
-                  }}
-                >
-                  Add to Cart
-                </button>
-                <div class="buttons has-addons is-justify-content-space-between">
-                  {" "}
-                  {
-                    token && adminUser ? (<Link
-                      to={`/updateProduct/${individualProduct.id}`}
-                      className="link"
-                    >
-                      <button class="button is-success">Edit</button>
-                    </Link>) : (null)
-                  }
-                  {
-                    token && adminUser ? (<button
-                      onClick={() => handleDeleteClick(singleProduct.id)}
-                      class="button is-danger"
-                    >
-                      Delete
-                    </button>) : (null)
-                  }
-                  
-                </div>
-              </article>
+                  <p className="subtitle">{individualProduct.price}</p>
+                  <button
+                    class="button is-info is-rounded"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setLocalCart((localCart) => [
+                        ...localCart,
+                        individualProduct,
+                      ]);
+                    }}
+                  >
+                    +Add
+                  </button>
+
+                  <figure className="has-text-centered">
+                    <img src={singleProduct.img} width="400" height="500"></img>
+                  </figure>
+
+                  <div class="buttons has-addons is-justify-content-space-between">
+                    {" "}
+                    {token && adminUser ? (
+                      <Link
+                        to={`/updateProduct/${individualProduct.id}`}
+                        className="link"
+                      >
+                        <button class="button is-success">Edit</button>
+                      </Link>
+                    ) : null}
+                    {token && adminUser ? (
+                      <button
+                        onClick={() => handleDeleteClick(singleProduct.id)}
+                        class="button is-danger"
+                      >
+                        Delete
+                      </button>
+                    ) : null}
+                  </div>
+                </article>
+              </div>
             </div>
           </div>
         </section>
         <section class="section has-background-info">
+          <div className="tile is-ancestor">
+            <div className="tile is-parent">
+              <div className="tile is-child"></div>
+            </div>
+          </div>
           <h1 class="title has-text-white has-text-centered">Leave Reviews</h1>
 
           <br></br>

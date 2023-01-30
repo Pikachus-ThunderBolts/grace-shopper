@@ -154,7 +154,7 @@ const App = () => {
           </a>
         </div>
 
-        <div id="navbarBasicExample" class="navbar-menu">
+        <div id="navbarBasicExample" class="navbar-menu is-active">
           <div class="navbar-start">
             <div className="navbar-item">
               <input
@@ -280,6 +280,8 @@ const App = () => {
               filteredProducts={filteredProducts}
               adminUser={adminUser}
               setAdminUser={setAdminUser}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
             ></Products>
           </Route>
           <Route path="/product/:productIdParam">
@@ -299,6 +301,8 @@ const App = () => {
             <Laptops
               products={products}
               filteredProducts={filteredProducts}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
             ></Laptops>
           </Route>
           <Route path="/cart">
@@ -322,12 +326,19 @@ const App = () => {
           </Route>
 
           <Route path="/tvs">
-            <TVs products={products} filteredProducts={filteredProducts}></TVs>
+            <TVs
+              products={products}
+              filteredProducts={filteredProducts}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
+            ></TVs>
           </Route>
           <Route path="/cellphones">
             <CellPhones
               products={products}
               filteredProducts={filteredProducts}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
             ></CellPhones>
           </Route>
           <Route path="/account">
@@ -406,7 +417,8 @@ const App = () => {
       <footer class="footer">
         <div class="content has-text-centered">
           <p>
-            <strong>Tech-Buy!</strong>
+            <strong>Tech-Buy!</strong> Cindy Carillo - Mitchel Alejo - Nathan
+            Hamilton - Martin Hampton
           </p>
         </div>
       </footer>
