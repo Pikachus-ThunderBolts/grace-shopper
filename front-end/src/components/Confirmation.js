@@ -1,15 +1,21 @@
-const Confirmation = () => {
+const Confirmation = ({ localCart }) => {
   return (
     <>
       <section class="section">
-        <h1 class="title">Congrats!</h1>
-        <h2 class="subtitle">
-          Your order #001001 is <strong>confirmed</strong>.
-        </h2>
-        <h2 class="subtitle">
-          A copy of this confirmation has been sent to{" "}
-          <strong>example@example.com</strong>
-        </h2>
+        <h1 class="title">Confirmed!</h1>
+        <h2 class="subtitle">Order #028341 has been placed.</h2>
+        <h2>Enjoy your new -</h2>
+        {localCart.map((individualProduct) => {
+          return (
+            <tr>
+              <th>{individualProduct.title}</th>
+            </tr>
+          );
+        })}
+        <br></br>
+        <h2>A copy of this confirmation has been sent to your email! </h2>
+
+        <h1>Thank you!</h1>
       </section>
     </>
   );
