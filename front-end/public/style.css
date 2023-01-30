@@ -30,3 +30,8 @@ img {
     height: 50px;
     object-fit: cover;
   }
+
+  .tester{
+    padding-left: 60px;
+    height: 90px;
+  }

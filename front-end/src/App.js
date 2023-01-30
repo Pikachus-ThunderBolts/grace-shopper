@@ -245,8 +245,8 @@ const App = () => {
               )}
             </div>
           </div>
-          <div class="hero-body">
-            <Link to="/" class="title is-size-1">
+          <div class=" tester">
+            <Link to="/" class="title is-size-2">
               Tech-Buy!
             </Link>
           </div>
