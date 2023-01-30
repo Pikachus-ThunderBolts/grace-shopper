@@ -154,7 +154,7 @@ const App = () => {
           </a>
         </div>
 
-        <div id="navbarBasicExample" class="navbar-menu">
+        <div id="navbarBasicExample" class="navbar-menu is-active">
           <div class="navbar-start">
             <div className="navbar-item">
               <input
@@ -406,7 +406,8 @@ const App = () => {
       <footer class="footer">
         <div class="content has-text-centered">
           <p>
-            <strong>Tech-Buy!</strong>
+            <strong>Tech-Buy!</strong> Cindy Carillo - Mitchel Alejo - Nathan
+            Hamilton - Martin Hampton
           </p>
         </div>
       </footer>
