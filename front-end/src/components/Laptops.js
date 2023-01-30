@@ -1,6 +1,6 @@
 import { Route, Switch, Link } from "react-router-dom";
 
-const Laptops = ({ products, filteredProducts }) => {
+const Laptops = ({ products, filteredProducts, localCart, setLocalCart }) => {
   let firstList = [...filteredProducts];
   let secondList = [...filteredProducts];
   firstList.splice(0, filteredProducts.length / 2);

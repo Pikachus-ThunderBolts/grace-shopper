@@ -280,6 +280,8 @@ const App = () => {
               filteredProducts={filteredProducts}
               adminUser={adminUser}
               setAdminUser={setAdminUser}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
             ></Products>
           </Route>
           <Route path="/product/:productIdParam">
@@ -299,6 +301,8 @@ const App = () => {
             <Laptops
               products={products}
               filteredProducts={filteredProducts}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
             ></Laptops>
           </Route>
           <Route path="/cart">
@@ -322,12 +326,19 @@ const App = () => {
           </Route>
 
           <Route path="/tvs">
-            <TVs products={products} filteredProducts={filteredProducts}></TVs>
+            <TVs
+              products={products}
+              filteredProducts={filteredProducts}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
+            ></TVs>
           </Route>
           <Route path="/cellphones">
             <CellPhones
               products={products}
               filteredProducts={filteredProducts}
+              localCart={localCart}
+              setLocalCart={setLocalCart}
             ></CellPhones>
           </Route>
           <Route path="/account">
