@@ -1,11 +1,11 @@
-const Confirmation = ({ localCart }) => {
+const Confirmation = ({ localCart, copyLocalCart }) => {
   return (
     <>
       <section class="section">
         <h1 class="title">Confirmed!</h1>
         <h2 class="subtitle">Order #028341 has been placed.</h2>
         <h2>Enjoy your new -</h2>
-        {localCart.map((individualProduct) => {
+        {copyLocalCart.map((individualProduct) => {
           return (
             <tr>
               <th>{individualProduct.title}</th>

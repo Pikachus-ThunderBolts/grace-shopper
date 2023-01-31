@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Cart from "./Cart";
 
-const Checkout = () => {
+const Checkout = ({setLocalCart}) => {
   return (
     <>
       <section class="section">
@@ -82,7 +82,11 @@ const Checkout = () => {
         </div>
         <div class="control">
           <Link to="/confirmation">
-            <button class="button is-primary">Place Order</button>
+            <button className="button is-primary"
+            onClick={() => {
+              setLocalCart([])
+            }}
+            >Place Order</button>
           </Link>
         </div>
       </section>

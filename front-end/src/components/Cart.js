@@ -10,6 +10,8 @@ const Cart = ({
   setTotal,
   token,
   setToken,
+  copyLocalCart,
+  setCopyLocalCart
 }) => {
   // const [token, setToken] = useState(window.localStorage.getItem("token") || null);
   // console.log(token);
@@ -69,6 +71,7 @@ const Cart = ({
         <h1 class="title">Cart</h1>
       </section>
       <section className="section">
+        {/* {!token ? (<>
         <h2 className="subtitle has-text-weight-semibold">
           Please enter your email address to save your cart
         </h2>
@@ -85,13 +88,35 @@ const Cart = ({
           </button>
           <div>{registered && <GuestRegister />}</div>
         </span>
+        </>) : (null)} */}
+        <span></span>
+        {localCart.length != 0 ? (<button 
+        className="button is-danger is-light empty"
+        onClick={() => {
+          setLocalCart([]);
+        }}
+        > Empty Cart
+      </button>) : (
+        null
+        )}
+        
 
         <table className="table is-bordered is-hoverable is-fullwidth">
           <tbody>
             <tr>
+            {localCart.length != 0 ? (
+            <>
               <th>Name</th>
               <th>Price</th>
               <th>Remove</th>
+            </>
+            ) : (
+            <>
+              <h2 className="subtitle">Cart is Empty</h2>
+              <span></span>
+            </>
+            )}
+              
             </tr>
             {localCart.map((individualProduct) => {
               return (
@@ -104,7 +129,6 @@ const Cart = ({
                       onClick={(event) => {
                         event.preventDefault();
                         removeItemFromCart(individualProduct);
-                        console.log("click");
                       }}
                     >
                       X
@@ -113,13 +137,37 @@ const Cart = ({
                 </tr>
               );
             })}
-            <th>Total</th>
-            <th>${total}</th>
+            {localCart.length != 0 ? (
+              <>
+                <th>Total</th>
+                <th>${total}</th>
+              </>
+            ) : (null)}
+            
           </tbody>
         </table>
-        <Link to="/checkout">
-          <button className="button is-danger is-light"> Checkout </button>
-        </Link>
+        {localCart.length != 0 ? (
+          <>
+            <Link to="/checkout">
+              <button 
+              className="button is-danger is-light"
+              onClick={() => {
+              setCopyLocalCart(localCart)
+              }}
+              > Checkout </button>
+            </Link>
+          </>
+        ): (
+          <>
+          <Link to="/products">
+            <button
+            className="button is-info"
+            > Add Items to Cart
+            </button>
+          </Link>
+          </>
+        )}
+        
       </section>
     </>
   );
