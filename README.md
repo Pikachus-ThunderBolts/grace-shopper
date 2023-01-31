@@ -75,9 +75,8 @@ Thanks to the following people who have contributed to this project:
 
 ## Contact:
 
-Connect with us on:
-LinkedIn:
-[@Cindy Carrillo](https://www.linkedin.com/in/cindycarrillo20/)
-[@Martin Hampton](https://www.linkedin.com/in/martinh0205/)
-[@Mitchel Alejo](https://www.linkedin.com/in/mitchelalejo/)
-[@Nathan Hamilton](https://www.linkedin.com/in/nathanwthamilton/)
+Connect with us on LinkedIn:
+* [@Cindy Carrillo](https://www.linkedin.com/in/cindycarrillo20/)
+* [@Martin Hampton](https://www.linkedin.com/in/martinh0205/)
+* [@Mitchel Alejo](https://www.linkedin.com/in/mitchelalejo/)
+* [@Nathan Hamilton](https://www.linkedin.com/in/nathanwthamilton/)
