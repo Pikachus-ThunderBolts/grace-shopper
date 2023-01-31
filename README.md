@@ -18,9 +18,9 @@ Tech Buy is an eCommerce website that allows people to shop for laptops, TVs, an
 You may browse the website as a signed up customer or a guest! Filter through multiple products to find the right one for your needs!
 
 <!-- PROJECT DEMO GIF, AND IMAGES SHOULD BE PUT HERE -->
-*</b> Image(s) Insert Here* </b> - here is where you can place images of your project, a demo gif, and link to a deployed site - visuals matter!
+<!-- *</b> Image(s) Insert Here* </b> - here is where you can place images of your project, a demo gif, and link to a deployed site - visuals matter! -->
 <p align=‘center’/>
-<p align='center'><a href="https://www.loom.com/share/04d6c8482c7341fb9b423d10f0bea30b"> <img style="max-width:300px" src="https://cdn.loom.com/sessions/thumbnails/04d6c8482c7341fb9b423d10f0bea30b-with-play.gif"> </br> <p align='center'> Watch Video</p> </a> </p>
+<p align='center'><a href="https://www.loom.com/share/04d6c8482c7341fb9b423d10f0bea30b"> <img style="max-width:300px" src="https://cdn.loom.com/sessions/thumbnails/04d6c8482c7341fb9b423d10f0bea30b-with-play.gif"> </br> <p align='center'> Watch How to Interact with our Website</p> </a> </p>
 
 ## Features to Try!
 Go ahead and play with our store! There will be no real charges made.
@@ -52,17 +52,6 @@ To install Tech Buy, follow these steps:
 * Cd into correct folder `cd front-end/`
 * To run App!: `npm run start`
 
-## Using <project_name>:
-
-To use <project_name>, follow these steps:
-
-```
-<usage_example>
-```
-
-Add run commands and examples you think users will find useful. 
-Provide an options reference for bonus points!
-
 ## Technologies in Tech Buy:
 * Front-End: React.js, ReactDOM, HTML5, CSS3
 * Back-End: Node.js, Express.js, PostgreSQL
@@ -85,8 +74,6 @@ Thanks to the following people who have contributed to this project:
 * Social Media Integration and Top Sellers Recommendation
 
 ## Contact:
-<!--- You can add in your linkedin, medium, stack overflow, dev.to account, etc. here --->
-If you want to contact us you can reach me at <nicole.drummond@fullstackacademy.com>.
 
 Connect with us on:
 LinkedIn:
