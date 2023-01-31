@@ -27,6 +27,7 @@ import UpdateReview from "./components/UpdateReview";
 import AdminRegister from "./components/AdminRegister";
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
+const copyCartFromLocalStorage = JSON.parse(localStorage.getItem("copyCart") || "[]");
 const adminFromLocalStorage = JSON.parse(localStorage.getItem("admin") || null);
 const customerFromLocalStorage = JSON.parse(
   localStorage.getItem("customer") || null
@@ -40,6 +41,7 @@ const App = () => {
     window.localStorage.getItem("token") || null
   );
   const [localCart, setLocalCart] = useState(cartFromLocalStorage);
+  const [copyLocalCart, setCopyLocalCart] = useState(copyCartFromLocalStorage);
   const [adminUser, setAdminUser] = useState(adminFromLocalStorage);
   const [customerUser, setCustomerUser] = useState(customerFromLocalStorage);
   const [total, setTotal] = useState(0);
@@ -72,6 +74,10 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(localCart));
   }, [localCart]);
+
+  useEffect(() => {
+    localStorage.setItem("copyCart", JSON.stringify(copyLocalCart));
+  }, [copyLocalCart]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -124,6 +130,7 @@ const App = () => {
           setToken("");
           setAdminUser("");
           setCustomerUser("");
+          setLocalCart([]);
         }}
       >
         Sign Out
@@ -312,13 +319,15 @@ const App = () => {
               setLocalCart={setLocalCart}
               setTotal={setTotal}
               total={total}
+              copyLocalCart={copyLocalCart}
+              setCopyLocalCart={setCopyLocalCart}
             ></Cart>
           </Route>
           <Route path="/checkout">
-            <Checkout token={token}></Checkout>
+            <Checkout token={token} setLocalCart={setLocalCart}></Checkout>
           </Route>
           <Route path="/confirmation">
-            <Confirmation localCart={localCart}></Confirmation>
+            <Confirmation localCart={localCart} copyLocalCart={copyLocalCart}></Confirmation>
           </Route>
 
           <Route path="/profile">

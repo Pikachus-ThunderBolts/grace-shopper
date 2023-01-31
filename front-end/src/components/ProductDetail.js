@@ -108,7 +108,7 @@ export const ProductDetail = ({
 
                   <p className="subtitle">{individualProduct.price}</p>
                   <button
-                    class="button is-info is-rounded"
+                    class="button is-info is-rounded addButton"
                     onClick={(event) => {
                       event.preventDefault();
                       setLocalCart((localCart) => [
@@ -219,13 +219,13 @@ export const ProductDetail = ({
                     <p className="subtitle">{individualReview.review}</p>
                     <div class="buttons has-addons is-justify-content-space-between">
                       {" "}
-                      <Link
+                      {/* <Link
                         to={`/updateReview/${individualProduct.id}`}
                         className="link"
                       >
                         <button class="button is-light edit">Edit</button>
-                      </Link>
-                      <button
+                      </Link> */}
+                      {/* <button
                         class="button is-danger is-light"
                         onClick={(event) => {
                           event.preventDefault();
@@ -234,7 +234,7 @@ export const ProductDetail = ({
                         }}
                       >
                         Delete
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 ) : null}

@@ -34,7 +34,7 @@ const Laptops = ({ products, filteredProducts, localCart, setLocalCart }) => {
                                     {individualProduct.price}
                                   </p>
                                   <button
-                                    class="button is-info is-rounded"
+                                    class="button is-info is-rounded addButton"
                                     onClick={(event) => {
                                       event.preventDefault();
                                       setLocalCart((localCart) => [
@@ -82,7 +82,7 @@ const Laptops = ({ products, filteredProducts, localCart, setLocalCart }) => {
                                     {individualProduct.price}
                                   </p>
                                   <button
-                                    class="button is-info is-rounded"
+                                    class="button is-info is-rounded addButton"
                                     onClick={(event) => {
                                       event.preventDefault();
                                       setLocalCart((localCart) => [
