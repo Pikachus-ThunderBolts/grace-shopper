@@ -27,7 +27,9 @@ import UpdateReview from "./components/UpdateReview";
 import AdminRegister from "./components/AdminRegister";
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
-const copyCartFromLocalStorage = JSON.parse(localStorage.getItem("copyCart") || "[]");
+const copyCartFromLocalStorage = JSON.parse(
+  localStorage.getItem("copyCart") || "[]"
+);
 const adminFromLocalStorage = JSON.parse(localStorage.getItem("admin") || null);
 const customerFromLocalStorage = JSON.parse(
   localStorage.getItem("customer") || null
@@ -219,15 +221,16 @@ const App = () => {
                     <strong>Log In</strong>
                   </Link>
                 ) : null}
-
-                <Link to="/cart" className="button is-light">
-                  <span class="icon-text">
-                    <span class="icon">
-                      <i class="fa-solid fa-cart-shopping"></i>
+                {!adminUser ? (
+                  <Link to="/cart" className="button is-light">
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                      </span>
+                      <span>Cart ({localCart.length})</span>
                     </span>
-                    <span>Cart ({localCart.length})</span>
-                  </span>
-                </Link>
+                  </Link>
+                ) : null}
               </div>
             </div>
           </div>
@@ -310,6 +313,7 @@ const App = () => {
               filteredProducts={filteredProducts}
               localCart={localCart}
               setLocalCart={setLocalCart}
+              adminUser={adminUser}
             ></Laptops>
           </Route>
           <Route path="/cart">
@@ -327,7 +331,10 @@ const App = () => {
             <Checkout token={token} setLocalCart={setLocalCart}></Checkout>
           </Route>
           <Route path="/confirmation">
-            <Confirmation localCart={localCart} copyLocalCart={copyLocalCart}></Confirmation>
+            <Confirmation
+              localCart={localCart}
+              copyLocalCart={copyLocalCart}
+            ></Confirmation>
           </Route>
 
           <Route path="/profile">
@@ -340,6 +347,7 @@ const App = () => {
               filteredProducts={filteredProducts}
               localCart={localCart}
               setLocalCart={setLocalCart}
+              adminUser={adminUser}
             ></TVs>
           </Route>
           <Route path="/cellphones">
@@ -348,6 +356,7 @@ const App = () => {
               filteredProducts={filteredProducts}
               localCart={localCart}
               setLocalCart={setLocalCart}
+              adminUser={adminUser}
             ></CellPhones>
           </Route>
           <Route path="/account">
