@@ -1,6 +1,12 @@
 import { Route, Switch, Link } from "react-router-dom";
 
-const TVs = ({ products, filteredProducts, setLocalCart, localCart }) => {
+const TVs = ({
+  products,
+  filteredProducts,
+  setLocalCart,
+  localCart,
+  adminUser,
+}) => {
   let firstList = [...filteredProducts];
   let secondList = [...filteredProducts];
   firstList.splice(0, filteredProducts.length / 2);
@@ -32,18 +38,20 @@ const TVs = ({ products, filteredProducts, setLocalCart, localCart }) => {
                                   <p className="subtitle">
                                     {individualProduct.price}
                                   </p>
-                                  <button
-                                    class="button is-info is-rounded addButton"
-                                    onClick={(event) => {
-                                      event.preventDefault();
-                                      setLocalCart((localCart) => [
-                                        ...localCart,
-                                        individualProduct,
-                                      ]);
-                                    }}
-                                  >
-                                    +Add
-                                  </button>
+                                  {!adminUser ? (
+                                    <button
+                                      class="button is-info is-rounded addButton"
+                                      onClick={(event) => {
+                                        event.preventDefault();
+                                        setLocalCart((localCart) => [
+                                          ...localCart,
+                                          individualProduct,
+                                        ]);
+                                      }}
+                                    >
+                                      +Add
+                                    </button>
+                                  ) : null}
                                 </div>
 
                                 <figure class="has-text-centered">
@@ -80,18 +88,20 @@ const TVs = ({ products, filteredProducts, setLocalCart, localCart }) => {
                                   <p className="subtitle">
                                     {individualProduct.price}
                                   </p>
-                                  <button
-                                    class="button is-info is-rounded addButton"
-                                    onClick={(event) => {
-                                      event.preventDefault();
-                                      setLocalCart((localCart) => [
-                                        ...localCart,
-                                        individualProduct,
-                                      ]);
-                                    }}
-                                  >
-                                    +Add
-                                  </button>
+                                  {!adminUser ? (
+                                    <button
+                                      class="button is-info is-rounded addButton"
+                                      onClick={(event) => {
+                                        event.preventDefault();
+                                        setLocalCart((localCart) => [
+                                          ...localCart,
+                                          individualProduct,
+                                        ]);
+                                      }}
+                                    >
+                                      +Add
+                                    </button>
+                                  ) : null}
                                 </div>
 
                                 <figure class="has-text-centered">

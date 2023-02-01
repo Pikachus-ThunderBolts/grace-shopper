@@ -48,18 +48,20 @@ const Products = ({
                             <p className="subtitle">
                               {individualProduct.price}
                             </p>
-                            <button
-                              class="button is-info is-rounded addButton"
-                              onClick={(event) => {
-                                event.preventDefault();
-                                setLocalCart((localCart) => [
-                                  ...localCart,
-                                  individualProduct,
-                                ]);
-                              }}
-                            >
-                              +Add
-                            </button>
+                            {!adminUser ? (
+                              <button
+                                class="button is-info is-rounded addButton"
+                                onClick={(event) => {
+                                  event.preventDefault();
+                                  setLocalCart((localCart) => [
+                                    ...localCart,
+                                    individualProduct,
+                                  ]);
+                                }}
+                              >
+                                +Add
+                              </button>
+                            ) : null}
                           </div>
 
                           <figure class="has-text-centered">
@@ -92,18 +94,20 @@ const Products = ({
                             <p className="subtitle">
                               {individualProduct.price}
                             </p>
-                            <button
-                              class="button is-info is-rounded addButton"
-                              onClick={(event) => {
-                                event.preventDefault();
-                                setLocalCart((localCart) => [
-                                  ...localCart,
-                                  individualProduct,
-                                ]);
-                              }}
-                            >
-                              +Add
-                            </button>
+                            {!adminUser ? (
+                              <button
+                                class="button is-info is-rounded addButton"
+                                onClick={(event) => {
+                                  event.preventDefault();
+                                  setLocalCart((localCart) => [
+                                    ...localCart,
+                                    individualProduct,
+                                  ]);
+                                }}
+                              >
+                                +Add
+                              </button>
+                            ) : null}
                           </div>
                           <figure class="has-text-centered">
                             <img

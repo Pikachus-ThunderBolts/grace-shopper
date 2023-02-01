@@ -5,11 +5,15 @@ const CellPhones = ({
   filteredProducts,
   localCart,
   setLocalCart,
+  adminUser,
 }) => {
   let firstList = [...filteredProducts];
   let secondList = [...filteredProducts];
   firstList.splice(0, filteredProducts.length / 2);
   secondList.splice(filteredProducts.length / 2, filteredProducts.length - 1);
+  console.log("filteredProducts", filteredProducts);
+  console.log("firstListCell", firstList);
+  console.log("secondListCell", secondList);
   return (
     <>
       <section class="section">
@@ -37,18 +41,20 @@ const CellPhones = ({
                                   <p className="subtitle">
                                     {individualProduct.price}
                                   </p>
-                                  <button
-                                    class="button is-info is-rounded addButton"
-                                    onClick={(event) => {
-                                      event.preventDefault();
-                                      setLocalCart((localCart) => [
-                                        ...localCart,
-                                        individualProduct,
-                                      ]);
-                                    }}
-                                  >
-                                    +Add
-                                  </button>
+                                  {!adminUser ? (
+                                    <button
+                                      class="button is-info is-rounded addButton"
+                                      onClick={(event) => {
+                                        event.preventDefault();
+                                        setLocalCart((localCart) => [
+                                          ...localCart,
+                                          individualProduct,
+                                        ]);
+                                      }}
+                                    >
+                                      +Add
+                                    </button>
+                                  ) : null}
                                 </div>
 
                                 <figure class="has-text-centered">
@@ -85,18 +91,20 @@ const CellPhones = ({
                                   <p className="subtitle">
                                     {individualProduct.price}
                                   </p>
-                                  <button
-                                    class="button is-info is-rounded addButton"
-                                    onClick={(event) => {
-                                      event.preventDefault();
-                                      setLocalCart((localCart) => [
-                                        ...localCart,
-                                        individualProduct,
-                                      ]);
-                                    }}
-                                  >
-                                    +Add
-                                  </button>
+                                  {!adminUser ? (
+                                    <button
+                                      class="button is-info is-rounded addButton"
+                                      onClick={(event) => {
+                                        event.preventDefault();
+                                        setLocalCart((localCart) => [
+                                          ...localCart,
+                                          individualProduct,
+                                        ]);
+                                      }}
+                                    >
+                                      +Add
+                                    </button>
+                                  ) : null}
                                 </div>
 
                                 <figure class="has-text-centered">
