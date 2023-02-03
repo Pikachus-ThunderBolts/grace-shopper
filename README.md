@@ -33,7 +33,7 @@ Go ahead and play with our store! There will be no real charges made.
 ## Deployed Site Tech Buy:
 
 Check out Tech Buy here! 
-<!--- You can link to the deployed site, or a link to the demo recording, or etc. here --->
+<h2>https://tech-buy.netlify.app/</h2>
 
 ## Prerequisites:
 
